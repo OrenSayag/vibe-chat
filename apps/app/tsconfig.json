@@ -2,54 +2,40 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "jsx": "preserve",
-    "strict": true,
-    "noEmit": true,
-    "emitDeclarationOnly": false,
+    "allowJs": true,
     "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
     "incremental": true,
     "plugins": [
       {
         "name": "next"
       }
     ],
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    },
-    "outDir": "out-tsc/app",
-    "rootDir": "src",
-    "tsBuildInfoFile": "out-tsc/app/tsconfig.tsbuildinfo"
+    "types": [
+      "jest",
+      "node"
+    ]
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.js",
-    "src/**/*.jsx",
-    "../../apps/app/.next/types/**/*.ts",
-    "../../dist/apps/app/.next/types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
+    "../../apps/dashboard/.next/types/**/*.ts",
+    "../../dist/apps/dashboard/.next/types/**/*.ts",
     "next-env.d.ts",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "../../dist/dashboard/.next/types/**/*.ts"
   ],
   "exclude": [
-    "out-tsc",
-    "dist",
     "node_modules",
     "jest.config.ts",
-    "src/**/*.spec.ts",
-    "src/**/*.test.ts",
-    ".next"
+    "**/*.spec.ts",
+    "**/*.test.ts"
   ]
 }

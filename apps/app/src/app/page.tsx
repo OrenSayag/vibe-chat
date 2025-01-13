@@ -7,8 +7,8 @@ export default function Index() {
    * Note: The corresponding styles are in the ./index.tailwind file.
    */
   return (
-    <div>
-      <Button>Click</Button>
+    <div className={'h-screen bg-green-900 flex items-center justify-center'}>
+      <h1 className={'text-white text-5xl'}>כאן האפליקציה!!!</h1>
     </div>
   );
 }

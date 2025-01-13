@@ -4,14 +4,24 @@
   "license": "MIT",
   "scripts": {},
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "next": "14.2.16",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
   "devDependencies": {
     "@nx/js": "20.3.1",
+    "@nx/next": "20.3.1",
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
+    "@types/react": "18.3.1",
+    "@types/react-dom": "18.3.0",
+    "autoprefixer": "10.4.13",
     "nx": "20.3.1",
+    "postcss": "8.4.38",
     "prettier": "^2.6.2",
+    "tailwindcss": "3.4.3",
     "tslib": "^2.3.0",
     "typescript": "~5.6.2"
   },

@@ -1,21 +1,16 @@
 {
-  "extends": "../../../tsconfig.base.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "out-tsc/components",
+    "outDir": "../../dist/out-tsc",
     "types": [
       "node",
       "@nx/react/typings/cssmodule.d.ts",
       "@nx/react/typings/image.d.ts",
       "next",
       "@nx/next/typings/image.d.ts"
-    ],
-    "jsx": "react-jsx",
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "lib": ["dom", "esnext"]
+    ]
   },
   "exclude": [
-    "dist",
     "jest.config.ts",
     "src/**/*.spec.ts",
     "src/**/*.test.ts",
@@ -24,9 +19,7 @@
     "src/**/*.spec.js",
     "src/**/*.test.js",
     "src/**/*.spec.jsx",
-    "src/**/*.test.jsx",
-    "**/*.stories.ts",
-    "**/*.stories.js"
+    "src/**/*.test.jsx"
   ],
   "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"]
 }

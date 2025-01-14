@@ -6,5 +6,10 @@
     {
       "path": "./apps/app"
     }
-  ]
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  }
 }

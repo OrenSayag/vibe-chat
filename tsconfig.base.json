@@ -16,6 +16,11 @@
     "baseUrl": ".",
     "paths": {
       "@monday-whatsapp/components": ["libs/ui/components/src/index.ts"],
+      "@monday-whatsapp/next-services": ["libs/next-services/src/index.ts"],
+      "@monday-whatsapp/next-services/server": [
+        "libs/next-services/src/server.ts"
+      ],
+      "@monday-whatsapp/shared-types": ["libs/shared-types/src/index.ts"],
       "@monday-whatsapp/utils": ["libs/ui/utils/src/index.ts"]
     }
   }

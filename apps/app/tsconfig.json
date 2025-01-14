@@ -2,40 +2,57 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "jsx": "preserve",
-    "allowJs": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "strict": true,
-    "forceConsistentCasingInFileNames": true,
     "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
     "incremental": true,
     "plugins": [
       {
         "name": "next"
       }
     ],
-    "types": [
-      "jest",
-      "node"
-    ]
+    //    paths object causes @ workspace imports to not be recognized.
+    //    "paths": {
+    //      "@this/*": [
+    //        "./src/*"
+    //      ]
+    //    },
+    "outDir": "out-tsc/patient-app",
+    //    this causes @ workspace imports to not be recognized.
+    //    "rootDir": "src"
   },
   "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.js",
-    "**/*.jsx",
-    "../../apps/dashboard/.next/types/**/*.ts",
-    "../../dist/apps/dashboard/.next/types/**/*.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.js",
+    "src/**/*.jsx",
+    "../../apps/patient-app/.next/types/**/*.ts",
+    "../../dist/apps/patient-app/.next/types/**/*.ts",
     "next-env.d.ts",
-    ".next/types/**/*.ts",
-    "../../dist/dashboard/.next/types/**/*.ts"
+    "index.d.ts",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
+    "dist",
     "node_modules",
     "jest.config.ts",
-    "**/*.spec.ts",
-    "**/*.test.ts"
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts",
+    ".next",
+    "eslint.config.js",
+    "eslint.config.cjs",
+    "eslint.config.mjs"
   ]
 }

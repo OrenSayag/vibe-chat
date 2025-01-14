@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { ListItem } from '@monday-whatsapp/shared-types';
+import { ActivatedItem, DeactivatedItem } from '@monday-whatsapp/shared-types';
 import {
   Box,
   Button,
@@ -16,31 +16,36 @@ import {
 import { cn } from '@monday-whatsapp/utils';
 import { format, isThisYear, isToday } from 'date-fns';
 
-export type DeactivatedItem = ListItem<{
-  id: string;
-}>;
-
-export type ActivatedItem = ListItem<{
-  activationDate: string;
-  id: string;
-}>;
-
 interface Props {
   className?: string;
   activatedItems: ActivatedItem[];
   deactivatedItems: DeactivatedItem[];
+  onToggleActivation(itemId: string): void;
+  pendingToggleActivation?: boolean;
 }
 
 export const ActivationItemsList: FC<Props> = ({
   className,
   deactivatedItems,
   activatedItems,
+  onToggleActivation,
+  pendingToggleActivation,
 }) => {
   return (
     <>
       <Box className={cn(className)}>
-        <List items={activatedItems} type={ActivationListType.ACTIVATED} />
-        <List items={deactivatedItems} type={ActivationListType.DEACTIVATED} />
+        <List
+          items={activatedItems}
+          type={ActivationListType.ACTIVATED}
+          onToggleActivation={onToggleActivation}
+          pendingToggleActivation={pendingToggleActivation}
+        />
+        <List
+          items={deactivatedItems}
+          type={ActivationListType.DEACTIVATED}
+          onToggleActivation={onToggleActivation}
+          pendingToggleActivation={pendingToggleActivation}
+        />
       </Box>
     </>
   );
@@ -75,7 +80,9 @@ function List({
   items,
   className,
   type,
-}:
+  onToggleActivation,
+  pendingToggleActivation,
+}: (
   | {
       className?: string;
       items: ActivatedItem[];
@@ -85,7 +92,11 @@ function List({
       className?: string;
       items: DeactivatedItem[];
       type: ActivationListType.DEACTIVATED;
-    }) {
+    }
+) & {
+  onToggleActivation(itemId: string): void;
+  pendingToggleActivation?: boolean;
+}) {
   return (
     <Box>
       <Heading type={'h3'}>{lablesMap[type].title}</Heading>
@@ -135,8 +146,10 @@ function List({
               <TableCell>{it.label}</TableCell>
               <TableCell>
                 <Button
+                  onClick={() => onToggleActivation(it.value.id)}
                   size={'xs'}
                   color={lablesMap[type].activationButtonColor}
+                  disabled={pendingToggleActivation}
                 >
                   {lablesMap[type].activationButtonLabel}
                 </Button>

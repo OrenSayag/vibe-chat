@@ -1,0 +1,20 @@
+services:
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - '3306:3306'
+    volumes:
+      - monday-chat-db:/var/lib/mysql
+  dbgate:
+    build: docker
+    image: dbgate/dbgate:alpine
+    ports:
+      - 3100:3000
+
+    volumes:
+      - monday-chat-dbgate-data:/root/.dbgate
+volumes:
+  monday-chat-dbgate-data:
+  monday-chat-db:

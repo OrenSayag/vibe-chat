@@ -3,7 +3,7 @@
 import { Workspace } from '@monday-whatsapp/shared-types';
 import { monday } from '../monday-sdk-instance';
 
-type Output = Workspace[];
+type Output = { workspaces: Workspace[]; accountId: string };
 
 export const getWorkspaces = async (): Promise<Output> => {
   try {
@@ -20,13 +20,16 @@ export const getWorkspaces = async (): Promise<Output> => {
         token: process.env['DEV_API_TOKEN'],
       }
     );
-    return workspaces.data.workspaces.map(
-      (w: { id: string; name: string }) =>
-        ({
-          id: w.id,
-          name: w.name,
-        } as Workspace)
-    );
+    return {
+      workspaces: workspaces.data.workspaces.map(
+        (w: { id: string; name: string }) =>
+          ({
+            id: w.id,
+            name: w.name,
+          } as Workspace)
+      ),
+      accountId: workspaces.account_id.toString(),
+    };
   } catch (e) {
     console.log(e);
     throw e;

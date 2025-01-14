@@ -2,11 +2,7 @@
   "extends": "./tsconfig.base.json",
   "compileOnSave": false,
   "files": [],
-  "references": [
-    {
-      "path": "./apps/app"
-    }
-  ],
+  "references": [],
   "ts-node": {
     "compilerOptions": {
       "module": "commonjs"

@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@monday-whatsapp/components": ["libs/ui/components/src/index.ts"],
+      "@monday-whatsapp/db": ["libs/db/src/index.ts"],
       "@monday-whatsapp/next-services": ["libs/next-services/src/index.ts"],
       "@monday-whatsapp/next-services/server": [
         "libs/next-services/src/server.ts"

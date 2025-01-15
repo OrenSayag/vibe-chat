@@ -1,11 +1,11 @@
-import { SubscriptionInfo } from '@monday-whatsapp/shared-types';
+import { GetSubscriptionInfoResponse } from '@monday-whatsapp/shared-types';
 import { sendRequestToServer } from '../utils/send-request-to-backend';
 
 type Input = {
   accountId: string;
 };
 
-type Output = SubscriptionInfo & { id: number };
+type Output = GetSubscriptionInfoResponse['data'];
 
 export const getSubscription = async ({
   accountId,

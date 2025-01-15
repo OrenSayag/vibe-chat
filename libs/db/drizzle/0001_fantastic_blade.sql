@@ -1,0 +1,1 @@
+ALTER TABLE `subscriptions` ADD `green_api_info` json;

@@ -18,12 +18,11 @@ export const updateSubscription = async ({ info, id }: Input) => {
     .update(subscriptions)
     .set({
       info: {
-        ...existingSubscriptionInfo.subscriptionInfo,
+        ...existingSubscriptionInfo.info,
         activatedWorkspaces: info.activatedWorkspaces.map((itemId) => {
-          const exists =
-            existingSubscriptionInfo.subscriptionInfo.activatedWorkspaces.find(
-              (ws) => ws.id === itemId
-            );
+          const exists = existingSubscriptionInfo.info.activatedWorkspaces.find(
+            (ws) => ws.id === itemId
+          );
           if (exists) {
             return exists;
           }

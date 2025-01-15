@@ -2,14 +2,13 @@
 
 import {
   BackendBaseResponse,
-  SubscriptionInfo,
   UpdateSubscriptionInfoRequest,
 } from '@monday-whatsapp/shared-types';
 import { sendRequestToServer } from '../utils/send-request-to-backend';
 import { revalidatePath } from 'next/cache';
 
 type Input = {
-  subscriptionId: string;
+  subscriptionId: number;
   data: UpdateSubscriptionInfoRequest;
 };
 

@@ -2,7 +2,11 @@
 
 import { FC } from 'react';
 import { cn } from '@monday-whatsapp/utils';
-import { ActivatedItem, DeactivatedItem } from '@monday-whatsapp/shared-types';
+import {
+  ActivatedItem,
+  DeactivatedItem,
+  GetSubscriptionInfoResponse,
+} from '@monday-whatsapp/shared-types';
 import { useSubscriptionPage } from '@monday-whatsapp/next-services';
 import { SubscriptionTemplate } from '@monday-whatsapp/components';
 
@@ -10,7 +14,8 @@ interface Props {
   className?: string;
   activatedWorkspaces: ActivatedItem[];
   deactivatedWorkspaces: DeactivatedItem[];
-  subscriptionId: string;
+  subscriptionId: number;
+  greenApiInstanceInfo: GetSubscriptionInfoResponse['data']['greenApiInstanceInfo'];
 }
 
 export const SubscriptionTemplateProvider: FC<Props> = ({
@@ -18,10 +23,16 @@ export const SubscriptionTemplateProvider: FC<Props> = ({
   subscriptionId,
   activatedWorkspaces,
   deactivatedWorkspaces,
+  greenApiInstanceInfo,
 }) => {
-  const { onToggleActivation, pendingToggleActivation } = useSubscriptionPage({
+  const {
+    onToggleActivation,
+    pendingToggleActivation,
+    greenApiInstanceSectionProps,
+  } = useSubscriptionPage({
     subscriptionId,
     activatedWorkspaces,
+    greenApiInstanceInfo,
   });
   return (
     <>
@@ -31,6 +42,7 @@ export const SubscriptionTemplateProvider: FC<Props> = ({
         pendingToggleActivation={pendingToggleActivation}
         deactivatedWorkspaces={deactivatedWorkspaces}
         activatedWorkspaces={activatedWorkspaces}
+        greenApiInstanceProps={greenApiInstanceSectionProps}
       />
     </>
   );

@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { SubscriptionTemplate } from '.';
+import { GreenApiInstanceStatus } from '@monday-whatsapp/shared-types';
 
 const meta: Meta<typeof SubscriptionTemplate> = {
   component: SubscriptionTemplate,
@@ -30,5 +31,12 @@ export const Primary: Story = {
         },
       },
     ],
+    greenApiInstanceProps: {
+      status: GreenApiInstanceStatus.CONNECTED,
+      onDisconnectWhatsapp() {
+        alert('not implemented');
+      },
+      phoneNumber: '0542090500',
+    },
   },
 };

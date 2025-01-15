@@ -34,18 +34,22 @@ export const ActivationItemsList: FC<Props> = ({
   return (
     <>
       <Box className={cn(className)}>
-        <List
-          items={activatedItems}
-          type={ActivationListType.ACTIVATED}
-          onToggleActivation={onToggleActivation}
-          pendingToggleActivation={pendingToggleActivation}
-        />
-        <List
-          items={deactivatedItems}
-          type={ActivationListType.DEACTIVATED}
-          onToggleActivation={onToggleActivation}
-          pendingToggleActivation={pendingToggleActivation}
-        />
+        <Box marginY={'small'}>
+          <List
+            items={activatedItems}
+            type={ActivationListType.ACTIVATED}
+            onToggleActivation={onToggleActivation}
+            pendingToggleActivation={pendingToggleActivation}
+          />
+        </Box>
+        <Box marginY={'small'}>
+          <List
+            items={deactivatedItems}
+            type={ActivationListType.DEACTIVATED}
+            onToggleActivation={onToggleActivation}
+            pendingToggleActivation={pendingToggleActivation}
+          />
+        </Box>
       </Box>
     </>
   );

@@ -1,37 +1,33 @@
-import { useBackendRequest } from '@monday-whatsapp/next-services';
-import { updateSubscription } from '../../../server/subscription/update-subscription';
-import { ActivatedItem } from '@monday-whatsapp/shared-types';
+import {
+  ActivatedItem,
+  GetSubscriptionInfoResponse,
+} from '@monday-whatsapp/shared-types';
+import { useActivatedItems } from './methods/use-activated-items';
+import { useGreenApiInstance } from './methods/use-green-api-instance';
+import { useNotification } from '../../green-api/use-notification';
 
 type Input = {
-  subscriptionId: string;
+  subscriptionId: number;
   activatedWorkspaces: ActivatedItem[];
+  greenApiInstanceInfo: GetSubscriptionInfoResponse['data']['greenApiInstanceInfo'];
 };
 
 export const useSubscriptionPage = ({
   subscriptionId,
   activatedWorkspaces,
+  greenApiInstanceInfo,
 }: Input) => {
-  const { pending, startAction } = useBackendRequest<
-    undefined,
-    Parameters<typeof updateSubscription>[0]
-  >({
-    apiCall: updateSubscription,
+  const { pendingToggleActivation, onToggleActivation } = useActivatedItems({
+    subscriptionId,
+    activatedWorkspaces,
+  });
+  const greenApiInstanceSectionProps = useGreenApiInstance({
+    greenApiInstanceInfo,
+    id: subscriptionId,
   });
   return {
-    onToggleActivation(itemId: string) {
-      startAction({
-        subscriptionId,
-        data: {
-          activatedWorkspaces: activatedWorkspaces.some(
-            (w) => w.value.id == itemId
-          )
-            ? activatedWorkspaces
-                .filter((w) => w.value.id != itemId)
-                .map((w) => w.value.id)
-            : [...activatedWorkspaces.map((w) => w.value.id), itemId],
-        },
-      });
-    },
-    pendingToggleActivation: pending,
+    onToggleActivation,
+    pendingToggleActivation,
+    greenApiInstanceSectionProps,
   };
 };

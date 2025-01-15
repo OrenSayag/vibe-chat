@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import {
   BackendBaseResponse,
-  SubscriptionInfo,
+  GetSubscriptionInfoResponse,
   updateSubscriptionInfoRequest,
 } from '@monday-whatsapp/shared-types';
 import { SubscriptionService } from './subscription.service';
@@ -15,22 +15,22 @@ class UpdateSubscriptionRequestDto extends createZodDto(
 export class SubscriptionController {
   constructor(private readonly subscriptionService: SubscriptionService) {}
   @Get(':accountId')
-  public async getSubscription(@Param('accountId') accountId: string): Promise<
-    BackendBaseResponse<
-      SubscriptionInfo & {
-        id: number;
-      }
-    >
-  > {
-    const info = await this.subscriptionService.getSubscription({
-      accountId,
-      type: 'accountId',
-    });
-    const data = { ...info.subscriptionInfo, id: info.id };
+  public async getSubscription(
+    @Param('accountId') accountId: string
+  ): Promise<GetSubscriptionInfoResponse> {
+    const { id, info, greenApiInstanceInfo } =
+      await this.subscriptionService.getSubscription({
+        accountId,
+        type: 'accountId',
+      });
     return {
       success: true,
       message: 'Successfully retrieved subscription info',
-      data,
+      data: {
+        info,
+        greenApiInstanceInfo,
+        id,
+      },
     };
   }
   @Post(':accountId')

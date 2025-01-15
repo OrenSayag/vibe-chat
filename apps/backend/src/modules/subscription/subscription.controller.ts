@@ -27,9 +27,6 @@ export class SubscriptionController {
       type: 'accountId',
     });
     const data = { ...info.subscriptionInfo, id: info.id };
-    console.log({
-      data,
-    });
     return {
       success: true,
       message: 'Successfully retrieved subscription info',

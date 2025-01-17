@@ -5,9 +5,15 @@ import {
   GreenApiInstanceStatus,
 } from './green-api.types';
 
-const activatedWorkspaceSchema = z.object({
-  id: z.string(),
+const baseActivatedItemScheme = z.object({
   activationTime: z.string().datetime(),
+  id: z.string(),
+});
+
+export type BaseActivatedItemSchema = z.infer<typeof baseActivatedItemScheme>;
+
+const activatedWorkspaceSchema = baseActivatedItemScheme.extend({
+  activatedBoards: z.array(baseActivatedItemScheme),
 });
 
 export type ActivatedWorkspace = z.infer<typeof activatedWorkspaceSchema>;

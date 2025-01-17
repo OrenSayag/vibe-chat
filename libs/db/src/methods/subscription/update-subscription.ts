@@ -29,6 +29,7 @@ export const updateSubscription = async ({ info, id }: Input) => {
           return {
             id: itemId,
             activationTime: new Date().toISOString(),
+            activatedBoards: [],
           };
         }),
       },

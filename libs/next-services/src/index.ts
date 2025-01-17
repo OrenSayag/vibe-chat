@@ -4,3 +4,4 @@ export * from './lib/next-services';
 export * from './lib/client/use-backend-request';
 export * from './lib/client/subscription/use-subscription-page';
 export * from './lib/client/socket/provider';
+export * from './lib/client/workspace/use-workspace-page';

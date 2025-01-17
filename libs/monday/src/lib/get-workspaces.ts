@@ -1,9 +1,9 @@
-import { Workspace } from '@monday-whatsapp/shared-types';
+import { WorkspaceItem } from '@monday-whatsapp/shared-types';
 import { monday } from '@monday-whatsapp/utils';
 import { getDevToken } from './get-dev-token';
 
 type Output = {
-  workspaces: Workspace[];
+  workspaces: WorkspaceItem[];
   accountId: string;
 };
 
@@ -29,7 +29,7 @@ export const getWorkspaces = async (): Promise<Output> => {
           ({
             id: w.id,
             name: w.name,
-          } as Workspace)
+          } as WorkspaceItem)
       ),
       accountId: workspaces.account_id.toString(),
     };

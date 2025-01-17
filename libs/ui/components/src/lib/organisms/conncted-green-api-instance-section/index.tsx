@@ -74,7 +74,6 @@ function ConnectPrompt({
         {!qrCode && pendingQr && (
           <Box>
             <Text>Loading QR code...</Text>
-            <Loader />
           </Box>
         )}
         {qrCode && (

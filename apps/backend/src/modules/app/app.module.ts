@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { SubscriptionModule } from '../subscription/subscription.module';
 import { GreenApiModule } from '../green-api/green-api.module';
 import { EventsModule } from '../events/events.module';
+import { WorkspaceModule } from '../workspace/workspace.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { EventsModule } from '../events/events.module';
     SubscriptionModule,
     GreenApiModule,
     EventsModule,
+    WorkspaceModule,
   ],
   controllers: [AppController],
   providers: [AppService],

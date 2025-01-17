@@ -10,10 +10,10 @@
   "include": ["src/**/*.ts"],
   "references": [
     {
-      "path": "../../libs/shared-types"
+      "path": "../../libs/db"
     },
     {
-      "path": "../../libs/db"
+      "path": "../../libs/shared-types"
     }
   ]
 }

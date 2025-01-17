@@ -1,7 +1,7 @@
 'use client';
 
 import { FC } from 'react';
-import { cn } from '@monday-whatsapp/utils';
+import { cn } from '@monday-whatsapp/ui-utils';
 import {
   ActivatedItem,
   DeactivatedItem,

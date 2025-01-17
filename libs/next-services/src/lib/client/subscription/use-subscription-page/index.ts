@@ -4,7 +4,6 @@ import {
 } from '@monday-whatsapp/shared-types';
 import { useActivatedItems } from './methods/use-activated-items';
 import { useGreenApiInstance } from './methods/use-green-api-instance';
-import { useNotification } from '../../green-api/use-notification';
 
 type Input = {
   subscriptionId: number;

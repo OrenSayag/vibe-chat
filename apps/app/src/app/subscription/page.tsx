@@ -13,6 +13,7 @@ export default async function SubscriptionPage() {
   } = await getSubscription({
     accountId,
   });
+
   return (
     <SubscriptionTemplateProvider
       greenApiInstanceInfo={greenApiInstanceInfo}

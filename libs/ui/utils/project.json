@@ -1,9 +1,9 @@
 {
-  "name": "utils",
+  "name": "ui-utils",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/ui/utils/src",
+  "sourceRoot": "libs/ui/ui-utils/src",
   "projectType": "library",
   "tags": [],
-  "// targets": "to see all targets run: nx show project utils --web",
+  "// targets": "to see all targets run: nx show project ui-utils --web",
   "targets": {}
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { ComponentPropsWithoutRef, FC } from 'react';
-import { cn } from '@monday-whatsapp/utils';
+import { cn } from '@monday-whatsapp/ui-utils';
 import { Box, Heading } from '@vibe/core';
 import { ActivationItemsList } from '../../organisms/activation-items-list';
 import { ActivatedItem, DeactivatedItem } from '@monday-whatsapp/shared-types';

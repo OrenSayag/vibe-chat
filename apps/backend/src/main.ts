@@ -4,7 +4,7 @@
  */
 
 import { Logger } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './modules/app/app.module';
 import { ApiKeyGuard } from './guards/api-key.guard';
 import { ConfigService } from '@nestjs/config';
@@ -14,7 +14,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
-  app.useGlobalGuards(new ApiKeyGuard(app.get(ConfigService)));
+  app.useGlobalGuards(new ApiKeyGuard(app.get(ConfigService), new Reflector()));
   app.useGlobalPipes(new ZodValidationPipe());
   const port = process.env.PORT || 3001;
   await app.listen(port);

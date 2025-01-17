@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { cn } from '@monday-whatsapp/utils';
+import { cn } from '@monday-whatsapp/ui-utils';
 import { GreenApiInstanceStatus } from '@monday-whatsapp/shared-types';
 import { Box, Heading, Text } from '@vibe/core';
 import { Button } from '@monday-whatsapp/components';

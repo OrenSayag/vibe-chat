@@ -1,14 +1,28 @@
-import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
 import {
-  GetNotificationResponse,
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+} from '@nestjs/common';
+import {
+  BackendBaseResponse,
+  EventType,
   GetQrCodeResponse,
+  GreenApiNotification,
   LogoutResponse,
 } from '@monday-whatsapp/shared-types';
 import { GreenApiService } from './green-api.service';
+import { GreenApiWebhook } from '../../decorators/green-api-webhook.decorator';
+import { EventsService } from '../events/events.service';
 
 @Controller('green-api')
 export class GreenApiController {
-  constructor(private readonly greenApiService: GreenApiService) {}
+  constructor(
+    private readonly greenApiService: GreenApiService,
+    private readonly eventsService: EventsService
+  ) {}
   @Get(':subscriptionId/logout')
   async logout(
     @Param('subscriptionId') subscriptionId: string
@@ -43,20 +57,27 @@ export class GreenApiController {
       },
     };
   }
-  @Get(':subscriptionId/notification')
-  async getNotification(
-    @Param('subscriptionId') subscriptionId: string
-  ): Promise<GetNotificationResponse> {
-    if (Number.isNaN(Number(subscriptionId))) {
-      throw new NotFoundException();
+  @GreenApiWebhook()
+  @Post('webhook')
+  async webhook(
+    @Body() input: GreenApiNotification
+  ): Promise<BackendBaseResponse<undefined>> {
+    if (input.typeWebhook === 'stateInstanceChanged') {
+      console.log(
+        `stateInstanceChanged for instance ${input.instanceData.idInstance}. New state: ${input.stateInstance}`
+      );
+      this.eventsService.broadcastMessageByGreenInstanceId({
+        instanceId: input.instanceData.idInstance,
+        message: {
+          type: EventType.INSTANCE_STATE_CHANGED,
+          state: input.stateInstance,
+        },
+      });
     }
-    const notification = await this.greenApiService.receiveNotification({
-      subscriptionId: Number(subscriptionId),
-    });
     return {
       success: true,
-      message: 'Received Notification',
-      data: notification,
+      message: 'Received webhook',
+      data: undefined,
     };
   }
 }

@@ -13,7 +13,7 @@ import {
   TableRow,
   Text,
 } from '@vibe/core';
-import { cn } from '@monday-whatsapp/utils';
+import { cn } from '@monday-whatsapp/ui-utils';
 import { format, isThisYear, isToday } from 'date-fns';
 
 interface Props {

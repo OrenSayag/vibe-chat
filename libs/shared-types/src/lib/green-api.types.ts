@@ -46,11 +46,14 @@ export type LogoutResponse = BackendBaseResponse<undefined>;
 export type GetQrCodeResponse = BackendBaseResponse<{ qr: string }>;
 
 export type GreenApiNotification = {
-  receiptId: number;
-  body: {
-    typeWebhook: 'stateInstanceChanged' | string;
-    stateInstance: 'notAuthorized' | 'authorized' | string;
+  typeWebhook: 'stateInstanceChanged' | string;
+  stateInstance: 'notAuthorized' | 'authorized' | string;
+  instanceData: {
+    idInstance: number;
+    wid: string;
+    typeInstance: string;
   };
+  timestamp: number;
 };
 export type GetNotificationResponse = BackendBaseResponse<
   GreenApiNotification | undefined

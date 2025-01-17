@@ -2,7 +2,10 @@
   "name": "@monday-whatsapp/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "tunnel-fe": "mapps tunnel:create -p 3000 -a 10284659",
+    "tunnel-be": "ngrok http 3001"
+  },
   "private": true,
   "dependencies": {
     "@green-api/whatsapp-api-client": "^0.3.39",
@@ -10,11 +13,14 @@
     "@nestjs/config": "^3.3.0",
     "@nestjs/core": "^10.0.2",
     "@nestjs/platform-express": "^10.0.2",
+    "@nestjs/platform-socket.io": "^11.0.1",
+    "@nestjs/websockets": "^11.0.1",
     "@vibe/core": "^3.16.0",
     "axios": "^1.6.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "drizzle-orm": "^0.38.3",
+    "express": "^4.21.2",
     "monday-sdk-js": "^0.5.6",
     "mysql2": "^3.12.0",
     "nestjs-zod": "^4.2.0",
@@ -23,7 +29,9 @@
     "react-dom": "18.3.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
+    "socket.io": "^4.8.1",
     "tailwind-merge": "^2.6.0",
+    "uid": "^2.0.2",
     "zod": "^3.24.1"
   },
   "devDependencies": {
@@ -45,6 +53,7 @@
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
+    "@types/express": "^5.0.0",
     "@types/node": "18.16.9",
     "@types/react": "18.3.1",
     "@types/react-dom": "18.3.0",

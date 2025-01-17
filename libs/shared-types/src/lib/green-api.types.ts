@@ -1,10 +1,11 @@
 import { BackendBaseResponse } from './app.types';
 
 export enum GreenApiInstanceStatus {
-  CONNECTED = 'connected',
-  NOT_CONNECTED = 'not-connected',
+  CONNECTED = 'authorized',
+  NOT_CONNECTED = 'notAuthorized',
   BLOCKED = 'blocked',
-  SLEEP_MODE = 'blocked',
+  SLEEP_MODE = 'sleepMode',
+  YELLOW_CARD = 'yellowCard',
   STARTING = 'starting',
   MISSING_GREEN_API_INSTANCE_INFO = 'missing-green-api-instance-info',
   INVALID_GREEN_API_INSTANCE_INFO = 'invalid-green-api-instance-info',

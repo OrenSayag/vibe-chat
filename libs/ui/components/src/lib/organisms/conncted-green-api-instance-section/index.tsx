@@ -50,6 +50,9 @@ export const ConnectedGreenApiInstance: FC<Props> = ({
             GreenApiInstanceStatus.MISSING_GREEN_API_INSTANCE_INFO) && (
           <InvalidGreenApiData />
         )}
+        {status === GreenApiInstanceStatus.BLOCKED && <Blocked />}
+        {status === GreenApiInstanceStatus.SLEEP_MODE && <SleepMode />}
+        {status === GreenApiInstanceStatus.YELLOW_CARD && <YellowCard />}
       </Box>
     </>
   );
@@ -119,6 +122,33 @@ function InvalidGreenApiData({ className }: { className?: string }) {
     <Box className={cn(className)}>
       <Heading type={'h3'}>Invalid account configuration.</Heading>
       <Text>Please contact us</Text>
+    </Box>
+  );
+}
+
+function Blocked() {
+  return (
+    <Box>
+      <Text>Your WhatsApp account is blocked.</Text>
+    </Box>
+  );
+}
+
+function SleepMode() {
+  return (
+    <Box>
+      <Text>
+        Sleep mode - Please connect your phone to WhatsApp. After, it will take
+        up to 5 minutes to connect again.
+      </Text>
+    </Box>
+  );
+}
+
+function YellowCard() {
+  return (
+    <Box>
+      <Text>Yellow Card</Text>
     </Box>
   );
 }

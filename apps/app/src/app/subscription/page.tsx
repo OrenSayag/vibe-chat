@@ -1,8 +1,6 @@
 import { SubscriptionTemplateProvider } from '@monday-whatsapp/components';
-import {
-  getSubscription,
-  getWorkspaces,
-} from '@monday-whatsapp/next-services/server';
+import { getSubscription } from '@monday-whatsapp/next-services/server';
+import { getWorkspaces } from '@monday-whatsapp/monday';
 
 export default async function SubscriptionPage() {
   const { workspaces, accountId } = await getWorkspaces();

@@ -1,9 +1,11 @@
-'use server';
-
 import { Workspace } from '@monday-whatsapp/shared-types';
-import { monday } from '../monday-sdk-instance';
+import { monday } from '@monday-whatsapp/utils';
+import { getDevToken } from './get-dev-token';
 
-type Output = { workspaces: Workspace[]; accountId: string };
+type Output = {
+  workspaces: Workspace[];
+  accountId: string;
+};
 
 export const getWorkspaces = async (): Promise<Output> => {
   try {
@@ -17,9 +19,10 @@ export const getWorkspaces = async (): Promise<Output> => {
   }
 }`,
       {
-        token: process.env['DEV_API_TOKEN'],
+        token: getDevToken(),
       }
     );
+
     return {
       workspaces: workspaces.data.workspaces.map(
         (w: { id: string; name: string }) =>

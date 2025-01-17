@@ -6,6 +6,7 @@ import {
 } from '@monday-whatsapp/shared-types';
 import { useGreenApiGetQr } from './use-green-api-get-qr';
 import { useGreenApiLogout } from './use-green-api-logout';
+import { useGreenApiInstanceStatusChange } from './use-green-api-instance-status-change';
 
 type Input = Omit<GetSubscriptionInfoResponse['data'], 'info'>;
 
@@ -17,13 +18,14 @@ export const useGreenApiInstance = ({
   greenApiInstanceInfo,
   id: subscriptionId,
 }: Input): Output => {
-  const { qr } = useGreenApiGetQr({
+  const { qr, pending: pendingQr } = useGreenApiGetQr({
     subscriptionId,
     instanceState: greenApiInstanceInfo?.status,
   });
   const { pendingLogout, onLogout } = useGreenApiLogout({
     subscriptionId,
   });
+  useGreenApiInstanceStatusChange({ subscriptionId });
   return {
     status:
       greenApiInstanceInfo?.status ??
@@ -32,5 +34,6 @@ export const useGreenApiInstance = ({
     onDisconnectWhatsapp: onLogout,
     pendingDisconnect: pendingLogout,
     qrCode: qr,
+    pendingQr,
   };
 };

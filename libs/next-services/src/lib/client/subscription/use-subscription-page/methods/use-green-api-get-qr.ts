@@ -39,5 +39,6 @@ export const useGreenApiGetQr = ({ subscriptionId, instanceState }: Input) => {
   });
   return {
     qr,
+    pending,
   };
 };

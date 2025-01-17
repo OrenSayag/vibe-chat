@@ -24,6 +24,10 @@ export class EventsService {
     });
   }
 
+  removeClient(id: string) {
+    this.clients.delete(id);
+  }
+
   sendMessage(id: string, message: EventMessageContent) {
     console.log(`Send message to socket ${id}`);
     this.socket.to(id).emit(message.type, message);

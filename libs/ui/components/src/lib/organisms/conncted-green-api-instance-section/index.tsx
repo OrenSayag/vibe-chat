@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { cn } from '@monday-whatsapp/ui-utils';
 import { GreenApiInstanceStatus } from '@monday-whatsapp/shared-types';
-import { Box, Heading, Text } from '@vibe/core';
+import { Box, Heading, Loader, Text } from '@vibe/core';
 import { Button } from '@monday-whatsapp/components';
 import Image from 'next/image';
 
@@ -12,6 +12,7 @@ interface Props {
   qrCode?: string;
   onDisconnectWhatsapp(): void;
   pendingDisconnect?: boolean;
+  pendingQr?: boolean;
 }
 
 export const ConnectedGreenApiInstance: FC<Props> = ({
@@ -21,6 +22,7 @@ export const ConnectedGreenApiInstance: FC<Props> = ({
   qrCode,
   onDisconnectWhatsapp,
   pendingDisconnect,
+  pendingQr,
 }) => {
   return (
     <>
@@ -41,7 +43,7 @@ export const ConnectedGreenApiInstance: FC<Props> = ({
           />
         )}
         {status === GreenApiInstanceStatus.NOT_CONNECTED && (
-          <ConnectPrompt qrCode={qrCode} />
+          <ConnectPrompt pendingQr={pendingQr} qrCode={qrCode} />
         )}
         {(status === GreenApiInstanceStatus.INVALID_GREEN_API_INSTANCE_INFO ||
           status ===
@@ -56,14 +58,22 @@ export const ConnectedGreenApiInstance: FC<Props> = ({
 function ConnectPrompt({
   className,
   qrCode,
+  pendingQr,
 }: {
   className?: string;
   qrCode?: string;
+  pendingQr?: boolean;
 }) {
   return (
     <Box className={cn(className)}>
       <Heading type={'h3'}>You are not connected to WhatsApp.</Heading>
       <Box>
+        {!qrCode && pendingQr && (
+          <Box>
+            <Text>Loading QR code...</Text>
+            <Loader />
+          </Box>
+        )}
         {qrCode && (
           <Image
             src={`data:image/png;base64,${qrCode}`}

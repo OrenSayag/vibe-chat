@@ -9,7 +9,9 @@ import { EventMessageContent } from '@monday-whatsapp/shared-types';
 import { EventsService } from './events.service';
 import { getSubscription } from '../subscription/methods/get-subscription';
 
-@WebSocketGateway(3002)
+@WebSocketGateway(3002, {
+  cors: true,
+})
 export class EventsGateway {
   constructor(private readonly eventsService: EventsService) {}
 
@@ -66,6 +68,7 @@ export class EventsGateway {
 
   handleDisconnect(client: any) {
     console.log(`Client id:${client.id} disconnected`);
+    this.eventsService.removeClient(client.id);
   }
 
   @SubscribeMessage('events')

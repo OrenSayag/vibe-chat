@@ -2,7 +2,6 @@
 
 import { sendRequestToServer } from '../utils/send-request-to-backend';
 import { LogoutResponse } from '@monday-whatsapp/shared-types';
-import { revalidatePath } from 'next/cache';
 
 type Input = {
   subscriptionId: number;
@@ -19,9 +18,6 @@ export const logout = async ({ subscriptionId }: Input): Promise<Output> => {
       },
     },
   });
-  if (res.success) {
-    revalidatePath('/subscription');
-  }
   const resData = res;
   return resData;
 };

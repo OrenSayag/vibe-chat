@@ -7,6 +7,7 @@ import mondaySdk from 'monday-sdk-js';
 
 import { useEffect, useState } from 'react';
 import { Theme } from 'monday-sdk-js/types/theme-config.type';
+import { SocketProvider } from '@monday-whatsapp/next-services';
 
 const monday = mondaySdk();
 
@@ -28,7 +29,7 @@ export default function RootLayout({
             backgroundColor={'primaryBackgroundColor'}
             className={'h-screen p-4'}
           >
-            {children}
+            <SocketProvider>{children}</SocketProvider>
           </Box>
         </ThemeProvider>
       </body>

@@ -7,3 +7,4 @@ export * from './lib/client/socket/provider';
 export * from './lib/client/workspace/use-workspace-page';
 export * from './lib/client/board/use-board-page';
 export * from './lib/client/board/use-board-level-auth';
+export * from './lib/client/board-group/use-board-group-page';

@@ -16,11 +16,16 @@ export const useBoardLevelAuth = ({ subscriptionInfo }: Input) => {
   const [authState, setAuthState] = useState<GetAuthState>('loading');
   const [board, setBoard] = useState<Board>();
   const [workspaceId, setWorkspaceId] = useState<number>();
+  const [groupId, setGroupId] = useState<string>();
   useEffect(() => {
     monday.get('context').then((res) => {
       const workspaceId: number | undefined = (res.data as any).workspaceId;
+      const groupId: string | undefined = (res.data as any).groupId;
       if (workspaceId) {
         setWorkspaceId(workspaceId);
+      }
+      if (groupId) {
+        setGroupId(groupId);
       }
       const boardId = (res.data as any).boardId;
       let allowedWorkspace;
@@ -83,7 +88,7 @@ export const useBoardLevelAuth = ({ subscriptionInfo }: Input) => {
       }
     });
   }, [JSON.stringify(subscriptionInfo)]);
-  return { authState, board, workspaceId };
+  return { authState, board, workspaceId, groupId };
 };
 
 export function AuthStateNotAllowed({

@@ -9,6 +9,7 @@ interface Props {
   selectedId?: string;
   type?: 'phone';
   pendingSelect?: boolean;
+  placeholder?: string;
 }
 
 export const ColumnSelector: FC<Props> = ({
@@ -18,6 +19,7 @@ export const ColumnSelector: FC<Props> = ({
   onSelect,
   type,
   pendingSelect,
+  placeholder,
 }) => {
   const options = useMemo<ListItem[]>(() => {
     let filtered = columns;
@@ -39,7 +41,7 @@ export const ColumnSelector: FC<Props> = ({
           )}
           isLoading={pendingSelect}
           disabled={pendingSelect}
-          placeholder={'Select a phone column'}
+          placeholder={placeholder}
           options={options}
           isOptionSelected={(o) => o.value == selectedId}
           onOptionSelect={(o) => onSelect(o.value)}

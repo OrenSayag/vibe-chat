@@ -7,7 +7,7 @@ import {
   AuthStateError,
   AuthStateLoading,
   AuthStateNotAllowed,
-  useBoardLevelAuth,
+  useBoardGroupPage,
 } from '@monday-whatsapp/next-services';
 
 interface Props {
@@ -19,10 +19,17 @@ export const BoardGroupTemplateProvider: FC<Props> = ({
   subscriptionId,
   subscriptionInfo,
 }) => {
-  const { board, workspaceId, authState } = useBoardLevelAuth({
+  const {
+    board,
+    items,
+    authState,
+    selectedPhoneColumn,
+    onSelectPhoneColumn,
+    onSendMessage,
+  } = useBoardGroupPage({
+    subscriptionId,
     subscriptionInfo,
   });
-
   if (authState === 'loading') {
     return <AuthStateLoading />;
   }
@@ -36,13 +43,19 @@ export const BoardGroupTemplateProvider: FC<Props> = ({
     return <AuthStateNotAllowed type={authState} />;
   }
 
-  if (!board) {
+  if (!board || !items) {
     return <AuthStateLoading />;
   }
 
   return (
     <>
-      <BoardGroupTemplate />
+      <BoardGroupTemplate
+        items={items}
+        boardColumns={board.columns}
+        onSelectPhoneColumn={onSelectPhoneColumn}
+        onSendMessage={onSendMessage}
+        selectedPhoneColumn={selectedPhoneColumn}
+      />
     </>
   );
 };

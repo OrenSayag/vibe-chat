@@ -3,14 +3,14 @@ import { cn } from '@monday-whatsapp/ui-utils';
 import {
   SingleMessageSender,
   SingleMessageSenderProps,
-} from '../../organisms/single-message-sender';
+} from '@monday-whatsapp/components';
 
 interface Props {
   className?: string;
   singleMessageSenderProps: SingleMessageSenderProps;
 }
 
-export const BoardGroupTemplate: FC<Props> = ({
+export const ItemTemplate: FC<Props> = ({
   className,
   singleMessageSenderProps,
 }) => {

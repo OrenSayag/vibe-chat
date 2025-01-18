@@ -1,13 +1,13 @@
 'use client';
 
-import { FC } from 'react';
-import { BoardGroupTemplate } from './index';
+import { FC, useEffect } from 'react';
+import { ItemTemplate } from './index';
 import { SubscriptionInfo } from '@monday-whatsapp/shared-types';
 import {
   AuthStateError,
   AuthStateLoading,
   AuthStateNotAllowed,
-  useBoardGroupPage,
+  useItemPage,
 } from '@monday-whatsapp/next-services';
 
 interface Props {
@@ -15,14 +15,20 @@ interface Props {
   subscriptionInfo: SubscriptionInfo;
 }
 
-export const BoardGroupTemplateProvider: FC<Props> = ({
+export const ItemTemplateProvider: FC<Props> = ({
   subscriptionId,
   subscriptionInfo,
 }) => {
-  const { authState, singleMessageSenderProps } = useBoardGroupPage({
+  const { authState, singleMessageSenderProps } = useItemPage({
     subscriptionId,
     subscriptionInfo,
   });
+  useEffect(() => {
+    console.log({
+      authState,
+      singleMessageSenderProps,
+    });
+  }, [authState, JSON.stringify(singleMessageSenderProps)]);
   if (authState === 'loading') {
     return <AuthStateLoading />;
   }
@@ -42,10 +48,9 @@ export const BoardGroupTemplateProvider: FC<Props> = ({
   ) {
     return <AuthStateLoading />;
   }
-
   return (
     <>
-      <BoardGroupTemplate singleMessageSenderProps={singleMessageSenderProps} />
+      <ItemTemplate singleMessageSenderProps={singleMessageSenderProps} />
     </>
   );
 };

@@ -5,9 +5,14 @@ import { Box, Button, Flex, TextArea } from '@vibe/core';
 interface Props {
   className?: string;
   onSend(txt: string): void;
+  disabled?: boolean;
 }
 
-export const SingleMessageSender: FC<Props> = ({ className, onSend }) => {
+export const MessageInputAndAction: FC<Props> = ({
+  className,
+  onSend,
+  disabled,
+}) => {
   const [input, setInput] = useState<string>('');
   return (
     <>
@@ -21,7 +26,7 @@ export const SingleMessageSender: FC<Props> = ({ className, onSend }) => {
           <Flex justify={'start'}>
             <Button
               color={'positive'}
-              disabled={!input}
+              disabled={!input || disabled}
               onClick={() => {
                 onSend(input);
                 setInput('');

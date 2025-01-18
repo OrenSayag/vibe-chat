@@ -7,7 +7,8 @@ import {
 import { useEffect, useState } from 'react';
 import {
   extractBoardItemPhoneByColumn,
-  getItems,
+  getItem,
+  monday,
 } from '@monday-whatsapp/monday';
 import { useBoardLevelAuth } from '@monday-whatsapp/next-services';
 import { useSendTextMessage } from '../../green-api/use-send-text-message';
@@ -24,18 +25,15 @@ type Output = {
   authState: GetAuthState;
 };
 
-export const useBoardGroupPage = ({
+export const useItemPage = ({
   subscriptionId,
   subscriptionInfo,
 }: Input): Output => {
-  const { board, groupId, authState } = useBoardLevelAuth({
+  const { board, authState } = useBoardLevelAuth({
     subscriptionInfo,
   });
 
-  const { items } = useItems({
-    boardId: board?.id.toString(),
-    groupId,
-  });
+  const { items } = useItem();
 
   const { selectedPhoneColumn, setSelectedPhoneColumn } = usePhoneColumn({
     board,
@@ -74,25 +72,19 @@ export const useBoardGroupPage = ({
   };
 };
 
-function useItems({
-  groupId,
-  boardId,
-}: {
-  groupId?: string;
-  boardId?: string;
-}) {
+function useItem() {
   const [items, setItems] = useState<BoardItem[]>();
   useEffect(() => {
-    if (!groupId || !boardId) {
-      return;
-    }
-    getItems({ groupId, boardId })
-      .then(({ items }) => setItems(items))
-      .catch((e) => {
-        console.log('Error getting items.');
-        console.log(e);
-      });
-  }, [groupId, boardId]);
+    monday.get('context').then((res) => {
+      const { itemId } = res.data as any;
+      getItem({ itemId })
+        .then(({ item }) => setItems([item]))
+        .catch((e) => {
+          console.log('Error getting item.');
+          console.log(e);
+        });
+    });
+  }, []);
   return {
     items,
   };

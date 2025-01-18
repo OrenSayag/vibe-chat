@@ -57,3 +57,22 @@ export const getItems = async ({
   `);
   return { items: getItemsRes.data.items };
 };
+
+export async function getItemsByIds({ ids }: { ids: number[] }) {
+  const getItemsRes: {
+    data: { items: BoardItem[] };
+  } = await monday.api(`
+  query {
+  items (ids: [${ids.join(', ')}]) {
+    id
+    name
+    column_values {
+      id
+      value
+      type
+    }
+  }
+}
+  `);
+  return { items: getItemsRes.data.items };
+}

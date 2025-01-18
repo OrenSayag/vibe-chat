@@ -40,7 +40,7 @@ export const WorkspaceTemplateProvider: FC<Props> = ({
       </Box>
     );
   }
-  if (authState === 'not-allowed') {
+  if (authState === 'workspace-not-allowed') {
     return <NotAllowed />;
   }
 
@@ -70,7 +70,7 @@ function useAuth(subscriptionInfo: SubscriptionInfo) {
       if (
         !subscriptionInfo.activatedWorkspaces.some((w) => w.id == workspaceId)
       ) {
-        setAuthState('not-allowed');
+        setAuthState('workspace-not-allowed');
       } else {
         getWorkspace({
           workspaceId,

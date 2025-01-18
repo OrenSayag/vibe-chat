@@ -1,33 +1,26 @@
 'use client';
 
 import { FC } from 'react';
+import { BoardGroupTemplate } from './index';
 import { SubscriptionInfo } from '@monday-whatsapp/shared-types';
-import { BoardTemplate } from './index';
 import {
   AuthStateError,
   AuthStateLoading,
   AuthStateNotAllowed,
   useBoardLevelAuth,
-  useBoardPage,
 } from '@monday-whatsapp/next-services';
 
 interface Props {
-  subscriptionInfo: SubscriptionInfo;
   subscriptionId: number;
+  subscriptionInfo: SubscriptionInfo;
 }
 
-export const BoardTemplateProvider: FC<Props> = ({
+export const BoardGroupTemplateProvider: FC<Props> = ({
   subscriptionId,
   subscriptionInfo,
 }) => {
-  const { authState, board, workspaceId } = useBoardLevelAuth({
+  const { board, workspaceId, authState } = useBoardLevelAuth({
     subscriptionInfo,
-  });
-
-  const props = useBoardPage({
-    board,
-    subscriptionId,
-    workspaceId,
   });
 
   if (authState === 'loading') {
@@ -49,7 +42,7 @@ export const BoardTemplateProvider: FC<Props> = ({
 
   return (
     <>
-      <BoardTemplate {...props} board={board} />
+      <BoardGroupTemplate />
     </>
   );
 };

@@ -1,11 +1,14 @@
 'use client';
 
 import { FC } from 'react';
+import { Box, Text } from '@vibe/core';
 
 const Error: FC = () => {
   return (
     <>
-      <div>Error!</div>
+      <Box>
+        <Text>Error!</Text>
+      </Box>
     </>
   );
 };

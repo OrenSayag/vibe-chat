@@ -37,6 +37,7 @@ export const getWorkspace = async ({
   boards(workspace_ids: [${workspaceId}]) {
     id
     name
+    type
   }
 }
   `);
@@ -58,6 +59,9 @@ export const getWorkspace = async ({
   )!;
 
   const activatedBoards: ActivatedItem[] = boards
+    .filter(
+      (b: { id: string; name: string; type: string }) => b.type === 'board'
+    )
     .filter((b: { id: string; name: string }) => {
       return appWorkspaceInfo.activatedBoards.some((ab) => ab.id == b.id);
     })
@@ -74,6 +78,9 @@ export const getWorkspace = async ({
         } as ActivatedItem)
     );
   const deactivatedBoards: DeactivatedItem[] = boards
+    .filter(
+      (b: { id: string; name: string; type: string }) => b.type === 'board'
+    )
     .filter((b: { id: string; name: string }) => {
       return !appWorkspaceInfo.activatedBoards.some((ab) => ab.id == b.id);
     })

@@ -1,7 +1,6 @@
 'use client';
 
 import { FC, useEffect, useState } from 'react';
-import { WorkspaceTemplate } from '@monday-whatsapp/components';
 import {
   GetAuthState,
   SubscriptionInfo,
@@ -10,6 +9,7 @@ import {
 import { getWorkspace, monday } from '@monday-whatsapp/monday';
 import { Box, Loader, Text } from '@vibe/core';
 import { useWorkspacePage } from '@monday-whatsapp/next-services';
+import { WorkspaceTemplate } from './index';
 
 interface Props {
   subscriptionInfo: SubscriptionInfo;

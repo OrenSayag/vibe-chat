@@ -8,7 +8,7 @@ import {
   GetSubscriptionInfoResponse,
 } from '@monday-whatsapp/shared-types';
 import { useSubscriptionPage } from '@monday-whatsapp/next-services';
-import { SubscriptionTemplate } from '@monday-whatsapp/components';
+import { SubscriptionTemplate } from '.';
 
 interface Props {
   className?: string;

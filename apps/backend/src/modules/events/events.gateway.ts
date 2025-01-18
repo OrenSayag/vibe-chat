@@ -1,13 +1,19 @@
 import {
+  ConnectedSocket,
   MessageBody,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { EventMessageContent } from '@monday-whatsapp/shared-types';
+import {
+  EventMessageContent,
+  EventType,
+  SendMessageRequest,
+} from '@monday-whatsapp/shared-types';
 import { EventsService } from './events.service';
 import { getSubscription } from '../subscription/methods/get-subscription';
+import { sendTextMessage } from '../green-api/methods/send-text-message';
 
 @WebSocketGateway(3002, {
   cors: true,
@@ -77,5 +83,31 @@ export class EventsGateway {
     console.log({
       message,
     });
+  }
+
+  @SubscribeMessage(EventType.SEND_TEXT_MESSAGE)
+  async handleSendTextMessage(
+    @MessageBody() message: SendMessageRequest,
+    @ConnectedSocket() client: Socket
+  ) {
+    try {
+      const { subscriptionId } = this.eventsService.getClientData(client.id)!;
+      const subscription = await getSubscription({
+        type: 'subscriptionId',
+        id: subscriptionId,
+      });
+
+      if (!subscription.greenApiInstanceInfo) {
+        // TODO log error
+        return;
+      }
+      await sendTextMessage({
+        instanceInfo: subscription.greenApiInstanceInfo,
+        data: message,
+      });
+    } catch (e) {
+      console.log('Error in socket handleSendTextMessage');
+      console.log(e);
+    }
   }
 }

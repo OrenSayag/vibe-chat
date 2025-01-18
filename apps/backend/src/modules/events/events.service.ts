@@ -24,6 +24,10 @@ export class EventsService {
     });
   }
 
+  getClientData(id: string) {
+    return this.clients.get(id);
+  }
+
   removeClient(id: string) {
     this.clients.delete(id);
   }

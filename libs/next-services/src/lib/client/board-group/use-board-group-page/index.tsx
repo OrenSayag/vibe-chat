@@ -5,8 +5,13 @@ import {
   SubscriptionInfo,
 } from '@monday-whatsapp/shared-types';
 import { useEffect, useState } from 'react';
-import { getItems } from '@monday-whatsapp/monday';
+import {
+  extractBoardItemPhoneByColumn,
+  getItems,
+} from '@monday-whatsapp/monday';
 import { useBoardLevelAuth } from '@monday-whatsapp/next-services';
+import { useSendTextMessage } from '../../green-api/use-send-text-message';
+import { phoneNumberToGreenChatId } from '@monday-whatsapp/utils';
 
 type Input = {
   subscriptionId: number;
@@ -39,6 +44,10 @@ export const useBoardGroupPage = ({
     board,
   });
 
+  const { sendTextMessage } = useSendTextMessage({
+    subscriptionId,
+  });
+
   return {
     board,
     authState,
@@ -46,7 +55,22 @@ export const useBoardGroupPage = ({
     onSelectPhoneColumn: setSelectedPhoneColumn,
     selectedPhoneColumn,
     onSendMessage(text: string) {
-      console.log(`Should send message: ${text}`);
+      if (!items || !selectedPhoneColumn) {
+        return;
+      }
+      const phoneNumbers = items.map((it) =>
+        extractBoardItemPhoneByColumn({
+          columnId: selectedPhoneColumn,
+          boardItem: it,
+        })
+      );
+      const chatIds = phoneNumbers
+        .filter(Boolean)
+        .map((phoneNumber) => phoneNumberToGreenChatId(phoneNumber!));
+      sendTextMessage({
+        message: text,
+        chatIds,
+      });
     },
   };
 };

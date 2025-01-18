@@ -4,6 +4,7 @@ import {
   GreenApiInstanceInfo,
   GreenApiInstanceStatus,
 } from './green-api.types';
+import validator from 'validator';
 
 const baseActivatedItemScheme = z.object({
   activationTime: z.string().datetime(),
@@ -12,8 +13,14 @@ const baseActivatedItemScheme = z.object({
 
 export type BaseActivatedItemSchema = z.infer<typeof baseActivatedItemScheme>;
 
+export const phoneNumberSchema = z.string().refine(validator.isMobilePhone);
+
+const activatedBoardSchema = baseActivatedItemScheme.extend({
+  defaultPhoneColumnId: z.string().optional(),
+});
+
 const activatedWorkspaceSchema = baseActivatedItemScheme.extend({
-  activatedBoards: z.array(baseActivatedItemScheme),
+  activatedBoards: z.array(activatedBoardSchema),
 });
 
 export type ActivatedWorkspace = z.infer<typeof activatedWorkspaceSchema>;

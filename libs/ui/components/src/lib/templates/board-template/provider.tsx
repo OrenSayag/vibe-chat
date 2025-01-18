@@ -3,12 +3,14 @@
 import { FC, useEffect, useState } from 'react';
 import {
   Board,
+  BoardColumn,
   GetAuthState,
   SubscriptionInfo,
 } from '@monday-whatsapp/shared-types';
 import { monday } from '@monday-whatsapp/monday';
-import { Box, Loader, Text } from '@vibe/core';
+import { Box, Text } from '@vibe/core';
 import { BoardTemplate } from './index';
+import { useBoardPage } from '@monday-whatsapp/next-services';
 
 interface Props {
   className?: string;
@@ -21,15 +23,19 @@ export const BoardTemplateProvider: FC<Props> = ({
   subscriptionId,
   subscriptionInfo,
 }) => {
-  const { authState, board } = useAuth(subscriptionInfo);
+  const { authState, board, workspaceId } = useAuth(subscriptionInfo);
+
+  const props = useBoardPage({
+    board,
+    subscriptionId,
+    workspaceId,
+  });
 
   if (authState === 'loading') {
-    // TODO implement skeleton
-    return (
-      <Box>
-        <Loader />
-      </Box>
-    );
+    return <Loading />;
+  }
+  if (authState === 'error') {
+    return <Error />;
   }
   if (
     authState === 'workspace-not-allowed' ||
@@ -38,18 +44,24 @@ export const BoardTemplateProvider: FC<Props> = ({
     return <NotAllowed type={authState} />;
   }
 
+  if (!board) {
+    return <Loading />;
+  }
+
   return (
     <>
-      <BoardTemplate />
+      <BoardTemplate {...props} board={board} />
     </>
   );
 };
 function useAuth(subscriptionInfo: SubscriptionInfo) {
   const [authState, setAuthState] = useState<GetAuthState>('loading');
   const [board, setBoard] = useState<Board>();
+  const [workspaceId, setWorkspaceId] = useState<number>();
   useEffect(() => {
     monday.get('context').then((res) => {
       const workspaceId = (res.data as any).workspaceId;
+      setWorkspaceId(workspaceId);
       const boardId = (res.data as any).boardId;
       const allowedWorkspace = subscriptionInfo.activatedWorkspaces.find(
         (w) => w.id == workspaceId
@@ -62,12 +74,44 @@ function useAuth(subscriptionInfo: SubscriptionInfo) {
       } else if (!allowedBoard) {
         setAuthState('board-not-allowed');
       } else {
-        setBoard({ id: boardId });
-        setAuthState('allowed');
+        monday
+          .api(
+            `
+        query {
+          boards(ids: [${boardId}]) {
+            columns {
+              id
+              title
+              type
+            }
+          }
+        }
+        `
+          )
+          .then(
+            (res: {
+              data: {
+                boards: {
+                  columns: BoardColumn;
+                };
+              };
+            }) => {
+              setBoard({
+                id: boardId,
+                columns: res.data.boards[0].columns,
+                defaultPhoneColumnId: allowedBoard.defaultPhoneColumnId,
+              });
+              setAuthState('allowed');
+            }
+          )
+          .catch((e) => {
+            console.log(e);
+            setAuthState('error');
+          });
       }
     });
   }, [JSON.stringify(subscriptionInfo)]);
-  return { authState, board };
+  return { authState, board, workspaceId };
 }
 
 function NotAllowed({
@@ -82,6 +126,23 @@ function NotAllowed({
         {type === 'board-not-allowed' && `The board is not allowed`}
       </Text>
       ;
+    </Box>
+  );
+}
+
+function Loading() {
+  // TODO implement skeleton
+  return (
+    <Box>
+      <Text>Loading...</Text>
+    </Box>
+  );
+}
+
+function Error() {
+  return (
+    <Box>
+      <Text>Error</Text>
     </Box>
   );
 }

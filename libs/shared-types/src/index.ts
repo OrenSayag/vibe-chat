@@ -6,3 +6,4 @@ export * from './lib/auth.types';
 export * from './lib/green-api.types';
 export * from './lib/event.types';
 export * from './lib/board.types';
+export * from './lib/chat.types';

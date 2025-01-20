@@ -59,3 +59,124 @@ export type GreenApiNotification = {
 export type GetNotificationResponse = BackendBaseResponse<
   GreenApiNotification | undefined
 >;
+
+enum MessageType {
+  Incoming = 'incoming',
+  Outgoing = 'outgoing',
+}
+
+enum StatusMessage {
+  NoAccount = 'noAccount',
+  NotInGroup = 'notInGroup',
+  Pending = 'pending',
+  Sent = 'sent',
+  Delivered = 'delivered',
+  Read = 'read',
+  YellowCard = 'yellowCard',
+}
+
+enum TypeMessage {
+  TextMessage = 'textMessage',
+  ImageMessage = 'imageMessage',
+  VideoMessage = 'videoMessage',
+  DocumentMessage = 'documentMessage',
+  AudioMessage = 'audioMessage',
+  StickerMessage = 'stickerMessage',
+  ReactionMessage = 'reactionMessage',
+  LocationMessage = 'locationMessage',
+  ContactMessage = 'contactMessage',
+  ExtendedTextMessage = 'extendedTextMessage',
+  PollMessage = 'pollMessage',
+  PollUpdateMessage = 'pollUpdateMessage',
+  IncomingBlock = 'incomingBlock',
+  QuotedMessage = 'quotedMessage',
+  ButtonsMessage = 'buttonsMessage',
+  TemplateMessage = 'templateMessage',
+  ListMessage = 'listMessage',
+  ButtonsResponseMessage = 'buttonsResponseMessage',
+  TemplateButtonsReplyMessage = 'templateButtonsReplyMessage',
+  ListResponseMessage = 'listResponseMessage',
+}
+
+interface Location {
+  nameLocation: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+  jpegThumbnail: string;
+  isForwarded: boolean;
+  forwardingScore: number;
+}
+
+interface Contact {
+  displayName: string;
+  vcard: string;
+  isForwarded: boolean;
+  forwardingScore: number;
+}
+
+interface ExtendedTextMessage {
+  text: string;
+  description: string;
+  title: string;
+  previewType: string;
+  jpegThumbnail: string;
+  forwardingScore: number;
+  isForwarded: boolean;
+  stanzaId: string;
+  participant: string;
+}
+
+interface ExtendedTextMessageData {
+  text: string;
+}
+
+interface PollMessageData {
+  name: string;
+  options: { optionName: string }[];
+  votes: { optionName: string; optionVoters: string[] }[];
+  multipleAnswers: boolean;
+}
+
+interface QuotedMessage {
+  stanzaId: string;
+  participant: string;
+  typeMessage: TypeMessage;
+}
+
+interface MessageBase {
+  type: MessageType;
+  idMessage: string;
+  timestamp: number;
+  typeMessage: TypeMessage;
+  chatId: string;
+  isForwarded: boolean;
+  forwardingScore: number;
+  textMessage?: string;
+  downloadUrl?: string;
+  caption?: string;
+  fileName?: string;
+  jpegThumbnail?: string;
+  mimeType?: string;
+  isAnimated?: boolean;
+  location?: Location;
+  contact?: Contact;
+  extendedTextMessage?: ExtendedTextMessage;
+  extendedTextMessageData?: ExtendedTextMessageData;
+  pollMessageData?: PollMessageData;
+  quotedMessage?: QuotedMessage;
+}
+
+export interface IncomingMessage extends MessageBase {
+  senderId: string;
+  senderName: string;
+  senderContactName: string;
+  chatState?: string;
+}
+
+export interface OutgoingMessage extends MessageBase {
+  statusMessage: StatusMessage;
+  sendByApi: boolean;
+}
+
+export type ChatMessage = IncomingMessage | OutgoingMessage;

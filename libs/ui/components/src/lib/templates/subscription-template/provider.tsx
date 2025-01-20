@@ -3,6 +3,7 @@
 import { FC } from 'react';
 import { useSubscriptionPage } from '@monday-whatsapp/next-services';
 import { SubscriptionTemplate } from '.';
+import { Text } from '@vibe/core';
 
 export const SubscriptionTemplateProvider: FC = () => {
   const {
@@ -14,7 +15,7 @@ export const SubscriptionTemplateProvider: FC = () => {
     loading,
   } = useSubscriptionPage();
   if (loading) {
-    return 'loading';
+    return <Text>loading</Text>;
   }
   return (
     <>

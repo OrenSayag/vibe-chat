@@ -4,6 +4,7 @@ import { GreenApiInstanceStatus } from '@monday-whatsapp/shared-types';
 import { Box, Heading, Loader, Text } from '@vibe/core';
 import { Button } from '@monday-whatsapp/components';
 import Image from 'next/image';
+import { greenChatIdToPhoneNumber } from '@monday-whatsapp/utils';
 
 interface Props {
   className?: string;
@@ -103,7 +104,9 @@ function Connected({
   return (
     <Box className={cn(className)}>
       <Heading type={'h3'}>You are connected to WhatsApp.</Heading>
-      {phoneNumber && <Text>Phone number: {phoneNumber}</Text>}
+      {phoneNumber && (
+        <Text>Phone number: {greenChatIdToPhoneNumber(phoneNumber)}</Text>
+      )}
       <Button
         onClick={onDisconnectWhatsapp}
         size={'xs'}

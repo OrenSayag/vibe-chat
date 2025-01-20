@@ -26,7 +26,6 @@ export const Primary: Story = {
       {
         label: 'workspace 2',
         value: {
-          activationDate: new Date().toISOString(),
           id: 'workspace-2',
         },
       },

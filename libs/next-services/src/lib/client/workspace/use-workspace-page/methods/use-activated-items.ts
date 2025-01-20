@@ -4,25 +4,28 @@ import { updateWorkspace } from '../../../../server/workspace/update-workspace';
 import { useCallback, useMemo } from 'react';
 
 type Input = {
-  subscriptionId: number;
+  subscriptionId?: number;
   activatedBoards: ActivatedItem[];
   workspaceId?: number;
+  getSubscription(): void;
 };
 
 export const useActivatedItems = ({
   activatedBoards,
   subscriptionId,
   workspaceId,
+  getSubscription,
 }: Input) => {
   const { pending, startAction } = useBackendRequest<
     undefined,
     Parameters<typeof updateWorkspace>[0]
   >({
     apiCall: updateWorkspace,
+    onSuccess: getSubscription,
   });
   const onToggleActivation = useCallback(
     (itemId: string) => {
-      if (!workspaceId) return;
+      if (!workspaceId || !subscriptionId) return;
       startAction({
         subscriptionId,
         data: {

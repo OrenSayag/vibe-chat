@@ -2,7 +2,7 @@ import { Board } from '@monday-whatsapp/shared-types';
 import { useUpdateBoard } from './methods/use-update-board';
 
 type Input = {
-  subscriptionId: number;
+  subscriptionId?: number;
   workspaceId?: number;
   board?: Board;
 };
@@ -25,7 +25,7 @@ export const useBoardPage = ({
       }
       startUpdateBoard({
         boardId: board.id,
-        subscriptionId,
+        subscriptionId: subscriptionId!,
         workspaceId,
         data: {
           defaultPhoneColumnId: id,

@@ -1,5 +1,3 @@
-import { ComponentPropsWithoutRef } from 'react';
-import { SubscriptionTemplate } from '@monday-whatsapp/components';
 import {
   GetSubscriptionInfoResponse,
   GreenApiInstanceStatus,
@@ -8,16 +6,12 @@ import { useGreenApiGetQr } from './use-green-api-get-qr';
 import { useGreenApiLogout } from './use-green-api-logout';
 import { useGreenApiInstanceStatusChange } from './use-green-api-instance-status-change';
 
-type Input = Omit<GetSubscriptionInfoResponse['data'], 'info'>;
-
-type Output = ComponentPropsWithoutRef<
-  typeof SubscriptionTemplate
->['greenApiInstanceProps'];
+type Input = Partial<Omit<GetSubscriptionInfoResponse['data'], 'info'>>;
 
 export const useGreenApiInstance = ({
   greenApiInstanceInfo,
   id: subscriptionId,
-}: Input): Output => {
+}: Input) => {
   const { qr, pending: pendingQr } = useGreenApiGetQr({
     subscriptionId,
     instanceState: greenApiInstanceInfo?.status,

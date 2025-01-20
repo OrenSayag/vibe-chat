@@ -146,7 +146,7 @@ function List({
         </TableHeader>
         <TableBody>
           {items.map((it) => (
-            <TableRow>
+            <TableRow key={it.value.id}>
               <TableCell>{it.label}</TableCell>
               <TableCell>
                 <Button
@@ -161,11 +161,17 @@ function List({
               <TableCell key={it.value.id}>
                 {type === ActivationListType.ACTIVATED && (
                   <Text>
-                    {isToday(it.value.activationDate)
+                    {isToday((it as ActivatedItem).value.activationDate)
                       ? 'Today'
-                      : isThisYear(it.value.activationDate)
-                      ? format(it.value.activationDate, 'dd/MM')
-                      : format(it.value.activationDate, 'dd/MM/yyyy')}
+                      : isThisYear((it as ActivatedItem).value.activationDate)
+                      ? format(
+                          (it as ActivatedItem).value.activationDate,
+                          'dd/MM'
+                        )
+                      : format(
+                          (it as ActivatedItem).value.activationDate,
+                          'dd/MM/yyyy'
+                        )}
                   </Text>
                 )}
               </TableCell>

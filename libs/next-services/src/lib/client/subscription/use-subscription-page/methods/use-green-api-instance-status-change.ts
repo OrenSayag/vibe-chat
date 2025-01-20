@@ -4,7 +4,7 @@ import { useSocket } from '@monday-whatsapp/next-services';
 import { useRouter } from 'next/navigation';
 
 type Input = {
-  subscriptionId: number;
+  subscriptionId?: number;
 };
 
 export const useGreenApiInstanceStatusChange = ({ subscriptionId }: Input) => {

@@ -1,7 +1,6 @@
 import {
   Board,
   BoardItem,
-  GetAuthState,
   SubscriptionInfo,
 } from '@monday-whatsapp/shared-types';
 import { useEffect, useState } from 'react';
@@ -10,25 +9,19 @@ import {
   getItemsByIds,
   monday,
 } from '@monday-whatsapp/monday';
-import { useBoardLevelAuth } from '@monday-whatsapp/next-services';
 import { useSendTextMessage } from '../../green-api/use-send-text-message';
 import { phoneNumberToGreenChatId } from '@monday-whatsapp/utils';
-import { SingleMessageSenderProps } from '@monday-whatsapp/components';
+import { useBoardLevelAuth } from '../../board/use-board-level-auth';
 
 type Input = {
-  subscriptionId: number;
-  subscriptionInfo: SubscriptionInfo;
-};
-
-type Output = {
-  singleMessageSenderProps: SingleMessageSenderProps;
-  authState: GetAuthState;
+  subscriptionId?: number;
+  subscriptionInfo?: SubscriptionInfo;
 };
 
 export const useMultipleItemsPage = ({
   subscriptionId,
   subscriptionInfo,
-}: Input): Output => {
+}: Input) => {
   const { board, groupId, authState } = useBoardLevelAuth({
     subscriptionInfo,
   });

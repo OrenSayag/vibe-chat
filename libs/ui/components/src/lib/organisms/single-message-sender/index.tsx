@@ -39,7 +39,7 @@ export const SingleMessageSender: FC<SingleMessageSenderProps> = ({
         <MessageInputAndAction
           className={'w-full'}
           onSend={onSendMessage}
-          disabled={!selectedPhoneColumn}
+          disabled={!boardColumns?.some((bc) => bc.id == selectedPhoneColumn)}
         />
         <ItemsList items={items!} phoneColumnId={selectedPhoneColumn} />
       </div>

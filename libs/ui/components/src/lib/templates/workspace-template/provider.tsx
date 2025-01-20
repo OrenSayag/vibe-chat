@@ -8,19 +8,17 @@ import {
 } from '@monday-whatsapp/shared-types';
 import { getWorkspace, monday } from '@monday-whatsapp/monday';
 import { Box, Loader, Text } from '@vibe/core';
-import { useWorkspacePage } from '@monday-whatsapp/next-services';
+import {
+  useGetSubscription,
+  useWorkspacePage,
+} from '@monday-whatsapp/next-services';
 import { WorkspaceTemplate } from './index';
 
-interface Props {
-  subscriptionInfo: SubscriptionInfo;
-  subscriptionId: number;
-}
+export const WorkspaceTemplateProvider: FC = () => {
+  const { subscriptionData, getSubscription, pendingGetSubscription } =
+    useGetSubscription();
 
-export const WorkspaceTemplateProvider: FC<Props> = ({
-  subscriptionId,
-  subscriptionInfo,
-}) => {
-  const { authState, workspace } = useAuth(subscriptionInfo);
+  const { authState, workspace } = useAuth(subscriptionData?.info);
 
   const {
     onToggleActivation,
@@ -28,8 +26,9 @@ export const WorkspaceTemplateProvider: FC<Props> = ({
     activatedBoards,
     deactivatedBoards,
   } = useWorkspacePage({
-    subscriptionId,
+    subscriptionId: subscriptionData?.id,
     workspace,
+    getSubscription,
   });
 
   if (authState === 'loading') {
@@ -48,16 +47,18 @@ export const WorkspaceTemplateProvider: FC<Props> = ({
     <>
       <WorkspaceTemplate
         onToggleActivation={onToggleActivation}
-        pendingToggleActivation={pendingToggleActivation}
+        pendingToggleActivation={
+          pendingToggleActivation || pendingGetSubscription
+        }
         activatedBoards={activatedBoards}
         deactivatedBoards={deactivatedBoards}
-        subscriptionId={subscriptionId}
+        subscriptionId={subscriptionData!.id}
       />
     </>
   );
 };
 
-function useAuth(subscriptionInfo: SubscriptionInfo) {
+function useAuth(subscriptionInfo?: SubscriptionInfo) {
   const [authState, setAuthState] = useState<GetAuthState>('loading');
   const [workspace, setWorkspace] = useState<Workspace>();
   const [data, setData] = useState<{
@@ -65,6 +66,9 @@ function useAuth(subscriptionInfo: SubscriptionInfo) {
     workspaces?: { id: string; name: string }[];
   }>();
   useEffect(() => {
+    if (!subscriptionInfo) {
+      return;
+    }
     monday.get('context').then((res) => {
       const workspaceId = (res.data as any).workspaceId;
       if (
@@ -98,7 +102,7 @@ function useAuth(subscriptionInfo: SubscriptionInfo) {
 function NotAllowed() {
   return (
     <Box>
-      <Text>Workspace not activated for using monday Chat</Text>;
+      <Text>Workspace not activated for using monday Chat</Text>
     </Box>
   );
 }

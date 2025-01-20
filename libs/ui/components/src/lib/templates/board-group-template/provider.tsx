@@ -2,26 +2,19 @@
 
 import { FC } from 'react';
 import { BoardGroupTemplate } from './index';
-import { SubscriptionInfo } from '@monday-whatsapp/shared-types';
 import {
   AuthStateError,
   AuthStateLoading,
   AuthStateNotAllowed,
   useBoardGroupPage,
+  useGetSubscription,
 } from '@monday-whatsapp/next-services';
 
-interface Props {
-  subscriptionId: number;
-  subscriptionInfo: SubscriptionInfo;
-}
-
-export const BoardGroupTemplateProvider: FC<Props> = ({
-  subscriptionId,
-  subscriptionInfo,
-}) => {
+export const BoardGroupTemplateProvider: FC = () => {
+  const { subscriptionData } = useGetSubscription();
   const { authState, singleMessageSenderProps } = useBoardGroupPage({
-    subscriptionId,
-    subscriptionInfo,
+    subscriptionId: subscriptionData?.id,
+    subscriptionInfo: subscriptionData?.info,
   });
   if (authState === 'loading') {
     return <AuthStateLoading />;

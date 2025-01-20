@@ -48,8 +48,7 @@ export const NotConnected: Story = {
     return (
       <ConnectedGreenApiInstance
         {...args}
-        pendingQrCode={pendingQrCode}
-        onGenerateQrCode={onGenerateQrCode}
+        pendingQr={pendingQrCode}
         qrCode={qrCode}
       />
     );

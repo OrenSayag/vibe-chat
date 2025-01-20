@@ -2,7 +2,7 @@ import { useSocket } from '@monday-whatsapp/next-services';
 import { EventType, SendMessageRequest } from '@monday-whatsapp/shared-types';
 
 type Input = {
-  subscriptionId: number;
+  subscriptionId?: number;
 };
 
 export const useSendTextMessage = ({ subscriptionId }: Input) => {

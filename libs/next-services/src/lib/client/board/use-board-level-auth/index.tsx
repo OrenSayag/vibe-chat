@@ -9,7 +9,7 @@ import { monday } from '@monday-whatsapp/monday';
 import { Box, Text } from '@vibe/core';
 
 type Input = {
-  subscriptionInfo: SubscriptionInfo;
+  subscriptionInfo?: SubscriptionInfo;
 };
 
 export const useBoardLevelAuth = ({ subscriptionInfo }: Input) => {
@@ -18,6 +18,9 @@ export const useBoardLevelAuth = ({ subscriptionInfo }: Input) => {
   const [workspaceId, setWorkspaceId] = useState<number>();
   const [groupId, setGroupId] = useState<string>();
   useEffect(() => {
+    if (!subscriptionInfo) {
+      return;
+    }
     monday.get('context').then((res) => {
       const workspaceId: number | undefined = (res.data as any).workspaceId;
       const groupId: string | undefined = (res.data as any).groupId;
@@ -102,7 +105,6 @@ export function AuthStateNotAllowed({
         {type === 'workspace-not-allowed' && `The workspace is not allowed`}
         {type === 'board-not-allowed' && `The board is not allowed`}
       </Text>
-      ;
     </Box>
   );
 }

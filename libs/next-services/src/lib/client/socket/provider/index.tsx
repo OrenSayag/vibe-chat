@@ -50,13 +50,13 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
 export const useSocket = ({
   subscriptionId,
 }: {
-  subscriptionId: number;
+  subscriptionId?: number;
 }): Socket | null => {
   const context = useContext(SocketContext);
   if (!context) {
     throw new Error('useSocket must be used within a SocketProvider');
   }
-  if (!context.subscriptionId) {
+  if (!context.subscriptionId && subscriptionId) {
     context.setSubscriptionId(subscriptionId);
   }
   return context.socket;

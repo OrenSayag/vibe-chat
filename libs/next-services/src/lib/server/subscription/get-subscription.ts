@@ -14,7 +14,7 @@ export const getSubscription = async ({
     path: `subscription/${accountId}`,
     options: {
       next: {
-        revalidate: 0,
+        revalidate: 65,
       },
     },
   });

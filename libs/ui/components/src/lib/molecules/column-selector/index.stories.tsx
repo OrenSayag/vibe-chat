@@ -11,17 +11,17 @@ const meta: Meta<typeof ColumnSelector> = {
       {
         type: 'phone',
         id: '21234',
-        name: 'Phone',
+        title: 'Phone',
       },
       {
         type: 'text',
         id: '2123334',
-        name: 'Name',
+        title: 'Name',
       },
     ] as BoardColumn[],
   },
   render(args) {
-    const [selectedValue, setSelectedValue] = useState();
+    const [selectedValue, setSelectedValue] = useState<string>();
     return (
       <ColumnSelector
         {...args}

@@ -1,9 +1,8 @@
-import { WorkspaceItem } from '@monday-whatsapp/shared-types';
-import { monday } from '@monday-whatsapp/utils';
-import { getDevToken } from './get-dev-token';
+import { monday } from './monday-sdk-instance';
+import { ActivatedItem } from '@monday-whatsapp/shared-types';
 
 type Output = {
-  workspaces: WorkspaceItem[];
+  workspaces: ActivatedItem[];
   accountId: string;
 };
 
@@ -17,19 +16,18 @@ export const getWorkspaces = async (): Promise<Output> => {
     kind
     description
   }
-}`,
-      {
-        token: getDevToken(),
-      }
+}`
     );
 
     return {
       workspaces: workspaces.data.workspaces.map(
         (w: { id: string; name: string }) =>
           ({
-            id: w.id,
-            name: w.name,
-          } as WorkspaceItem)
+            label: w.name,
+            value: {
+              id: w.id,
+            },
+          } as ActivatedItem)
       ),
       accountId: workspaces.account_id.toString(),
     };

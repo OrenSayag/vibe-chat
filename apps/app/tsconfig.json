@@ -29,7 +29,7 @@
     //        "./src/*"
     //      ]
     //    },
-    "outDir": "out-tsc/patient-app",
+    "outDir": "out-tsc/patient-app"
     //    this causes @ workspace imports to not be recognized.
     //    "rootDir": "src"
   },
@@ -42,7 +42,8 @@
     "../../dist/apps/patient-app/.next/types/**/*.ts",
     "next-env.d.ts",
     "index.d.ts",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "../../dist/apps/app/.next/types/**/*.ts"
   ],
   "exclude": [
     "dist",

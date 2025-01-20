@@ -2,7 +2,7 @@ import { useBackendRequest } from '@monday-whatsapp/next-services';
 import { logout } from '../../../../server/green-api/logout';
 
 type Input = {
-  subscriptionId: number;
+  subscriptionId?: number;
 };
 
 export const useGreenApiLogout = ({ subscriptionId }: Input) => {
@@ -14,6 +14,9 @@ export const useGreenApiLogout = ({ subscriptionId }: Input) => {
   });
   return {
     onLogout: () => {
+      if (!subscriptionId) {
+        return;
+      }
       startAction({ subscriptionId });
     },
     pendingLogout: pending,

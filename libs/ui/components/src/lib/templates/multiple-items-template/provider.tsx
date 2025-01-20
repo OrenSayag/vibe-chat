@@ -1,27 +1,20 @@
 'use client';
 
 import { FC, useEffect } from 'react';
-import { SubscriptionInfo } from '@monday-whatsapp/shared-types';
 import { MultipleItemsTemplate } from './index';
 import {
   AuthStateError,
   AuthStateLoading,
   AuthStateNotAllowed,
+  useGetSubscription,
   useMultipleItemsPage,
 } from '@monday-whatsapp/next-services';
 
-interface Props {
-  subscriptionId: number;
-  subscriptionInfo: SubscriptionInfo;
-}
-
-export const MultipleItemsTemplateProvider: FC<Props> = ({
-  subscriptionInfo,
-  subscriptionId,
-}) => {
+export const MultipleItemsTemplateProvider: FC = () => {
+  const { subscriptionData } = useGetSubscription();
   const { singleMessageSenderProps, authState } = useMultipleItemsPage({
-    subscriptionId,
-    subscriptionInfo,
+    subscriptionId: subscriptionData?.id,
+    subscriptionInfo: subscriptionData?.info,
   });
   useEffect(() => {
     console.log({

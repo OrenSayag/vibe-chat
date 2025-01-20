@@ -7,16 +7,22 @@ import { useActivatedItems } from './methods/use-activated-items';
 import { useEffect, useState } from 'react';
 
 type Input = {
-  subscriptionId: number;
+  subscriptionId?: number;
   workspace?: Workspace;
+  getSubscription(): void;
 };
 
-export const useWorkspacePage = ({ subscriptionId, workspace }: Input) => {
+export const useWorkspacePage = ({
+  subscriptionId,
+  workspace,
+  getSubscription,
+}: Input) => {
   const { activatedBoards, deactivatedBoards } = useBoards({ workspace });
   const { onToggleActivation, pendingToggleActivation } = useActivatedItems({
     workspaceId: workspace?.value.id ? Number(workspace?.value.id) : undefined,
     activatedBoards,
     subscriptionId,
+    getSubscription,
   });
   return {
     onToggleActivation,

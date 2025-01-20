@@ -1,7 +1,6 @@
 'use client';
 
 import { FC } from 'react';
-import { SubscriptionInfo } from '@monday-whatsapp/shared-types';
 import { BoardTemplate } from './index';
 import {
   AuthStateError,
@@ -9,24 +8,19 @@ import {
   AuthStateNotAllowed,
   useBoardLevelAuth,
   useBoardPage,
+  useGetSubscription,
 } from '@monday-whatsapp/next-services';
 
-interface Props {
-  subscriptionInfo: SubscriptionInfo;
-  subscriptionId: number;
-}
+export const BoardTemplateProvider: FC = () => {
+  const { subscriptionData } = useGetSubscription();
 
-export const BoardTemplateProvider: FC<Props> = ({
-  subscriptionId,
-  subscriptionInfo,
-}) => {
   const { authState, board, workspaceId } = useBoardLevelAuth({
-    subscriptionInfo,
+    subscriptionInfo: subscriptionData?.info,
   });
 
   const props = useBoardPage({
     board,
-    subscriptionId,
+    subscriptionId: subscriptionData?.id,
     workspaceId,
   });
 

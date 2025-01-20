@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "tunnel-fe": "mapps tunnel:create -p 3000 -a 10284659",
-    "tunnel-be": "ngrok http 3001"
+    "tunnel-be": "ngrok start --all"
   },
   "private": true,
   "dependencies": {
@@ -51,6 +51,7 @@
     "@storybook/addon-essentials": "^8.4.6",
     "@storybook/core-server": "^8.4.6",
     "@storybook/nextjs": "^8.4.6",
+    "@storybook/react": "^8.5.0",
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",

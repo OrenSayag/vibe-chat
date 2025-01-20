@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { useInterval } from '../../../utils/use-interval';
 
 type Input = {
-  subscriptionId: number;
+  subscriptionId?: number;
   instanceState?: GreenApiInstanceStatus;
 };
 
@@ -29,13 +29,13 @@ export const useGreenApiGetQr = ({ subscriptionId, instanceState }: Input) => {
       if (instanceState !== GreenApiInstanceStatus.NOT_CONNECTED) {
         return;
       }
-      if (!pending) {
+      if (!pending && subscriptionId) {
         startAction({
           subscriptionId,
         });
       }
     },
-    deps: [instanceState],
+    deps: [instanceState, subscriptionId],
   });
   return {
     qr,

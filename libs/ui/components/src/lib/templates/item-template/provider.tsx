@@ -1,27 +1,21 @@
 'use client';
 
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { ItemTemplate } from './index';
-import { SubscriptionInfo } from '@monday-whatsapp/shared-types';
 import {
   AuthStateError,
   AuthStateLoading,
   AuthStateNotAllowed,
+  useGetSubscription,
   useItemPage,
 } from '@monday-whatsapp/next-services';
 
-interface Props {
-  subscriptionId: number;
-  subscriptionInfo: SubscriptionInfo;
-}
+export const ItemTemplateProvider: FC = () => {
+  const { subscriptionData } = useGetSubscription();
 
-export const ItemTemplateProvider: FC<Props> = ({
-  subscriptionId,
-  subscriptionInfo,
-}) => {
   const { authState, singleMessageSenderProps } = useItemPage({
-    subscriptionId,
-    subscriptionInfo,
+    subscriptionId: subscriptionData?.id,
+    subscriptionInfo: subscriptionData?.info,
   });
 
   if (authState === 'loading') {

@@ -22,6 +22,7 @@
       "@monday-whatsapp/next-services/server": [
         "libs/next-services/src/server.ts"
       ],
+      "@monday-whatsapp/preset": ["libs/ui/preset/global.css"],
       "@monday-whatsapp/shared-types": ["libs/shared-types/src/index.ts"],
       "@monday-whatsapp/ui-utils": ["libs/ui/utils/src/index.ts"],
       "@monday-whatsapp/utils": ["libs/utils/src/index.ts"]

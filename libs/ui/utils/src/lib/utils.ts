@@ -1,13 +1,48 @@
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { format, isBefore, isThisWeek, isThisYear, isToday } from 'date-fns';
+import {
+  format,
+  isBefore,
+  isThisWeek,
+  isThisYear,
+  isToday,
+  isWithinInterval,
+  isYesterday,
+  subDays,
+  subMonths,
+} from 'date-fns';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function customFormatDate(date: Date) {
+export function customFormatDate(date: Date, type?: 'day') {
   const today = new Date();
+
+  if (type === 'day') {
+    if (isToday(date)) {
+      return 'Today';
+    }
+    if (isYesterday(date)) {
+      return 'Yesterday';
+    }
+    if (
+      isWithinInterval(date, { start: new Date(), end: subDays(new Date(), 7) })
+    ) {
+      return format(date, 'EEEE');
+    }
+    if (
+      isWithinInterval(date, {
+        start: new Date(),
+        end: subMonths(new Date(), 12),
+      })
+    ) {
+      return format(date, 'dd/MM');
+    }
+    if (isBefore(date, today)) {
+      return format(date, 'dd/MM/yyyy');
+    }
+  }
 
   if (isToday(date)) {
     return format(date, 'HH:mm');

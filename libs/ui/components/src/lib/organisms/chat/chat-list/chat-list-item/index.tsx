@@ -3,10 +3,9 @@ import { cn, customFormatDate } from '@monday-whatsapp/ui-utils';
 import {
   ChatListItem as ChatListItemData,
   MessageType,
-  StatusMessage,
 } from '@monday-whatsapp/shared-types';
 import { Avatar as VibeAvatar, Box, Flex, Text } from '@vibe/core';
-import { CheckCheck } from 'lucide-react';
+import { MessageStatusCheck } from '../../../../atoms/message-status-check';
 
 interface Props {
   className?: string;
@@ -49,24 +48,9 @@ function Content({
       </Flex>
       <Flex direction={'row'} align={'end'} gap={'small'}>
         <Flex>
-          <Text
-            style={{
-              color:
-                message.type === MessageType.Outgoing &&
-                message.statusMessage === StatusMessage.Delivered
-                  ? 'blue'
-                  : undefined,
-              opacity: !(
-                message.type === MessageType.Outgoing &&
-                (message.statusMessage === StatusMessage.Sent ||
-                  message.statusMessage === StatusMessage.Delivered)
-              )
-                ? '0%'
-                : undefined,
-            }}
-          >
-            <CheckCheck size={15} />
-          </Text>
+          {message.type === MessageType.Outgoing && (
+            <MessageStatusCheck status={message.statusMessage} />
+          )}
         </Flex>
         <Text>
           {message.textMessage ?? message.extendedTextMessage?.text ?? ''}

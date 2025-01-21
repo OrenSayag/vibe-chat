@@ -14,4 +14,5 @@ module.exports = {
     extend: {},
   },
   plugins: [],
+  presets: [require('../preset/src/preset')],
 };

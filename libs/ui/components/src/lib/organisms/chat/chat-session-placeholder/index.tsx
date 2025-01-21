@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { cn } from '@monday-whatsapp/ui-utils';
+import { Box, Text } from '@vibe/core';
 
 interface Props {
   className?: string;
@@ -8,7 +9,14 @@ interface Props {
 export const ChatSessionPlaceholder: FC<Props> = ({ className }) => {
   return (
     <>
-      <div className={cn(className)}>ChatSessionPlaceholder works!</div>
+      <Box
+        className={cn(
+          'flex flex-col items-center justify-center h-full',
+          className
+        )}
+      >
+        <Text className={'text-3xl flex-grow'}>monday Chat</Text>
+      </Box>
     </>
   );
 };

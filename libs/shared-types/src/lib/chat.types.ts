@@ -8,4 +8,7 @@ export type ChatListItem = {
   latestMessage: ChatMessage;
 };
 
-export type ChatHistory = { history: ChatMessage[]; contact: ChatListItem };
+export type ChatHistory = {
+  history: ChatMessage[];
+  contact: Omit<ChatListItem, 'latestMessage'>;
+};

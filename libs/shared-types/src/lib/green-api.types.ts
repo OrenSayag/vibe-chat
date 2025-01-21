@@ -60,12 +60,12 @@ export type GetNotificationResponse = BackendBaseResponse<
   GreenApiNotification | undefined
 >;
 
-enum MessageType {
+export enum MessageType {
   Incoming = 'incoming',
   Outgoing = 'outgoing',
 }
 
-enum StatusMessage {
+export enum StatusMessage {
   NoAccount = 'noAccount',
   NotInGroup = 'notInGroup',
   Pending = 'pending',
@@ -75,7 +75,7 @@ enum StatusMessage {
   YellowCard = 'yellowCard',
 }
 
-enum TypeMessage {
+export enum TypeMessage {
   TextMessage = 'textMessage',
   ImageMessage = 'imageMessage',
   VideoMessage = 'videoMessage',
@@ -104,27 +104,27 @@ interface Location {
   latitude: number;
   longitude: number;
   jpegThumbnail: string;
-  isForwarded: boolean;
-  forwardingScore: number;
+  isForwarded?: boolean;
+  forwardingScore?: number;
 }
 
 interface Contact {
   displayName: string;
   vcard: string;
-  isForwarded: boolean;
-  forwardingScore: number;
+  isForwarded?: boolean;
+  forwardingScore?: number;
 }
 
 interface ExtendedTextMessage {
   text: string;
-  description: string;
-  title: string;
-  previewType: string;
-  jpegThumbnail: string;
-  forwardingScore: number;
-  isForwarded: boolean;
-  stanzaId: string;
-  participant: string;
+  description?: string;
+  title?: string;
+  previewType?: string;
+  jpegThumbnail?: string;
+  forwardingScore?: number;
+  isForwarded?: boolean;
+  stanzaId?: string;
+  participant?: string;
 }
 
 interface ExtendedTextMessageData {
@@ -150,8 +150,8 @@ interface MessageBase {
   timestamp: number;
   typeMessage: TypeMessage;
   chatId: string;
-  isForwarded: boolean;
-  forwardingScore: number;
+  isForwarded?: boolean;
+  forwardingScore?: number;
   textMessage?: string;
   downloadUrl?: string;
   caption?: string;
@@ -168,13 +168,15 @@ interface MessageBase {
 }
 
 export interface IncomingMessage extends MessageBase {
+  type: MessageType.Incoming;
   senderId: string;
   senderName: string;
-  senderContactName: string;
+  senderContactName?: string;
   chatState?: string;
 }
 
 export interface OutgoingMessage extends MessageBase {
+  type: MessageType.Outgoing;
   statusMessage: StatusMessage;
   sendByApi: boolean;
 }

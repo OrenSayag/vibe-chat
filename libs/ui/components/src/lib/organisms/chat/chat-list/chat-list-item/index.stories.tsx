@@ -1,15 +1,20 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { ChatList } from './index';
+import { ChatListItem } from '.';
 import {
   ChatListItem as ChatListItemData,
   MessageType,
   StatusMessage,
   TypeMessage,
 } from '@monday-whatsapp/shared-types';
-import { useState } from 'react';
+
+const meta: Meta<typeof ChatListItem> = {
+  component: ChatListItem,
+  argTypes: {},
+  args: {},
+};
 
 const outgoingChatMessage: ChatListItemData = {
-  chatId: '972542090500@c.us',
+  chatId: '972504506225@c.us',
   avatarSrc:
     'https://pps.whatsapp.net/v/t61.24694-24/439076101_965804545042779_7683015297817172094_n.jpg?ccb=11-4&oh=01_Q5AaIEEef2buVf7H4d6FmnykDTPCYFOyi5i68MqzGknY1_T_&oe=679C3C2F&_nc_sid=5e03e0&_nc_cat=102',
   name: 'Oren',
@@ -55,34 +60,16 @@ const incomingChatMessage: ChatListItemData = {
   },
 };
 
-const meta: Meta<typeof ChatList> = {
-  component: ChatList,
-  argTypes: {},
-  render(args) {
-    const [selectedId, setSelectedId] = useState(args.selectedChatId);
-    return (
-      <ChatList
-        {...args}
-        selectedChatId={selectedId}
-        onSelectChat={setSelectedId}
-      />
-    );
-  },
-  args: {},
-};
-
 export default meta;
-type Story = StoryObj<typeof ChatList>;
+type Story = StoryObj<typeof ChatListItem>;
 
-export const Primary: Story = {
+export const Outcoming: Story = {
   args: {
-    list: [outgoingChatMessage, incomingChatMessage],
+    item: { ...outgoingChatMessage },
   },
 };
-
-export const Selected: Story = {
+export const Incoming: Story = {
   args: {
-    list: [outgoingChatMessage, incomingChatMessage],
-    selectedChatId: incomingChatMessage.chatId,
+    item: { ...incomingChatMessage },
   },
 };

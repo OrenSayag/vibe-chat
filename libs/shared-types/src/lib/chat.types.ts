@@ -5,7 +5,7 @@ export type ChatListItem = {
   isGroup?: boolean;
   chatId: string;
   name: string;
-  latestMessage?: ChatMessage;
+  latestMessage: ChatMessage;
 };
 
 export type ChatHistory = { history: ChatMessage[]; contact: ChatListItem };

@@ -22,9 +22,26 @@ const activatedWorkspaceSchema = baseActivatedItemScheme.extend({
 
 export type ActivatedWorkspace = z.infer<typeof activatedWorkspaceSchema>;
 
+export enum WhatsappCloudStatus {
+  SIGNED = 'signed',
+  NOT_SIGNED = 'not-signed',
+}
+
+export const whatsappCloudInfo = z.union([
+  z.object({
+    status: z.literal(WhatsappCloudStatus.SIGNED),
+    whatsappNumberId: z.string(),
+    whatsappNumber: z.string(),
+  }),
+  z.object({
+    status: z.literal(WhatsappCloudStatus.NOT_SIGNED),
+  }),
+]);
+
 const subscriptionInfoSchema = z.object({
   accountId: z.string(),
   activatedWorkspaces: z.array(activatedWorkspaceSchema),
+  whatsappCloudInfo: whatsappCloudInfo,
 });
 
 export type SubscriptionInfo = z.infer<typeof subscriptionInfoSchema>;

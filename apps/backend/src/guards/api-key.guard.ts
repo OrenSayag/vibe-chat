@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
-import { GREEN_API_WEBHOOK } from '../decorators/green-api-webhook.decorator';
+import { WHATSAPP_WEBHOOK } from '../decorators/whatsapp-webhook.decorator';
 
 const apiKeyHeaderName = 'x-api-key';
 
@@ -19,13 +19,14 @@ export class ApiKeyGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const req = context.switchToHttp().getRequest();
-    const isGreenApiWebhook = this.reflector.get<boolean>(
-      GREEN_API_WEBHOOK,
+    const isWhatsappWebhook = this.reflector.get<boolean>(
+      WHATSAPP_WEBHOOK,
       context.getHandler()
     );
-    const greenApiWebhookToken = this.configService.get('WEBHOOK_URL_TOKEN');
-    if (isGreenApiWebhook && greenApiWebhookToken) {
-      return req.headers['authorization'] === `Bearer ${greenApiWebhookToken}`;
+    if (isWhatsappWebhook) {
+      const token = this.configService.get('WEBHOOK_URL_TOKEN');
+
+      return true;
     }
     const key =
       req.headers[apiKeyHeaderName] ??

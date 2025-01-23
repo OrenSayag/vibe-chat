@@ -5,16 +5,16 @@ import {
   NotFoundException,
   Param,
   Post,
+  Query,
 } from '@nestjs/common';
 import {
   BackendBaseResponse,
-  EventType,
   GetQrCodeResponse,
   GreenApiNotification,
   LogoutResponse,
 } from '@monday-whatsapp/shared-types';
 import { GreenApiService } from './green-api.service';
-import { GreenApiWebhook } from '../../decorators/green-api-webhook.decorator';
+import { WhatsappWebhook } from '../../decorators/whatsapp-webhook.decorator';
 import { EventsService } from '../events/events.service';
 
 @Controller('green-api')
@@ -57,27 +57,28 @@ export class GreenApiController {
       },
     };
   }
-  @GreenApiWebhook()
+  @WhatsappWebhook()
   @Post('webhook')
   async webhook(
     @Body() input: GreenApiNotification
   ): Promise<BackendBaseResponse<undefined>> {
-    if (input.typeWebhook === 'stateInstanceChanged') {
-      console.log(
-        `stateInstanceChanged for instance ${input.instanceData.idInstance}. New state: ${input.stateInstance}`
-      );
-      this.eventsService.broadcastMessageByGreenInstanceId({
-        instanceId: input.instanceData.idInstance,
-        message: {
-          type: EventType.INSTANCE_STATE_CHANGED,
-          state: input.stateInstance,
-        },
-      });
-    }
+    console.log('Received webhook');
+    console.log({
+      input: JSON.stringify(input),
+    });
     return {
       success: true,
       message: 'Received webhook',
       data: undefined,
     };
+  }
+  @WhatsappWebhook()
+  @Get('webhook')
+  async webhookVerify(
+    @Query('hub.mode') mode: string,
+    @Query('hub.verify_token') token: string,
+    @Query('hub.challenge') challenge: string
+  ): Promise<string> {
+    return challenge;
   }
 }

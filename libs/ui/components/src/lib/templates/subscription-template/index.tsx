@@ -1,11 +1,10 @@
 'use client';
 
-import { ComponentPropsWithoutRef, FC } from 'react';
+import { FC } from 'react';
 import { cn } from '@monday-whatsapp/ui-utils';
 import { Box, Heading } from '@vibe/core';
 import { ActivationItemsList } from '../../organisms/activation-items-list';
 import { ActivatedItem, DeactivatedItem } from '@monday-whatsapp/shared-types';
-import { ConnectedGreenApiInstance } from '../../organisms/conncted-green-api-instance-section';
 
 interface Props {
   className?: string;
@@ -13,9 +12,6 @@ interface Props {
   deactivatedWorkspaces: DeactivatedItem[];
   onToggleActivation(itemId: string): void;
   pendingToggleActivation?: boolean;
-  greenApiInstanceProps: ComponentPropsWithoutRef<
-    typeof ConnectedGreenApiInstance
-  >;
 }
 
 export const SubscriptionTemplate: FC<Props> = ({
@@ -24,15 +20,12 @@ export const SubscriptionTemplate: FC<Props> = ({
   deactivatedWorkspaces,
   onToggleActivation,
   pendingToggleActivation,
-  greenApiInstanceProps,
 }) => {
   return (
     <>
       <Box className={cn(className)}>
         <Heading>Subscription</Heading>
-        <Box marginY={'large'}>
-          <ConnectedGreenApiInstance {...greenApiInstanceProps} />
-        </Box>
+        <Box marginY={'large'}>SUBSCRIPTION STATUS STATUS</Box>
         <Box>
           <Heading type={'h3'}>Chat Activation in Workspaces</Heading>
           <Box marginY={'small'}>

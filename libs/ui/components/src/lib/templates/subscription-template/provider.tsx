@@ -11,7 +11,6 @@ export const SubscriptionTemplateProvider: FC = () => {
     pendingToggleActivation,
     deactivatedWorkspaces,
     activatedWorkspaces,
-    greenApiInstanceSectionProps,
     loading,
   } = useSubscriptionPage();
   if (loading) {
@@ -24,7 +23,6 @@ export const SubscriptionTemplateProvider: FC = () => {
         pendingToggleActivation={pendingToggleActivation}
         deactivatedWorkspaces={deactivatedWorkspaces}
         activatedWorkspaces={activatedWorkspaces}
-        greenApiInstanceProps={greenApiInstanceSectionProps}
       />
     </>
   );

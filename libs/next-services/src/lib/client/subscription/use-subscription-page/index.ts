@@ -4,7 +4,6 @@ import {
   SubscriptionInfo,
 } from '@monday-whatsapp/shared-types';
 import { useActivatedItems } from './methods/use-activated-items';
-import { useGreenApiInstance } from './methods/use-green-api-instance';
 import { useCallback, useEffect, useState } from 'react';
 import { getWorkspaces, monday } from '@monday-whatsapp/monday';
 import { useGetSubscription } from '../use-get-subscription';
@@ -20,14 +19,9 @@ export const useSubscriptionPage = () => {
     activatedWorkspaces: workspaces?.activated ?? [],
     getSubscription,
   });
-  const greenApiInstanceSectionProps = useGreenApiInstance({
-    greenApiInstanceInfo: subscriptionData?.greenApiInstanceInfo,
-    id: subscriptionData?.id,
-  });
   return {
     onToggleActivation,
     pendingToggleActivation: pendingToggleActivation || pendingGetSubscription,
-    greenApiInstanceSectionProps,
     deactivatedWorkspaces: workspaces?.deactivated ?? [],
     activatedWorkspaces: workspaces?.activated ?? [],
     loading: !subscriptionData,

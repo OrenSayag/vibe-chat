@@ -16,12 +16,7 @@ export const MultipleItemsTemplateProvider: FC = () => {
     subscriptionId: subscriptionData?.id,
     subscriptionInfo: subscriptionData?.info,
   });
-  useEffect(() => {
-    console.log({
-      authState,
-      singleMessageSenderProps,
-    });
-  }, [authState, JSON.stringify(singleMessageSenderProps)]);
+  useEffect(() => {}, [authState, JSON.stringify(singleMessageSenderProps)]);
   if (authState === 'loading') {
     return <AuthStateLoading />;
   }

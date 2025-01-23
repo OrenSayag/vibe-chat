@@ -18,17 +18,15 @@ export class SubscriptionController {
   public async getSubscription(
     @Param('accountId') accountId: string
   ): Promise<GetSubscriptionInfoResponse> {
-    const { id, info, greenApiInstanceInfo } =
-      await this.subscriptionService.getSubscription({
-        accountId,
-        type: 'accountId',
-      });
+    const { id, info } = await this.subscriptionService.getSubscription({
+      accountId,
+      type: 'accountId',
+    });
     return {
       success: true,
       message: 'Successfully retrieved subscription info',
       data: {
         info,
-        greenApiInstanceInfo,
         id,
       },
     };

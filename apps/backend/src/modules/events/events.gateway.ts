@@ -13,7 +13,6 @@ import {
 } from '@monday-whatsapp/shared-types';
 import { EventsService } from './events.service';
 import { getSubscription } from '../subscription/methods/get-subscription';
-import { sendTextMessage } from '../green-api/methods/send-text-message';
 
 @WebSocketGateway(3002, {
   cors: true,
@@ -40,17 +39,14 @@ export class EventsGateway {
 
       const subscriptionId = params.get('subscriptionId');
 
-      let greenApiInstanceId: string | undefined = undefined;
-
       const validation = async () => {
         if (Number.isNaN(Number(subscriptionId))) {
           throw new Error('invalid subscriptionId');
         }
-        const { greenApiInstanceInfo } = await getSubscription({
+        const {} = await getSubscription({
           type: 'subscriptionId',
           id: Number(subscriptionId),
         });
-        greenApiInstanceId = greenApiInstanceInfo?.instanceId;
       };
 
       await validation();
@@ -59,9 +55,6 @@ export class EventsGateway {
 
       this.eventsService.setClientData(client.id, {
         subscriptionId: Number(subscriptionId),
-        greenInstanceId: greenApiInstanceId
-          ? Number(greenApiInstanceId)
-          : undefined,
       });
 
       console.debug(`Number of connected clients: ${sockets.size}`);
@@ -95,15 +88,6 @@ export class EventsGateway {
       const subscription = await getSubscription({
         type: 'subscriptionId',
         id: subscriptionId,
-      });
-
-      if (!subscription.greenApiInstanceInfo) {
-        // TODO log error
-        return;
-      }
-      await sendTextMessage({
-        instanceInfo: subscription.greenApiInstanceInfo,
-        data: message,
       });
     } catch (e) {
       console.log('Error in socket handleSendTextMessage');

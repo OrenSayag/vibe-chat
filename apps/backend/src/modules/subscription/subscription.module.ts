@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { SubscriptionController } from './subscription.controller';
 import { SubscriptionService } from './subscription.service';
-import { GreenApiModule } from '../green-api/green-api.module';
+import { WhatsappModule } from '../whatsapp/whatsapp.module';
 
 @Module({
-  imports: [GreenApiModule],
+  imports: [WhatsappModule],
   controllers: [SubscriptionController],
   providers: [SubscriptionService],
 })

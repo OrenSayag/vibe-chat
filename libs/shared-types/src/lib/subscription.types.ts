@@ -1,9 +1,5 @@
 import { z } from 'zod';
 import { BackendBaseResponse } from './app.types';
-import {
-  GreenApiInstanceInfo,
-  GreenApiInstanceStatus,
-} from './green-api.types';
 
 const baseActivatedItemScheme = z.object({
   activationTime: z.string().datetime(),
@@ -49,10 +45,6 @@ export type SubscriptionInfo = z.infer<typeof subscriptionInfoSchema>;
 export type GetSubscriptionInfoResponse = BackendBaseResponse<{
   info: SubscriptionInfo;
   id: number;
-  greenApiInstanceInfo?: Omit<GreenApiInstanceInfo, 'token'> & {
-    status: GreenApiInstanceStatus;
-    wid?: string;
-  };
 }>;
 
 export const updateSubscriptionInfoRequest = z.object({

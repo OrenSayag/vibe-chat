@@ -2,10 +2,7 @@ import { db } from '../../config';
 import { subscriptions } from '../../schema';
 import { eq, sql } from 'drizzle-orm';
 import { NotFoundException } from '@nestjs/common';
-import {
-  GetSubscriptionInfoResponse,
-  GreenApiInstanceInfo,
-} from '@monday-whatsapp/shared-types';
+import { GetSubscriptionInfoResponse } from '@monday-whatsapp/shared-types';
 
 type Input =
   | {
@@ -17,12 +14,7 @@ type Input =
       id: number;
     };
 
-type Output = Omit<
-  GetSubscriptionInfoResponse['data'],
-  'greenApiInstanceInfo'
-> & {
-  greenApiInstanceInfo?: GreenApiInstanceInfo;
-};
+type Output = GetSubscriptionInfoResponse['data'];
 
 export const getSubscription = async (input: Input): Promise<Output> => {
   const { type } = input;
@@ -43,8 +35,8 @@ export const getSubscription = async (input: Input): Promise<Output> => {
     info: {
       accountId: res[0].info.accountId,
       activatedWorkspaces: res[0].info.activatedWorkspaces,
+      whatsappCloudInfo: {},
     },
     id: res[0].id,
-    greenApiInstanceInfo: res[0].greenApiInfo ?? undefined,
   };
 };

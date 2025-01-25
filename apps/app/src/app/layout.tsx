@@ -1,7 +1,7 @@
 'use client';
 
-import './global.css';
 import '@vibe/core/tokens';
+import './global.css';
 import { Box, SystemTheme, ThemeProvider } from '@vibe/core';
 import mondaySdk from 'monday-sdk-js';
 

@@ -13,13 +13,13 @@ import { ChatSessionCurrentDateIndicator } from './chat-session-current-date-ind
 import { ChatMessageBox } from './chat-message-box';
 
 export const ChatSession: FC<ChatSessionProps> = (props) => {
-  const { type, className } = props;
+  const { state, className } = props;
   return (
     <>
       <Box className={cn('h-screen flex flex-col justify-between', className)}>
-        {type === 'error' && <Text>Error</Text>}
-        {type === 'loading' && <Text>Loading</Text>}
-        {type === 'available' && (
+        {state === 'error' && <Text>Error</Text>}
+        {state === 'loading' && <Text>Loading chat session</Text>}
+        {state === 'available' && (
           <>
             <ChatSessionHeader {...props.headerProps} />
             <Session className={'flex-grow'} chatHistory={props.history} />

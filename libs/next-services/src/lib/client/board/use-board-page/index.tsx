@@ -1,5 +1,6 @@
 import { Board, ChatProps } from '@monday-whatsapp/shared-types';
 import { useUpdateBoard } from './methods/use-update-board';
+import { useChat } from '../../chat/use-chat';
 
 type Input = {
   subscriptionId?: number;
@@ -19,6 +20,9 @@ export const useBoardPage = ({
   workspaceId,
 }: Input): Output => {
   const { startUpdateBoard, pendingUpdateBoard } = useUpdateBoard();
+  const chatProps = useChat({
+    subscriptionId,
+  });
   return {
     onSelectDefaultPhoneColumn(id: string) {
       if (!board || !workspaceId) {
@@ -34,5 +38,6 @@ export const useBoardPage = ({
       });
     },
     pendingSelectDefaultPhoneColumn: pendingUpdateBoard,
+    chatProps,
   };
 };

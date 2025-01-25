@@ -1,29 +1,53 @@
 import { FC } from 'react';
-import { cn } from '@monday-whatsapp/ui-utils';
 import { ChatListProps } from '@monday-whatsapp/shared-types';
-import { List, ListItem } from '@vibe/core';
+import { Box, List, ListItem, Text } from '@vibe/core';
 import { ChatListItem } from './chat-list-item';
 
 export const ChatList: FC<ChatListProps> = ({
-  className,
   list,
   selectedChatId,
   onSelectChat,
   onLoadMore,
+  state,
 }) => {
+  if (state === 'loading') {
+    return (
+      <Box>
+        <Text>Loading</Text>
+      </Box>
+    );
+  }
+  if (state === 'error') {
+    return (
+      <Box>
+        <Text>Error</Text>
+      </Box>
+    );
+  }
   return (
     <>
-      <List className={cn(className)}>
-        {list.map((item) => (
-          <ListItem
-            onClick={() => onSelectChat(item.phoneNumberId)}
-            className={'h-20 py-4'}
-            selected={item.phoneNumberId === selectedChatId}
-          >
-            <ChatListItem item={item} key={item.phoneNumberId} />
-          </ListItem>
-        ))}
-      </List>
+      <div>
+        {list.length === 0 && <Empty />}
+        <List>
+          {list.map((item) => (
+            <ListItem
+              onClick={() => onSelectChat(item.phoneNumberId)}
+              className={'h-20 py-4'}
+              selected={item.phoneNumberId === selectedChatId}
+            >
+              <ChatListItem item={item} key={item.phoneNumberId} />
+            </ListItem>
+          ))}
+        </List>
+      </div>
     </>
   );
 };
+
+function Empty() {
+  return (
+    <Box>
+      <Text>No chats yet</Text>
+    </Box>
+  );
+}

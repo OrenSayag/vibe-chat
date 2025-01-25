@@ -1,5 +1,5 @@
 import { Message } from './whatsapp.types';
-import { BackendBaseResponse, baseGetListParams } from './app.types';
+import { BackendBaseResponse, GetListState } from './app.types';
 import { z } from 'zod';
 
 export type ChatListItem = {
@@ -52,6 +52,7 @@ export type ChatListProps = {
   list: ChatListItem[];
   selectedChatId?: string;
   onSelectChat(id: string): void;
+  state: GetListState;
 };
 
 export type ChatSessionHeaderProps = {
@@ -73,14 +74,14 @@ export type ChatSessionProps = {
   className?: string;
 } & (
   | {
-      type: 'available';
+      state: 'available';
       history: ChatHistory;
       headerProps: ChatSessionHeaderProps;
       messageInputAndActionProps: MessageInputAndActionProps;
       onLoadMore(): void;
     }
   | {
-      type: 'error' | 'loading';
+      state: 'error' | 'loading';
     }
 );
 
@@ -91,3 +92,7 @@ export type ChatProps = {
   loading?: boolean;
   error?: boolean;
 };
+
+export const GET_CHAT_LIST_RESULTS_PER_PAGE = 25;
+
+export const GET_CHAT_SESSION_HISTORY_RESULTS_PER_PAGE = 100;

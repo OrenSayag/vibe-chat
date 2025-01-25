@@ -32,3 +32,5 @@ export const baseGetListParams = z.object({
 });
 
 export type BaseGetListParams = z.infer<typeof baseGetListParams>;
+
+export type GetListState = 'loading' | 'error' | 'available';

@@ -1,9 +1,8 @@
-import { FC } from 'react';
-import { cn } from '@monday-whatsapp/ui-utils';
+import { FC, useEffect } from 'react';
 import { ChatList } from '../chat-list';
 import { ChatSession } from '../chat-session';
 import { ChatSessionPlaceholder } from '../chat-session-placeholder';
-import { Text } from '@vibe/core';
+import { Flex, Text } from '@vibe/core';
 import { ChatProps } from '@monday-whatsapp/shared-types';
 
 export const ChatLayout: FC<ChatProps> = ({
@@ -13,18 +12,39 @@ export const ChatLayout: FC<ChatProps> = ({
   loading,
   error,
 }) => {
+  useEffect(() => {
+    console.log({
+      listPropsInLayout: listProps,
+    });
+  }, [listProps]);
   return (
     <>
       {!loading && !error && (
-        <div className={cn('flex', className)}>
-          <ChatList {...listProps} />
-          {sessionProps && (
-            <ChatSession {...sessionProps} className={'flex-grow'} />
-          )}
-          {!sessionProps && <ChatSessionPlaceholder />}
-        </div>
+        <Flex>
+          <div
+            style={{
+              width: '33%',
+              borderRight: '1px solid white',
+              height: '100vh',
+            }}
+          >
+            <ChatList {...listProps} />
+          </div>
+          <div
+            style={{
+              flexGrow: 1,
+            }}
+          >
+            {listProps.selectedChatId && sessionProps && (
+              <ChatSession {...sessionProps} className={'flex-grow'} />
+            )}
+            {(!sessionProps || !listProps.selectedChatId) && (
+              <ChatSessionPlaceholder />
+            )}
+          </div>
+        </Flex>
       )}
-      {loading && <Text>Loading</Text>}
+      {loading && <Text>Loading layout</Text>}
       {error && <Text>Error</Text>}
     </>
   );

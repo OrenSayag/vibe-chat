@@ -1,4 +1,4 @@
-import { Message } from './whatsapp.types';
+import { Message, WhatsappMessageType } from './whatsapp.types';
 import { BackendBaseResponse, GetListState } from './app.types';
 import { z } from 'zod';
 
@@ -96,3 +96,19 @@ export type ChatProps = {
 export const GET_CHAT_LIST_RESULTS_PER_PAGE = 25;
 
 export const GET_CHAT_SESSION_HISTORY_RESULTS_PER_PAGE = 100;
+
+export const messageType = z.union([
+  z.literal(WhatsappMessageType.TEXT),
+  z.literal(WhatsappMessageType.DOCUMENT),
+]);
+
+export const sendMessageRequestBodySchema = z.object({
+  to: z.string(),
+  text: z.object({
+    body: z.string(),
+  }),
+});
+
+export type SendMessageRequestBody = z.infer<
+  typeof sendMessageRequestBodySchema
+>;

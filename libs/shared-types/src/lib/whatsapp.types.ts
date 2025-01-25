@@ -63,3 +63,19 @@ export type Message = {
 type Text = {
   body: string;
 };
+
+export enum WhatsappMessageType {
+  TEXT = 'text',
+  DOCUMENT = 'document',
+}
+
+export type WhatsappSendMessageRequestBody = {
+  messaging_product: 'whatsapp';
+  recipient_type: 'individual';
+  to: string;
+  type: WhatsappMessageType;
+  text: {
+    body: string;
+    preview_url?: boolean;
+  };
+};

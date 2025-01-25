@@ -24,11 +24,11 @@ export const ChatList: FC<Props> = ({
       <List className={cn(className)}>
         {list.map((item) => (
           <ListItem
-            onClick={() => onSelectChat(item.chatId)}
+            onClick={() => onSelectChat(item.phoneNumberId)}
             className={'h-20 py-4'}
-            selected={item.chatId === selectedChatId}
+            selected={item.phoneNumberId === selectedChatId}
           >
-            <ChatListItem item={item} key={item.chatId} />
+            <ChatListItem item={item} key={item.phoneNumberId} />
           </ListItem>
         ))}
       </List>

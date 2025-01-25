@@ -1,12 +1,12 @@
 import { FC } from 'react';
 import { cn } from '@monday-whatsapp/ui-utils';
-import { StatusMessage } from '@monday-whatsapp/shared-types';
+import { MessageStatus } from '@monday-whatsapp/shared-types';
 import { CheckCheck } from 'lucide-react';
 import { Text } from '@vibe/core';
 
 interface Props {
   className?: string;
-  status: StatusMessage;
+  status: MessageStatus;
 }
 
 export const MessageStatusCheck: FC<Props> = ({ className, status }) => {
@@ -15,10 +15,10 @@ export const MessageStatusCheck: FC<Props> = ({ className, status }) => {
       <span className={cn(className)}>
         <Text
           style={{
-            color: status === StatusMessage.Delivered ? 'blue' : undefined,
+            color: status === MessageStatus.READ ? 'blue' : undefined,
             opacity: !(
-              status === StatusMessage.Sent ||
-              status === StatusMessage.Delivered
+              status === MessageStatus.SENT ||
+              status === MessageStatus.DELIVERED
             )
               ? '0%'
               : undefined,

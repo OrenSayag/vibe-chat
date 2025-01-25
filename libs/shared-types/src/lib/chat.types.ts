@@ -1,12 +1,16 @@
+import { Message } from './whatsapp.types';
+
 export type ChatListItem = {
   avatarSrc?: string;
   isGroup?: boolean;
-  chatId: string;
+  phoneNumberId: string;
+  displayPhoneNumber?: string;
+  contactName?: string;
   name: string;
-  // latestMessage: ChatMessage;
+  latestMessage: Message;
 };
 
 export type ChatHistory = {
-  // history: ChatMessage[];
+  history: Message[];
   contact: Omit<ChatListItem, 'latestMessage'>;
 };

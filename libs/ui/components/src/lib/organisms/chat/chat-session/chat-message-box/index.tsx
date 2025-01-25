@@ -1,17 +1,17 @@
 import { FC } from 'react';
 import { cn } from '@monday-whatsapp/ui-utils';
-import {
-  ChatMessage,
-  MessageType,
-  StatusMessage,
-} from '@monday-whatsapp/shared-types';
 import { Box, Flex, Text } from '@vibe/core';
 import { format } from 'date-fns';
 import { MessageStatusCheck } from '../../../../atoms/message-status-check';
+import {
+  Message,
+  MessageDirection,
+  MessageStatus,
+} from '@monday-whatsapp/shared-types';
 
 interface Props {
   className?: string;
-  message: ChatMessage;
+  message: Message;
 }
 
 export const ChatMessageBox: FC<Props> = ({ className, message }) => {
@@ -19,19 +19,17 @@ export const ChatMessageBox: FC<Props> = ({ className, message }) => {
     <>
       <Box
         className={cn(
-          message.type === MessageType.Incoming && 'bg-stone-600',
-          message.type === MessageType.Outgoing && 'bg-lime-700',
+          message.direction === MessageDirection.INCOMING && 'bg-stone-600',
+          message.direction === MessageDirection.OUTGOING && 'bg-lime-700',
           'bg-opacity-20 p-2 rounded-md w-fit',
           className
         )}
       >
-        <Content
-          text={message.textMessage ?? message.extendedTextMessage?.text ?? ''}
-        />
+        <Content text={message.text.body ?? ''} />
         <Flex gap={'xs'} justify={'end'}>
           <Timestamp timestamp={message.timestamp} />
-          {message.type === MessageType.Outgoing && (
-            <Checks status={message.statusMessage} />
+          {message.direction === MessageDirection.OUTGOING && (
+            <Checks status={message.status} />
           )}
         </Flex>
       </Box>
@@ -46,7 +44,7 @@ function Timestamp({
   className?: string;
   timestamp: Props['message']['timestamp'];
 }) {
-  return <Text>{format(timestamp * 1_000, 'HH:mm')}</Text>;
+  return <Text>{format(Number(timestamp) * 1_000, 'HH:mm')}</Text>;
 }
 
 function Checks({
@@ -54,7 +52,7 @@ function Checks({
   className,
 }: {
   className?: string;
-  status: StatusMessage;
+  status: MessageStatus;
 }) {
   return (
     <Box className={cn(className)}>

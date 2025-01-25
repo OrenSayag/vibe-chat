@@ -34,13 +34,31 @@ type Contact = {
   wa_id: string;
 };
 
+export enum MessageDirection {
+  INCOMING = 'incoming',
+  OUTGOING = 'outgoing',
+}
+
+export enum MessageStatus {
+  SENT = 'sent',
+  DELIVERED = 'delivered',
+  READ = 'read',
+  FAILED = 'failed',
+  DELETED = 'deleted',
+}
+
+type AddedMessageInfo = {
+  direction: MessageDirection;
+  status: MessageStatus;
+};
+
 export type Message = {
   from: string;
   id: string;
   timestamp: string;
   text: Text;
   type: 'text';
-};
+} & AddedMessageInfo;
 
 type Text = {
   body: string;

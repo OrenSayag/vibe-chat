@@ -9,7 +9,6 @@ import {
   getItemsByIds,
   monday,
 } from '@monday-whatsapp/monday';
-import { useSendTextMessage } from '../../green-api/use-send-text-message';
 import { phoneNumberToGreenChatId } from '@monday-whatsapp/utils';
 import { useBoardLevelAuth } from '../../board/use-board-level-auth';
 
@@ -32,10 +31,6 @@ export const useMultipleItemsPage = ({
     board,
   });
 
-  const { sendTextMessage } = useSendTextMessage({
-    subscriptionId,
-  });
-
   return {
     authState,
     singleMessageSenderProps: {
@@ -56,10 +51,7 @@ export const useMultipleItemsPage = ({
         const chatIds = phoneNumbers
           .filter(Boolean)
           .map((phoneNumber) => phoneNumberToGreenChatId(phoneNumber!));
-        sendTextMessage({
-          message: text,
-          chatIds,
-        });
+        alert('onSendMessage: not implemented');
       },
     },
   };

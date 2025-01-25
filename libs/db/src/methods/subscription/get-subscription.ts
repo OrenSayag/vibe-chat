@@ -35,7 +35,7 @@ export const getSubscription = async (input: Input): Promise<Output> => {
     info: {
       accountId: res[0].info.accountId,
       activatedWorkspaces: res[0].info.activatedWorkspaces,
-      whatsappCloudInfo: {},
+      whatsappCloudInfo: res[0].info.whatsappCloudInfo,
     },
     id: res[0].id,
   };

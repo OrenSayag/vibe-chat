@@ -34,6 +34,8 @@ export const whatsappCloudInfo = z.union([
   }),
 ]);
 
+export type WhatsappCloudInfo = z.infer<typeof whatsappCloudInfo>;
+
 const subscriptionInfoSchema = z.object({
   accountId: z.string(),
   activatedWorkspaces: z.array(activatedWorkspaceSchema),

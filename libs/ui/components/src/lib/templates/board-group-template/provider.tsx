@@ -9,9 +9,10 @@ import {
   useBoardGroupPage,
   useGetSubscription,
 } from '@monday-whatsapp/next-services';
+import { UnConfiguredAccountTemplate } from '../unconfigured-account-template';
 
 export const BoardGroupTemplateProvider: FC = () => {
-  const { subscriptionData } = useGetSubscription();
+  const { subscriptionData, accountNotConfigured } = useGetSubscription();
   const { authState, singleMessageSenderProps } = useBoardGroupPage({
     subscriptionId: subscriptionData?.id,
     subscriptionInfo: subscriptionData?.info,
@@ -21,6 +22,9 @@ export const BoardGroupTemplateProvider: FC = () => {
   }
   if (authState === 'error') {
     return <AuthStateError />;
+  }
+  if (accountNotConfigured) {
+    return <UnConfiguredAccountTemplate />;
   }
   if (
     authState === 'workspace-not-allowed' ||

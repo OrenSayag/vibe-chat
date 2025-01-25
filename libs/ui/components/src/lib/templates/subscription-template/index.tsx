@@ -25,7 +25,6 @@ export const SubscriptionTemplate: FC<Props> = ({
     <>
       <Box className={cn(className)}>
         <Heading>Subscription</Heading>
-        <Box marginY={'large'}>SUBSCRIPTION STATUS STATUS</Box>
         <Box>
           <Heading type={'h3'}>Chat Activation in Workspaces</Heading>
           <Box marginY={'small'}>

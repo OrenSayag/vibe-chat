@@ -1,8 +1,5 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import {
-  BackendBaseResponse,
-  GreenApiNotification,
-} from '@monday-whatsapp/shared-types';
+import { BackendBaseResponse } from '@monday-whatsapp/shared-types';
 import { WhatsappService } from './whatsapp.service';
 import { WhatsappWebhook } from '../../decorators/whatsapp-webhook.decorator';
 import { EventsService } from '../events/events.service';
@@ -16,7 +13,7 @@ export class WhatsappController {
   @WhatsappWebhook()
   @Post('webhook')
   async webhook(
-    @Body() input: GreenApiNotification
+    @Body() input: unknown
   ): Promise<BackendBaseResponse<undefined>> {
     console.log('Received webhook');
     console.log({

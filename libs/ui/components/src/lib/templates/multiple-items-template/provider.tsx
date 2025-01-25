@@ -9,9 +9,10 @@ import {
   useGetSubscription,
   useMultipleItemsPage,
 } from '@monday-whatsapp/next-services';
+import { UnConfiguredAccountTemplate } from '../unconfigured-account-template';
 
 export const MultipleItemsTemplateProvider: FC = () => {
-  const { subscriptionData } = useGetSubscription();
+  const { subscriptionData, accountNotConfigured } = useGetSubscription();
   const { singleMessageSenderProps, authState } = useMultipleItemsPage({
     subscriptionId: subscriptionData?.id,
     subscriptionInfo: subscriptionData?.info,
@@ -22,6 +23,9 @@ export const MultipleItemsTemplateProvider: FC = () => {
   }
   if (authState === 'error') {
     return <AuthStateError />;
+  }
+  if (accountNotConfigured) {
+    return <UnConfiguredAccountTemplate />;
   }
   if (
     authState === 'workspace-not-allowed' ||

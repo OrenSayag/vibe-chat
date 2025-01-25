@@ -1,6 +1,9 @@
 import { useEffect, useState, useTransition } from 'react';
 import { monday } from '@monday-whatsapp/monday';
-import { GetSubscriptionInfoResponse } from '@monday-whatsapp/shared-types';
+import {
+  GetSubscriptionInfoResponse,
+  WhatsappCloudStatus,
+} from '@monday-whatsapp/shared-types';
 import { getSubscription } from '@monday-whatsapp/next-services/server';
 
 export const useGetSubscription = () => {
@@ -27,5 +30,7 @@ export const useGetSubscription = () => {
     getSubscription: onGetSubscription,
     pendingGetSubscription,
     subscriptionData: data,
+    accountNotConfigured:
+      data?.info.whatsappCloudInfo.status === WhatsappCloudStatus.NOT_SIGNED,
   };
 };

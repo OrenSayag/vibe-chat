@@ -10,9 +10,10 @@ import {
   useBoardPage,
   useGetSubscription,
 } from '@monday-whatsapp/next-services';
+import { UnConfiguredAccountTemplate } from '../unconfigured-account-template';
 
 export const BoardTemplateProvider: FC = () => {
-  const { subscriptionData } = useGetSubscription();
+  const { subscriptionData, accountNotConfigured } = useGetSubscription();
 
   const { authState, board, workspaceId } = useBoardLevelAuth({
     subscriptionInfo: subscriptionData?.info,
@@ -29,6 +30,9 @@ export const BoardTemplateProvider: FC = () => {
   }
   if (authState === 'error') {
     return <AuthStateError />;
+  }
+  if (accountNotConfigured) {
+    return <UnConfiguredAccountTemplate />;
   }
   if (
     authState === 'workspace-not-allowed' ||

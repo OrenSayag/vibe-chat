@@ -9,8 +9,12 @@ import { getWorkspaces, monday } from '@monday-whatsapp/monday';
 import { useGetSubscription } from '../use-get-subscription';
 
 export const useSubscriptionPage = () => {
-  const { getSubscription, subscriptionData, pendingGetSubscription } =
-    useGetSubscription();
+  const {
+    getSubscription,
+    subscriptionData,
+    pendingGetSubscription,
+    accountNotConfigured,
+  } = useGetSubscription();
   const { workspaces } = useWorkspaces({
     subscriptionInfo: subscriptionData?.info,
   });
@@ -25,6 +29,7 @@ export const useSubscriptionPage = () => {
     deactivatedWorkspaces: workspaces?.deactivated ?? [],
     activatedWorkspaces: workspaces?.activated ?? [],
     loading: !subscriptionData,
+    accountNotConfigured,
   };
 };
 

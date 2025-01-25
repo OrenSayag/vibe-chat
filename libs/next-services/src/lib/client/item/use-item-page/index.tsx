@@ -10,7 +10,6 @@ import {
   monday,
 } from '@monday-whatsapp/monday';
 import { useBoardLevelAuth } from '@monday-whatsapp/next-services';
-import { useSendTextMessage } from '../../green-api/use-send-text-message';
 import { phoneNumberToGreenChatId } from '@monday-whatsapp/utils';
 
 type Input = {
@@ -27,10 +26,6 @@ export const useItemPage = ({ subscriptionId, subscriptionInfo }: Input) => {
 
   const { selectedPhoneColumn, setSelectedPhoneColumn } = usePhoneColumn({
     board,
-  });
-
-  const { sendTextMessage } = useSendTextMessage({
-    subscriptionId,
   });
 
   return {
@@ -53,10 +48,7 @@ export const useItemPage = ({ subscriptionId, subscriptionInfo }: Input) => {
         const chatIds = phoneNumbers
           .filter(Boolean)
           .map((phoneNumber) => phoneNumberToGreenChatId(phoneNumber!));
-        sendTextMessage({
-          message: text,
-          chatIds,
-        });
+        alert('onSendMessage: not implemented');
       },
     },
   };

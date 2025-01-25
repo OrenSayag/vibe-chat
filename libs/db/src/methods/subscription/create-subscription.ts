@@ -2,6 +2,7 @@ import { db } from '../../config';
 import { subscriptions } from '../../schema';
 import { sql } from 'drizzle-orm';
 import { BadRequestException } from '@nestjs/common';
+import { WhatsappCloudStatus } from '@monday-whatsapp/shared-types';
 
 type Input = {
   accountId: string;
@@ -22,6 +23,9 @@ export const createSubscription = async ({ accountId }: Input) => {
     info: {
       accountId,
       activatedWorkspaces: [],
+      whatsappCloudInfo: {
+        status: WhatsappCloudStatus.NOT_SIGNED,
+      },
     },
   });
 };

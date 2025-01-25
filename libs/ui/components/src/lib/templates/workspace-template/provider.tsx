@@ -13,10 +13,15 @@ import {
   useWorkspacePage,
 } from '@monday-whatsapp/next-services';
 import { WorkspaceTemplate } from './index';
+import { UnConfiguredAccountTemplate } from '../unconfigured-account-template';
 
 export const WorkspaceTemplateProvider: FC = () => {
-  const { subscriptionData, getSubscription, pendingGetSubscription } =
-    useGetSubscription();
+  const {
+    subscriptionData,
+    getSubscription,
+    pendingGetSubscription,
+    accountNotConfigured,
+  } = useGetSubscription();
 
   const { authState, workspace } = useAuth(subscriptionData?.info);
 
@@ -38,6 +43,9 @@ export const WorkspaceTemplateProvider: FC = () => {
         <Loader />
       </Box>
     );
+  }
+  if (accountNotConfigured) {
+    return <UnConfiguredAccountTemplate />;
   }
   if (authState === 'workspace-not-allowed') {
     return <NotAllowed />;

@@ -1,8 +1,8 @@
 import { db } from '../../config';
-import { subscriptions } from '../../schema';
 import { eq, sql } from 'drizzle-orm';
 import { NotFoundException } from '@nestjs/common';
 import { GetSubscriptionInfoResponse } from '@monday-whatsapp/shared-types';
+import { subscriptions } from '../../schema';
 
 type Input =
   | {
@@ -23,7 +23,7 @@ export const getSubscription = async (input: Input): Promise<Output> => {
     .from(subscriptions)
     .where(
       type === 'accountId'
-        ? sql`JSON_EXTRACT(${subscriptions.info}, '$.accountId') = ${input.accountId}`
+        ? sql`${subscriptions.info}->>'accountId' = ${input.accountId}`
         : eq(subscriptions.id, input.id)
     );
 

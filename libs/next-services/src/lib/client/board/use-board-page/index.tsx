@@ -1,4 +1,4 @@
-import { Board } from '@monday-whatsapp/shared-types';
+import { Board, ChatProps } from '@monday-whatsapp/shared-types';
 import { useUpdateBoard } from './methods/use-update-board';
 
 type Input = {
@@ -10,6 +10,7 @@ type Input = {
 type Output = {
   onSelectDefaultPhoneColumn(id: string): void;
   pendingSelectDefaultPhoneColumn?: boolean;
+  chatProps: ChatProps;
 };
 
 export const useBoardPage = ({

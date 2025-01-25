@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 export type ListItem<T = string> = {
   label: string;
   value: T;
@@ -17,3 +19,16 @@ export type BackendBaseResponse<T> = {
   message: string;
   data: T;
 };
+
+export const baseGetListParams = z.object({
+  offset: z
+    .string()
+    .transform((s) => Number(s))
+    .refine((v) => v >= 0),
+  limit: z
+    .string()
+    .transform((s) => Number(s))
+    .refine((v) => v <= 200 && v >= 0),
+});
+
+export type BaseGetListParams = z.infer<typeof baseGetListParams>;

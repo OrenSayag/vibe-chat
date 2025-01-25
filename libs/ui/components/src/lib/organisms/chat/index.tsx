@@ -1,16 +1,17 @@
-import { FC } from 'react';
+import { ComponentPropsWithoutRef, FC } from 'react';
 import { cn } from '@monday-whatsapp/ui-utils';
-import { Text } from '@vibe/core';
+import { ChatLayout } from './chat-layout';
 
 interface Props {
   className?: string;
+  data: ComponentPropsWithoutRef<typeof ChatLayout>;
 }
 
-export const Chat: FC<Props> = ({ className }) => {
+export const Chat: FC<Props> = ({ className, data }) => {
   return (
     <>
       <div className={cn(className)}>
-        <Text>Chat works!</Text>
+        <ChatLayout {...data} />
       </div>
     </>
   );

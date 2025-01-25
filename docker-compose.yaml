@@ -1,12 +1,16 @@
 services:
+
   db:
-    image: mysql
+    image: postgres:14-alpine
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=monday_chat
     ports:
-      - '3306:3306'
+      - '5432:5432'
     volumes:
       - monday-chat-db:/var/lib/mysql
+
   dbgate:
     build: docker
     image: dbgate/dbgate:alpine

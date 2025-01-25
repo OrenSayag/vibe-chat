@@ -1,40 +1,34 @@
-import { ComponentPropsWithoutRef, FC, useMemo } from 'react';
+import { FC, useMemo } from 'react';
 import { cn } from '@monday-whatsapp/ui-utils';
 import {
   ChatHistory,
+  ChatSessionProps,
   Message,
   MessageDirection,
 } from '@monday-whatsapp/shared-types';
-import { Box } from '@vibe/core';
+import { Box, Text } from '@vibe/core';
 import { ChatSessionHeader } from './chat-session-header';
 import { MessageInputAndAction } from '../../../molecules/message-input-and-action';
 import { ChatSessionCurrentDateIndicator } from './chat-session-current-date-indicator';
 import { ChatMessageBox } from './chat-message-box';
 
-interface Props {
-  className?: string;
-  history: ChatHistory;
-  headerProps: ComponentPropsWithoutRef<typeof ChatSessionHeader>;
-  messageInputAndActionProps: ComponentPropsWithoutRef<
-    typeof MessageInputAndAction
-  >;
-}
-
-export const ChatSession: FC<Props> = ({
-  className,
-  history,
-  messageInputAndActionProps,
-  headerProps,
-}) => {
+export const ChatSession: FC<ChatSessionProps> = (props) => {
+  const { type, className } = props;
   return (
     <>
       <Box className={cn('h-screen flex flex-col justify-between', className)}>
-        <ChatSessionHeader {...headerProps} />
-        <Session className={'flex-grow'} chatHistory={history} />
-        <MessageInputAndAction
-          {...messageInputAndActionProps}
-          className={'pb-2 px-1'}
-        />
+        {type === 'error' && <Text>Error</Text>}
+        {type === 'loading' && <Text>Loading</Text>}
+        {type === 'available' && (
+          <>
+            <ChatSessionHeader {...props.headerProps} />
+            <Session className={'flex-grow'} chatHistory={props.history} />
+            <MessageInputAndAction
+              {...props.messageInputAndActionProps}
+              className={'pb-2 px-1'}
+            />
+          </>
+        )}
       </Box>
     </>
   );

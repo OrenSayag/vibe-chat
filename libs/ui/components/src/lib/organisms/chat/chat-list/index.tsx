@@ -1,18 +1,10 @@
 import { FC } from 'react';
 import { cn } from '@monday-whatsapp/ui-utils';
-import { ChatListItem as ChatListItemData } from '@monday-whatsapp/shared-types';
+import { ChatListProps } from '@monday-whatsapp/shared-types';
 import { List, ListItem } from '@vibe/core';
 import { ChatListItem } from './chat-list-item';
 
-interface Props {
-  className?: string;
-  onLoadMore?(): void;
-  list: ChatListItemData[];
-  selectedChatId?: string;
-  onSelectChat(id: string): void;
-}
-
-export const ChatList: FC<Props> = ({
+export const ChatList: FC<ChatListProps> = ({
   className,
   list,
   selectedChatId,

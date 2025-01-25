@@ -6,4 +6,5 @@ export * from './lib/auth.types';
 export * from './lib/event.types';
 export * from './lib/board.types';
 export * from './lib/chat.types';
+export * from './lib/contact.types';
 export * from './lib/whatsapp.types';

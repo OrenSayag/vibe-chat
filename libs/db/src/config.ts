@@ -1,5 +1,4 @@
-import { drizzle } from 'drizzle-orm/mysql2';
-import 'mysql2';
+import { drizzle } from 'drizzle-orm/node-postgres';
 
 export const db = drizzle({
   connection: {

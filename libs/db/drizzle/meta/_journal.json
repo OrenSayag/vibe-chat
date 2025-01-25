@@ -1,26 +1,12 @@
 {
   "version": "7",
-  "dialect": "mysql",
+  "dialect": "postgresql",
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1736866409053,
-      "tag": "0000_natural_dakota_north",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1736924870709,
-      "tag": "0001_fantastic_blade",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1737615229661,
-      "tag": "0002_mute_baron_zemo",
+      "version": "7",
+      "when": 1737806786540,
+      "tag": "0000_skinny_sway",
       "breakpoints": true
     }
   ]

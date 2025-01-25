@@ -1,15 +1,9 @@
 import { FC, useState } from 'react';
 import { cn } from '@monday-whatsapp/ui-utils';
 import { Box, Button, Flex, TextField, TextArea } from '@vibe/core';
+import { MessageInputAndActionProps } from '@monday-whatsapp/shared-types';
 
-interface Props {
-  className?: string;
-  onSend(txt: string): void;
-  disabled?: boolean;
-  type?: 'text-area' | 'text';
-}
-
-export const MessageInputAndAction: FC<Props> = ({
+export const MessageInputAndAction: FC<MessageInputAndActionProps> = ({
   className,
   onSend,
   disabled,

@@ -1,1 +1,0 @@
-ALTER TABLE `subscriptions` DROP COLUMN `green_api_info`;

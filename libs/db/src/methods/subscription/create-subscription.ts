@@ -12,10 +12,7 @@ export const createSubscription = async ({ accountId }: Input) => {
   const exists = await db
     .select()
     .from(subscriptions)
-    .where(
-      sql`JSON_EXTRACT(${subscriptions.info}, '$.accountId') = ${accountId}`
-    );
-
+    .where(sql`${subscriptions.info}->>'accountId' = ${accountId}`);
   if (exists.length > 0) {
     throw new BadRequestException('Subscription already exists');
   }

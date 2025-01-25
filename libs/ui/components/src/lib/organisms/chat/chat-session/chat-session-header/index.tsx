@@ -1,16 +1,9 @@
 import { FC } from 'react';
 import { cn } from '@monday-whatsapp/ui-utils';
 import { Avatar, Flex, Text } from '@vibe/core';
+import { ChatSessionHeaderProps } from '@monday-whatsapp/shared-types';
 
-interface Props {
-  className?: string;
-  avatarSrc?: string;
-  name: string;
-  lastSeen?: number;
-  isOnline?: boolean;
-}
-
-export const ChatSessionHeader: FC<Props> = ({
+export const ChatSessionHeader: FC<ChatSessionHeaderProps> = ({
   className,
   name,
   avatarSrc,

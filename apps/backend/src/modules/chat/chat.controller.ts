@@ -15,7 +15,6 @@ import {
   GetChatListResponse,
   getChatSessionParamsSchema,
   GetChatSessionResponse,
-  SendMessageRequestBody,
   sendMessageRequestBodySchema,
 } from '@monday-whatsapp/shared-types';
 import { getList } from './methods/get-list';
@@ -71,18 +70,20 @@ export class ChatController {
   async sendMessage(
     @Param('subscriptionId') subscriptionId: string,
     @Body() body: SendMessageRequestBodyDto
-  ): Promise<BackendBaseResponse<undefined>> {
+  ): Promise<BackendBaseResponse<{ mid: string }>> {
     if (Number.isNaN(Number(subscriptionId))) {
       throw new BadRequestException('Invalid subscription ID');
     }
-    await _sendMessage({
+    const { mid } = await _sendMessage({
       subscriptionId: Number(subscriptionId),
       ...body,
     });
     return {
       success: true,
       message: 'Successfully sent message',
-      data: undefined,
+      data: {
+        mid,
+      },
     };
   }
 }

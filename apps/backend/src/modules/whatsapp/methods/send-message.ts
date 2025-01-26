@@ -1,16 +1,31 @@
 import {
+  MessageDirection,
+  MessageStatus,
   SendMessageRequestBody,
   WhatsappMessageType,
   WhatsappSendMessageRequestBody,
+  WhatsappSendMessageResponseBody,
 } from '@monday-whatsapp/shared-types';
 import { sendRequestToWhatsappGraph } from './send-request-to-whatsapp-graph';
 import { getSubscriptionPhoneNumberId } from '../../subscription/methods/get-subscription-phone-number-id';
+import {
+  getContactByPhoneNumberId,
+  upsertMessageInHistory,
+} from '@monday-whatsapp/db';
 
 type Input = SendMessageRequestBody & {
   subscriptionId: number;
 };
 
-export const sendMessage = async ({ subscriptionId, to, text }: Input) => {
+type Output = {
+  mid: string;
+};
+
+export const sendMessage = async ({
+  subscriptionId,
+  to,
+  text,
+}: Input): Promise<Output> => {
   const { phoneNumberId } = await getSubscriptionPhoneNumberId({
     subscriptionId,
   });
@@ -21,11 +36,35 @@ export const sendMessage = async ({ subscriptionId, to, text }: Input) => {
     text,
     recipient_type: 'individual',
   };
-  await sendRequestToWhatsappGraph({
+  const { id: contactId } = await getContactByPhoneNumberId({
+    subscriptionId,
+    phoneNumberId: to,
+    name: to,
+    displayedPhoneNumber: to,
+  });
+  const res = await sendRequestToWhatsappGraph({
     path: `${phoneNumberId}/messages`,
     options: {
       body: JSON.stringify(rb),
       method: 'POST',
     },
   });
+  const resBody: WhatsappSendMessageResponseBody = await res.json();
+  const { id: messageId } = resBody.messages[0];
+  await upsertMessageInHistory({
+    subscriptionId,
+    contactId,
+    message: {
+      id: messageId,
+      from: phoneNumberId,
+      text,
+      type: 'text',
+      timestamp: Math.floor(new Date().getTime() / 1_000).toString(),
+      direction: MessageDirection.OUTGOING,
+      status: MessageStatus.PENDING,
+    },
+  });
+  return {
+    mid: messageId,
+  };
 };

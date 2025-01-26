@@ -3,7 +3,14 @@ import {
   Message,
   SubscriptionInfo,
 } from '@monday-whatsapp/shared-types';
-import { integer, json, pgTable, serial, timestamp } from 'drizzle-orm/pg-core';
+import {
+  integer,
+  json,
+  pgTable,
+  serial,
+  timestamp,
+  varchar,
+} from 'drizzle-orm/pg-core';
 
 export const subscriptions = pgTable('subscriptions', {
   id: serial('id').primaryKey(),
@@ -21,10 +28,14 @@ export const subscriptionContacts = pgTable('subscription_contacts', {
 });
 
 export const subscriptionMessages = pgTable('subscription_messages', {
-  id: serial('id').primaryKey(),
+  id: varchar('id').primaryKey(),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').$onUpdate(() => new Date()),
-  subscriptionId: integer('subscription_id').references(() => subscriptions.id),
-  contactId: integer('contact_id').references(() => subscriptionContacts.id),
+  subscriptionId: integer('subscription_id')
+    .references(() => subscriptions.id)
+    .notNull(),
+  contactId: integer('contact_id')
+    .references(() => subscriptionContacts.id)
+    .notNull(),
   message: json('info').$type<Message>().notNull(),
 });

@@ -6,4 +6,7 @@ export * from './methods/workspace/update-workspace-board';
 export * from './methods/chat/get-chat-list';
 export * from './methods/chat/get-chat-session';
 export * from './methods/chat/get-contact-by-phone-number-id';
-export * from './methods/chat/save-message-to-history';
+export * from './methods/chat/upsert-message-in-history';
+export * from './methods/chat/update-message-status';
+export * from './methods/chat/get-subscription-id-by-message-id';
+export * from './methods/chat/get-subscription-id-by-phone-number-id';

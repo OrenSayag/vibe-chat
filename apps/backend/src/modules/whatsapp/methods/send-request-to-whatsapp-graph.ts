@@ -16,11 +16,12 @@ export const sendRequestToWhatsappGraph = async ({ path, options }: Input) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log({
-    resBody: await res.json(),
-  });
   if (!res.ok) {
+    console.log({
+      failedWhatsappRequestMessageBody: await res.json(),
+    });
     throw new Error('Failed to send request to whatsapp cloud api');
   }
+
   return res;
 };

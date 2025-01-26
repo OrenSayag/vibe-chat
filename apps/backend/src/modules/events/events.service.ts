@@ -2,8 +2,11 @@ import { Injectable } from '@nestjs/common';
 import {
   EventClientData,
   EventMessageContent,
+  EventType,
+  MessageStatus,
 } from '@monday-whatsapp/shared-types';
 import { Server } from 'socket.io';
+import { getSubscriptionIdByMessageId } from '@monday-whatsapp/db';
 
 @Injectable()
 export class EventsService {
@@ -37,16 +40,39 @@ export class EventsService {
     this.socket.to(id).emit(message.type, message);
   }
 
-  broadcastMessageByGreenInstanceId({
-    instanceId,
+  broadcastMessageBySubscriptionId({
+    subscriptionId,
     message,
   }: {
-    instanceId: number;
+    subscriptionId: number;
     message: EventMessageContent;
   }) {
     for (const [key, value] of this.clients) {
-      if (value.greenInstanceId === instanceId) {
+      if (value.subscriptionId === subscriptionId) {
         this.sendMessage(key, message);
+      }
+    }
+  }
+
+  async broadcastMessageStatusChange({
+    status,
+    mid,
+  }: {
+    mid: string;
+    status: MessageStatus;
+  }) {
+    const { subscriptionId } = await getSubscriptionIdByMessageId({
+      mid,
+    });
+    for (const [key, value] of this.clients) {
+      if (value.subscriptionId === subscriptionId) {
+        this.sendMessage(key, {
+          type: EventType.UPDATE_MESSAGE_STATUS,
+          data: {
+            mid,
+            status,
+          },
+        });
       }
     }
   }

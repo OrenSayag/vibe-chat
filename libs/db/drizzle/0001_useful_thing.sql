@@ -1,0 +1,1 @@
+ALTER TABLE "subscription_messages" ALTER COLUMN "id" SET DATA TYPE varchar;

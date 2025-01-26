@@ -1,0 +1,96 @@
+import {
+  InboundMessageContact,
+  Message,
+  MessageDirection,
+  MessageStatus,
+  WhatsappWebhook,
+} from '@monday-whatsapp/shared-types';
+import {
+  getContactByPhoneNumberId,
+  getSubscriptionIdByPhoneNumberId,
+  updateMessageStatus,
+  upsertMessageInHistory,
+} from '@monday-whatsapp/db';
+import { EventsService } from '../../../events/events.service';
+
+type Input = {
+  data: WhatsappWebhook;
+  eventsService: EventsService;
+};
+
+export const handleWebhook = async ({ data, eventsService }: Input) => {
+  switch (data.object) {
+    case 'whatsapp_business_account':
+      for (const entry of data.entry) {
+        for (const change of entry.changes) {
+          switch (change.field) {
+            case 'messages':
+              for (const status of change.value.statuses ?? []) {
+                await handleOutboundMessageStatusChange({
+                  mid: status.id,
+                  status: status.status,
+                  eventsService,
+                });
+              }
+              for (const msg of change.value.messages ?? []) {
+                await handleInboundMessage({
+                  message: {
+                    ...msg,
+                    status: MessageStatus.READ,
+                    direction: MessageDirection.INCOMING,
+                  },
+                  contact: change.value.contacts![0]!,
+                  subscriptionPhoneNumberId:
+                    change.value.metadata.phone_number_id,
+                });
+              }
+          }
+        }
+      }
+  }
+};
+
+async function handleOutboundMessageStatusChange({
+  status,
+  mid,
+  eventsService,
+}: {
+  mid: string;
+  status: MessageStatus;
+  eventsService: EventsService;
+}) {
+  console.log(`Should update message status to ${status}`);
+  await updateMessageStatus({
+    mid,
+    status,
+  });
+  await eventsService.broadcastMessageStatusChange({
+    mid,
+    status,
+  });
+}
+
+async function handleInboundMessage({
+  message,
+  contact,
+  subscriptionPhoneNumberId,
+}: {
+  message: Message;
+  subscriptionPhoneNumberId: string;
+  contact: InboundMessageContact;
+}) {
+  const { subscriptionId } = await getSubscriptionIdByPhoneNumberId({
+    phoneNumberId: subscriptionPhoneNumberId,
+  });
+  const { id: contactId } = await getContactByPhoneNumberId({
+    subscriptionId,
+    phoneNumberId: contact.wa_id,
+    displayedPhoneNumber: contact.wa_id,
+    name: contact.profile.name,
+  });
+  await upsertMessageInHistory({
+    message,
+    subscriptionId,
+    contactId,
+  });
+}

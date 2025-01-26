@@ -1,4 +1,4 @@
-export type Webhook = WhatsappBusinessAccountWebhook;
+export type WhatsappWebhook = WhatsappBusinessAccountWebhook;
 
 type WhatsappBusinessAccountWebhook = {
   object: 'whatsapp_business_account';
@@ -10,16 +10,32 @@ type Entry = {
   changes: Change[];
 };
 
+type ChangeField = 'messages';
+
 type Change = {
   value: ChangeValue;
-  field: string;
+  field: ChangeField;
+};
+
+type MessageStatusChange = {
+  id: string;
+  status: MessageStatus;
+  timestamp: `${number}`;
+  recipientId: `${number}`;
+  conversation: {
+    id: string;
+    origin: {
+      type: 'utility';
+    };
+  };
 };
 
 type ChangeValue = {
   messaging_product: 'whatsapp';
   metadata: Metadata;
-  contacts: Contact[];
-  messages: Message[];
+  statuses?: MessageStatusChange[]; // when the message is outbound
+  contacts?: InboundMessageContact[]; // when the message is inbound
+  messages?: RawWhatsappMessage[]; // when the message is inbound
 };
 
 type Metadata = {
@@ -27,7 +43,7 @@ type Metadata = {
   phone_number_id: string;
 };
 
-type Contact = {
+export type InboundMessageContact = {
   profile: {
     name: string;
   };
@@ -40,6 +56,7 @@ export enum MessageDirection {
 }
 
 export enum MessageStatus {
+  PENDING = 'pending',
   SENT = 'sent',
   DELIVERED = 'delivered',
   READ = 'read',
@@ -52,13 +69,15 @@ type AddedMessageInfo = {
   status: MessageStatus;
 };
 
-export type Message = {
+export type RawWhatsappMessage = {
   from: string;
   id: string;
   timestamp: string;
   text: Text;
   type: 'text';
-} & AddedMessageInfo;
+};
+
+export type Message = RawWhatsappMessage & AddedMessageInfo;
 
 type Text = {
   body: string;
@@ -78,4 +97,10 @@ export type WhatsappSendMessageRequestBody = {
     body: string;
     preview_url?: boolean;
   };
+};
+
+export type WhatsappSendMessageResponseBody = {
+  messaging_product: 'whatsapp';
+  contacts: { input: string; wa_id: string }[];
+  messages: { id: string }[];
 };

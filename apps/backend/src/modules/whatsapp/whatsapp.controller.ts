@@ -1,8 +1,12 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { BackendBaseResponse } from '@monday-whatsapp/shared-types';
+import {
+  BackendBaseResponse,
+  WhatsappWebhook as IWhatsappWebhook,
+} from '@monday-whatsapp/shared-types';
 import { WhatsappService } from './whatsapp.service';
 import { WhatsappWebhook } from '../../decorators/whatsapp-webhook.decorator';
 import { EventsService } from '../events/events.service';
+import { handleWebhook } from './methods/handle-webhook';
 
 @Controller('whatsapp')
 export class WhatsappController {
@@ -13,12 +17,9 @@ export class WhatsappController {
   @WhatsappWebhook()
   @Post('webhook')
   async webhook(
-    @Body() input: unknown
+    @Body() input: IWhatsappWebhook
   ): Promise<BackendBaseResponse<undefined>> {
-    console.log('Received webhook');
-    console.log({
-      input: JSON.stringify(input),
-    });
+    handleWebhook({ data: input, eventsService: this.eventsService });
     return {
       success: true,
       message: 'Received webhook',

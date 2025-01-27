@@ -15,14 +15,15 @@ export const useChat = ({ subscriptionId }: Input): Output => {
     subscriptionId,
     phoneNumberId: chatListProps?.selectedChatId,
   });
-  const { sessionHistory, list, sendMessage } = useChatEvents({
-    list: chatListProps.list,
-    subscriptionId,
-    sessionHistory:
-      chatSessionProps.state === 'available'
-        ? chatSessionProps.history
-        : undefined,
-  });
+  const { sessionHistory, list, sendMessage, setNewChatDialog, newChatDialog } =
+    useChatEvents({
+      list: chatListProps.list,
+      subscriptionId,
+      sessionHistory:
+        chatSessionProps.state === 'available'
+          ? chatSessionProps.history
+          : undefined,
+    });
 
   return {
     listProps: { ...chatListProps, list },
@@ -42,6 +43,20 @@ export const useChat = ({ subscriptionId }: Input): Output => {
             },
           }
         : undefined,
+    masterHeaderProps: {
+      onNewChat() {
+        setNewChatDialog(true);
+      },
+    },
+    newChatModalProps: {
+      active: newChatDialog,
+      onClose() {
+        setNewChatDialog(false);
+      },
+      onConfirm(phoneNumberId: string) {
+        console.log('onConfirm: not implemented');
+      },
+    },
     loading: chatListProps.state === 'loading',
     error: chatListProps.state === 'error',
   };

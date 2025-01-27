@@ -57,10 +57,11 @@ function Session({
     <Box
       style={{
         flexGrow: 1,
-        padding: '0 2em .4em',
+        padding: '.5em 2em',
         overflowY: 'scroll',
         background: 'rgba(22, 161, 247, 0.1)',
         flexDirection: 'column-reverse',
+        height: '100%',
       }}
     >
       {grouped.map((g) => (

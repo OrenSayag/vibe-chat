@@ -85,12 +85,18 @@ export type ChatSessionProps = {
     }
 );
 
+export type ChatMasterHeaderProps = {
+  onNewChat(): void;
+};
+
 export type ChatProps = {
   className?: string;
   listProps: ChatListProps;
   sessionProps?: ChatSessionProps;
   loading?: boolean;
   error?: boolean;
+  masterHeaderProps: ChatMasterHeaderProps;
+  newChatModalProps: NewChatModalProps;
 };
 
 export const GET_CHAT_LIST_RESULTS_PER_PAGE = 25;
@@ -112,3 +118,9 @@ export const sendMessageRequestBodySchema = z.object({
 export type SendMessageRequestBody = z.infer<
   typeof sendMessageRequestBodySchema
 >;
+
+export type NewChatModalProps = {
+  onClose(): void;
+  onConfirm(phoneNumberId: string): void;
+  active?: boolean;
+};

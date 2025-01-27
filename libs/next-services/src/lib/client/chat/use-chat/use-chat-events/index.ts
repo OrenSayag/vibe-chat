@@ -3,7 +3,6 @@ import {
   ChatListItem,
   EventType,
   Message,
-  MessageDirection,
   SendMessageRequest,
   UpdateMessageStatusEventPayload,
 } from '@monday-whatsapp/shared-types';
@@ -20,6 +19,8 @@ type Output = {
   list: ChatListItem[];
   sessionHistory?: ChatHistory;
   sendMessage(input: SendMessageRequest): void;
+  newChatDialog?: boolean;
+  setNewChatDialog(val: boolean): void;
 };
 
 export const useChatEvents = ({
@@ -139,9 +140,13 @@ export const useChatEvents = ({
     [socket]
   );
 
+  const [newChatDialog, setNewChatDialog] = useState(false);
+
   return {
     list: updatedList,
     sessionHistory: updatedHistory,
     sendMessage,
+    setNewChatDialog,
+    newChatDialog,
   };
 };

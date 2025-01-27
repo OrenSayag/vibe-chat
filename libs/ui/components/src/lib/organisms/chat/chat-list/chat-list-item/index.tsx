@@ -13,8 +13,8 @@ interface Props {
 export const ChatListItem: FC<Props> = ({ className, item }) => {
   return (
     <>
-      <Flex style={{ width: '100%' }}>
-        <Box padding={'medium'}>
+      <Flex style={{ width: '100%' }} gap={'small'}>
+        <Box padding={'xs'}>
           <Avatar src={item.avatarSrc} />
         </Box>
         <Box style={{ width: '100%', flexGrow: 1 }}>

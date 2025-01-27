@@ -2,8 +2,10 @@ import { FC } from 'react';
 import { ChatList } from '../chat-list';
 import { ChatSession } from '../chat-session';
 import { ChatSessionPlaceholder } from '../chat-session-placeholder';
-import { Flex, Text } from '@vibe/core';
+import { Divider, Flex, Text } from '@vibe/core';
 import { ChatProps } from '@monday-whatsapp/shared-types';
+import { ChatMasterHeader } from '../chat-master-header';
+import { NewChatModal } from '../new-chat-modal';
 
 export const ChatLayout: FC<ChatProps> = ({
   className,
@@ -11,6 +13,8 @@ export const ChatLayout: FC<ChatProps> = ({
   listProps,
   loading,
   error,
+  masterHeaderProps,
+  newChatModalProps,
 }) => {
   return (
     <>
@@ -23,12 +27,13 @@ export const ChatLayout: FC<ChatProps> = ({
           <div
             style={{
               width: '33%',
-              borderRight: '1px solid white',
               height: '100%',
             }}
           >
+            <ChatMasterHeader {...masterHeaderProps} />
             <ChatList {...listProps} />
           </div>
+          <Divider direction={'vertical'} />
           <div
             style={{
               flexGrow: 1,
@@ -46,6 +51,7 @@ export const ChatLayout: FC<ChatProps> = ({
       )}
       {loading && <Text>Loading layout</Text>}
       {error && <Text>Error</Text>}
+      <NewChatModal {...newChatModalProps} />
     </>
   );
 };

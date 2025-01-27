@@ -24,7 +24,11 @@ export const BoardTemplate: FC<Props> = ({
 }) => {
   return (
     <>
-      <div className={cn(className)}>
+      <div
+        style={{
+          height: '100%',
+        }}
+      >
         <ChatLayout {...chatProps} />
       </div>
     </>

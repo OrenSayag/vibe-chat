@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { cn } from '@monday-whatsapp/ui-utils';
 import { Avatar, Flex, Text } from '@vibe/core';
 import { ChatSessionHeaderProps } from '@monday-whatsapp/shared-types';
 
@@ -13,7 +12,10 @@ export const ChatSessionHeader: FC<ChatSessionHeaderProps> = ({
   return (
     <>
       <Flex
-        className={cn('bg-gray-900 bg-opacity-10 px-5 py-3', className)}
+        style={{
+          backgroundColor: 'rgba(70, 73, 77, 0.1)',
+          padding: '.6em 1em',
+        }}
         align={'center'}
         gap={'medium'}
       >

@@ -42,7 +42,7 @@ export const getChatList = async ({
   const hasMorePages = offset + res.length < totalCount;
   return {
     list: res.map((row) => ({
-      avatarSrc: undefined,
+      avatarSrc: row.subscription_contacts.info.avatarSrc,
       name: row.subscription_contacts.info.name,
       phoneNumberId: row.subscription_contacts.info.phoneNumberId,
       latestMessage: row.subscription_messages.message,

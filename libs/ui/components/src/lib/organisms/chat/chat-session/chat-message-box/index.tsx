@@ -18,12 +18,26 @@ export const ChatMessageBox: FC<Props> = ({ className, message }) => {
   return (
     <>
       <Box
-        className={cn(
-          message.direction === MessageDirection.INCOMING && 'bg-stone-600',
-          message.direction === MessageDirection.OUTGOING && 'bg-lime-700',
-          'bg-opacity-20 p-2 rounded-md w-fit',
-          className
-        )}
+        style={{
+          backgroundColor:
+            message.direction === MessageDirection.OUTGOING
+              ? 'rgba(18, 184, 60, .4)'
+              : 'rgba(0, 0, 0, .1)',
+          padding: '.5em .9em',
+          width: 'fit-content',
+          marginRight:
+            message.direction === MessageDirection.INCOMING
+              ? 'auto'
+              : undefined,
+          marginLeft:
+            message.direction === MessageDirection.OUTGOING
+              ? 'auto'
+              : undefined,
+          display: 'flex',
+          alignItems: 'end',
+          gap: '.5em',
+        }}
+        rounded={'medium'}
       >
         <Content text={message.text.body ?? ''} />
         <Flex gap={'xs'} justify={'end'}>
@@ -44,7 +58,11 @@ function Timestamp({
   className?: string;
   timestamp: Props['message']['timestamp'];
 }) {
-  return <Text>{format(Number(timestamp) * 1_000, 'HH:mm')}</Text>;
+  return (
+    <Text style={{ fontSize: '.7em' }}>
+      {format(Number(timestamp) * 1_000, 'HH:mm')}
+    </Text>
+  );
 }
 
 function Checks({

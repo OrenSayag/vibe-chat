@@ -26,4 +26,8 @@ export const updateMessageStatus = async ({ mid, status }: Input) => {
       },
     })
     .where(eq(subscriptionMessages.id, message.id));
+  return {
+    ...message.message,
+    status,
+  };
 };

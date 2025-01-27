@@ -3,7 +3,7 @@ import {
   EventClientData,
   EventMessageContent,
   EventType,
-  MessageStatus,
+  UpdateMessageStatusEventPayload,
 } from '@monday-whatsapp/shared-types';
 import { Server } from 'socket.io';
 import { getSubscriptionIdByMessageId } from '@monday-whatsapp/db';
@@ -54,24 +54,15 @@ export class EventsService {
     }
   }
 
-  async broadcastMessageStatusChange({
-    status,
-    mid,
-  }: {
-    mid: string;
-    status: MessageStatus;
-  }) {
+  async broadcastMessageStatusChange(payload: UpdateMessageStatusEventPayload) {
     const { subscriptionId } = await getSubscriptionIdByMessageId({
-      mid,
+      mid: payload.message.id,
     });
     for (const [key, value] of this.clients) {
       if (value.subscriptionId === subscriptionId) {
         this.sendMessage(key, {
           type: EventType.UPDATE_MESSAGE_STATUS,
-          data: {
-            mid,
-            status,
-          },
+          data: payload,
         });
       }
     }

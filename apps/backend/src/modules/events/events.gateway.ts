@@ -13,6 +13,7 @@ import {
 } from '@monday-whatsapp/shared-types';
 import { EventsService } from './events.service';
 import { getSubscription } from '../subscription/methods/get-subscription';
+import { sendMessage } from '../whatsapp/methods/send-message';
 
 @WebSocketGateway(3002, {
   cors: true,
@@ -85,10 +86,23 @@ export class EventsGateway {
   ) {
     try {
       const { subscriptionId } = this.eventsService.getClientData(client.id)!;
-      const subscription = await getSubscription({
-        type: 'subscriptionId',
-        id: subscriptionId,
-      });
+      if (message.chatIds.length === 1) {
+        const sentMessage = await sendMessage({
+          subscriptionId,
+          text: { body: message.message },
+          to: message.chatIds[0],
+        });
+        return sentMessage;
+      }
+      await Promise.all(
+        message.chatIds.map(async (id) => {
+          await sendMessage({
+            subscriptionId,
+            text: { body: message.message },
+            to: id,
+          });
+        })
+      );
     } catch (e) {
       console.log('Error in socket handleSendTextMessage');
       console.log(e);

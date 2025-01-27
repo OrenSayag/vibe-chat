@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { cn, customFormatDate } from '@monday-whatsapp/ui-utils';
+import { customFormatDate } from '@monday-whatsapp/ui-utils';
 import { ChatListItem as ChatListItemData } from '@monday-whatsapp/shared-types';
 import { Avatar as VibeAvatar, Box, Flex, Text } from '@vibe/core';
 import { MessageStatusCheck } from '../../../../atoms/message-status-check';
@@ -13,22 +13,20 @@ interface Props {
 export const ChatListItem: FC<Props> = ({ className, item }) => {
   return (
     <>
-      <div className={cn('w-full', className)}>
-        <Flex>
-          <Box padding={'medium'}>
-            <Avatar src={item.avatarSrc} />
-          </Box>
-          <Box style={{ width: '100%' }}>
-            <Content name={item.name} message={item.latestMessage} />
-          </Box>
-        </Flex>
-      </div>
+      <Flex style={{ width: '100%' }}>
+        <Box padding={'medium'}>
+          <Avatar src={item.avatarSrc} />
+        </Box>
+        <Box style={{ width: '100%', flexGrow: 1 }}>
+          <Content name={item.name} message={item.latestMessage} />
+        </Box>
+      </Flex>
     </>
   );
 };
 
 function Avatar({ src }: { src?: Props['item']['avatarSrc'] }) {
-  return <VibeAvatar src={src} size="large" type="img" />;
+  return <VibeAvatar src={src} size="medium" type="img" />;
 }
 
 function Content({
@@ -39,7 +37,7 @@ function Content({
   message: ChatListItemData['latestMessage'];
 }) {
   return (
-    <Box>
+    <Box style={{ width: '100%' }}>
       <Flex justify={'space-between'} align={'end'}>
         <Text>{name}</Text>
         <Text>

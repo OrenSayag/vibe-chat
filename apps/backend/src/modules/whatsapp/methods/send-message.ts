@@ -1,4 +1,5 @@
 import {
+  Message,
   MessageDirection,
   MessageStatus,
   SendMessageRequestBody,
@@ -17,9 +18,7 @@ type Input = SendMessageRequestBody & {
   subscriptionId: number;
 };
 
-type Output = {
-  mid: string;
-};
+type Output = Message;
 
 export const sendMessage = async ({
   subscriptionId,
@@ -51,20 +50,19 @@ export const sendMessage = async ({
   });
   const resBody: WhatsappSendMessageResponseBody = await res.json();
   const { id: messageId } = resBody.messages[0];
+  const message: Message = {
+    id: messageId,
+    from: phoneNumberId,
+    text,
+    type: 'text',
+    timestamp: Math.floor(new Date().getTime() / 1_000).toString(),
+    direction: MessageDirection.OUTGOING,
+    status: MessageStatus.PENDING,
+  };
   await upsertMessageInHistory({
     subscriptionId,
     contactId,
-    message: {
-      id: messageId,
-      from: phoneNumberId,
-      text,
-      type: 'text',
-      timestamp: Math.floor(new Date().getTime() / 1_000).toString(),
-      direction: MessageDirection.OUTGOING,
-      status: MessageStatus.PENDING,
-    },
+    message: message,
   });
-  return {
-    mid: messageId,
-  };
+  return message;
 };

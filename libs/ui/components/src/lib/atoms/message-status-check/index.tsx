@@ -17,6 +17,7 @@ export const MessageStatusCheck: FC<Props> = ({ className, status }) => {
           style={{
             color: status === MessageStatus.READ ? 'blue' : undefined,
             opacity: !(
+              status === MessageStatus.READ ||
               status === MessageStatus.SENT ||
               status === MessageStatus.DELIVERED
             )

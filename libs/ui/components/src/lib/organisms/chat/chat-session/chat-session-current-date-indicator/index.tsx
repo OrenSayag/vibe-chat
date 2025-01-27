@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { cn, customFormatDate } from '@monday-whatsapp/ui-utils';
+import { customFormatDate } from '@monday-whatsapp/ui-utils';
 import { Box } from '@vibe/core';
 
 interface Props {
@@ -14,8 +14,15 @@ export const ChatSessionCurrentDateIndicator: FC<Props> = ({
   return (
     <>
       <Box
-        className={cn('w-fit px-4 py-2 uppercase text-sm', className)}
+        style={{
+          width: 'fit-content',
+          textTransform: 'uppercase',
+          fontSize: 'small',
+          margin: '.6em auto',
+          padding: '.4em .8em',
+        }}
         backgroundColor={'allgreyBackgroundColor'}
+        rounded={'small'}
       >
         {customFormatDate(new Date(timestamp * 1_000), 'day')}
       </Box>

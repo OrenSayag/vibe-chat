@@ -49,6 +49,7 @@ export const getChatSession = async ({
         name: contact.name,
         contactName: contact.name,
         displayPhoneNumber: contact.displayedPhoneNumber,
+        avatarSrc: contact.avatarSrc,
       },
       history: getsMessagesRes.map((m) => ({
         ...m.message,

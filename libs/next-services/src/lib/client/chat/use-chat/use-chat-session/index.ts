@@ -72,6 +72,7 @@ export const useChatSession = ({
     onLoadMore,
     headerProps: {
       name: history!.contact.name,
+      avatarSrc: history?.contact.avatarSrc,
     },
     messageInputAndActionProps: {
       type: 'text',

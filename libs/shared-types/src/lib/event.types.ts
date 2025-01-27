@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { MessageStatus } from './whatsapp.types';
+import { Message } from './whatsapp.types';
 
 export type EventClientId = `subscription:${string}-${string}`;
 
@@ -8,6 +8,11 @@ export enum EventType {
   UPDATE_MESSAGE_STATUS = 'updateMessageStatus',
 }
 
+export type UpdateMessageStatusEventPayload = {
+  message: Message;
+  contactPhoneNumberId: string;
+};
+
 export type EventMessageContent =
   | {
       type: EventType.SEND_TEXT_MESSAGE;
@@ -15,10 +20,7 @@ export type EventMessageContent =
     }
   | {
       type: EventType.UPDATE_MESSAGE_STATUS;
-      data: {
-        mid: string;
-        status: MessageStatus;
-      };
+      data: UpdateMessageStatusEventPayload;
     };
 
 export type EventClientData = {

@@ -1,7 +1,7 @@
 import { ChatProps } from '@monday-whatsapp/shared-types';
 import { useChatList } from './use-chat-list';
 import { useChatSession } from './use-chat-session';
-import { useEffect } from 'react';
+import { useChatEvents } from './use-chat-events';
 
 type Output = ChatProps;
 
@@ -15,14 +15,33 @@ export const useChat = ({ subscriptionId }: Input): Output => {
     subscriptionId,
     phoneNumberId: chatListProps?.selectedChatId,
   });
-  useEffect(() => {
-    console.log({
-      chatListProps,
-    });
-  }, [JSON.stringify(chatListProps)]);
+  const { sessionHistory, list, sendMessage } = useChatEvents({
+    list: chatListProps.list,
+    subscriptionId,
+    sessionHistory:
+      chatSessionProps.state === 'available'
+        ? chatSessionProps.history
+        : undefined,
+  });
+
   return {
-    listProps: chatListProps,
-    sessionProps: chatSessionProps,
+    listProps: { ...chatListProps, list },
+    sessionProps:
+      chatSessionProps.state === 'available' && sessionHistory
+        ? {
+            ...chatSessionProps,
+            history: sessionHistory,
+            messageInputAndActionProps: {
+              ...chatSessionProps.messageInputAndActionProps,
+              onSend(txt: string) {
+                sendMessage({
+                  chatIds: [chatListProps.selectedChatId!],
+                  message: txt,
+                });
+              },
+            },
+          }
+        : undefined,
     loading: chatListProps.state === 'loading',
     error: chatListProps.state === 'error',
   };

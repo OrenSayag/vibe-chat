@@ -10,3 +10,4 @@ export * from './methods/chat/upsert-message-in-history';
 export * from './methods/chat/update-message-status';
 export * from './methods/chat/get-subscription-id-by-message-id';
 export * from './methods/chat/get-subscription-id-by-phone-number-id';
+export * from './methods/contacts/get-message-contact';

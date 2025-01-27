@@ -3,10 +3,12 @@ import {
   Message,
   MessageDirection,
   MessageStatus,
+  UpdateMessageStatusEventPayload,
   WhatsappWebhook,
 } from '@monday-whatsapp/shared-types';
 import {
   getContactByPhoneNumberId,
+  getMessageContact,
   getSubscriptionIdByPhoneNumberId,
   updateMessageStatus,
   upsertMessageInHistory,
@@ -42,6 +44,7 @@ export const handleWebhook = async ({ data, eventsService }: Input) => {
                   contact: change.value.contacts![0]!,
                   subscriptionPhoneNumberId:
                     change.value.metadata.phone_number_id,
+                  eventsService,
                 });
               }
           }
@@ -59,14 +62,18 @@ async function handleOutboundMessageStatusChange({
   status: MessageStatus;
   eventsService: EventsService;
 }) {
-  console.log(`Should update message status to ${status}`);
-  await updateMessageStatus({
+  const message = await updateMessageStatus({
     mid,
     status,
   });
-  await eventsService.broadcastMessageStatusChange({
+
+  const contact = await getMessageContact({
     mid,
-    status,
+  });
+
+  await eventsService.broadcastMessageStatusChange({
+    message,
+    contactPhoneNumberId: contact.phoneNumberId,
   });
 }
 
@@ -74,10 +81,12 @@ async function handleInboundMessage({
   message,
   contact,
   subscriptionPhoneNumberId,
+  eventsService,
 }: {
   message: Message;
   subscriptionPhoneNumberId: string;
   contact: InboundMessageContact;
+  eventsService: EventsService;
 }) {
   const { subscriptionId } = await getSubscriptionIdByPhoneNumberId({
     phoneNumberId: subscriptionPhoneNumberId,
@@ -93,4 +102,9 @@ async function handleInboundMessage({
     subscriptionId,
     contactId,
   });
+  const payload: UpdateMessageStatusEventPayload = {
+    message,
+    contactPhoneNumberId: contact.wa_id,
+  };
+  await eventsService.broadcastMessageStatusChange(payload);
 }

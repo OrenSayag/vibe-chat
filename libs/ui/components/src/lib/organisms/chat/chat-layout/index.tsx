@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { ChatList } from '../chat-list';
 import { ChatSession } from '../chat-session';
 import { ChatSessionPlaceholder } from '../chat-session-placeholder';
@@ -12,20 +12,19 @@ export const ChatLayout: FC<ChatProps> = ({
   loading,
   error,
 }) => {
-  useEffect(() => {
-    console.log({
-      listPropsInLayout: listProps,
-    });
-  }, [listProps]);
   return (
     <>
       {!loading && !error && (
-        <Flex>
+        <Flex
+          style={{
+            height: '100%',
+          }}
+        >
           <div
             style={{
               width: '33%',
               borderRight: '1px solid white',
-              height: '100vh',
+              height: '100%',
             }}
           >
             <ChatList {...listProps} />
@@ -33,10 +32,11 @@ export const ChatLayout: FC<ChatProps> = ({
           <div
             style={{
               flexGrow: 1,
+              height: '100%',
             }}
           >
             {listProps.selectedChatId && sessionProps && (
-              <ChatSession {...sessionProps} className={'flex-grow'} />
+              <ChatSession {...sessionProps} />
             )}
             {(!sessionProps || !listProps.selectedChatId) && (
               <ChatSessionPlaceholder />

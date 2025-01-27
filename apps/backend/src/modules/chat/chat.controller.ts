@@ -52,10 +52,6 @@ export class ChatController {
     @Param() params: GetChatSessionParamsDto,
     @Query() query: ListSearchParamsDto
   ): Promise<GetChatSessionResponse> {
-    console.log({
-      params,
-      query,
-    });
     const res = await getSession({
       ...params,
       ...query,
@@ -74,7 +70,7 @@ export class ChatController {
     if (Number.isNaN(Number(subscriptionId))) {
       throw new BadRequestException('Invalid subscription ID');
     }
-    const { mid } = await _sendMessage({
+    const message = await _sendMessage({
       subscriptionId: Number(subscriptionId),
       ...body,
     });
@@ -82,7 +78,7 @@ export class ChatController {
       success: true,
       message: 'Successfully sent message',
       data: {
-        mid,
+        mid: message.id,
       },
     };
   }

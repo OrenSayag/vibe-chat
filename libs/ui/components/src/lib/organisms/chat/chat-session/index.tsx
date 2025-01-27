@@ -28,7 +28,12 @@ export const ChatSession: FC<ChatSessionProps> = (props) => {
           <>
             <ChatSessionHeader {...props.headerProps} />
             <Session chatHistory={props.history} />
-            <MessageInputAndAction {...props.messageInputAndActionProps} />
+            <MessageInputAndAction
+              {...props.messageInputAndActionProps}
+              style={{
+                padding: '1em 1em',
+              }}
+            />
           </>
         )}
       </Box>

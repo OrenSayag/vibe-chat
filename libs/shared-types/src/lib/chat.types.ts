@@ -1,6 +1,7 @@
 import { Message, WhatsappMessageType } from './whatsapp.types';
 import { BackendBaseResponse, GetListState } from './app.types';
 import { z } from 'zod';
+import { CSSProperties } from 'react';
 
 export type ChatListItem = {
   avatarSrc?: string;
@@ -68,6 +69,7 @@ export type MessageInputAndActionProps = {
   onSend(txt: string): void;
   disabled?: boolean;
   type?: 'text-area' | 'text';
+  style?: CSSProperties;
 };
 
 export type ChatSessionProps = {

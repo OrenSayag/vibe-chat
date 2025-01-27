@@ -8,16 +8,13 @@ export const MessageInputAndAction: FC<MessageInputAndActionProps> = ({
   onSend,
   disabled,
   type = 'text',
+  style,
 }) => {
   const [input, setInput] = useState<string>('');
   const InputComponent = type === 'text' ? TextField : TextArea;
   return (
     <>
-      <Box
-        style={{
-          padding: '1em 1em',
-        }}
-      >
+      <Box style={style}>
         <Flex gap={'small'}>
           <InputComponent
             className={'h-full'}

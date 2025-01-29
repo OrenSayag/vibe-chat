@@ -40,18 +40,22 @@ function Content({
     <Box style={{ width: '100%' }}>
       <Flex justify={'space-between'} align={'end'}>
         <Text>{name}</Text>
-        <Text>
-          {customFormatDate(new Date(Number(message.timestamp) * 1_000))}
-        </Text>
+        {message && (
+          <Text>
+            {customFormatDate(new Date(Number(message.timestamp) * 1_000))}
+          </Text>
+        )}
       </Flex>
-      <Flex direction={'row'} align={'end'} gap={'small'}>
-        <Flex>
-          {message.direction === MessageDirection.OUTGOING && (
-            <MessageStatusCheck status={message.status} />
-          )}
+      {message && (
+        <Flex direction={'row'} align={'end'} gap={'small'}>
+          <Flex>
+            {message.direction === MessageDirection.OUTGOING && (
+              <MessageStatusCheck status={message.status} />
+            )}
+          </Flex>
+          <Text>{message.text.body ?? ''}</Text>
         </Flex>
-        <Text>{message.text.body ?? ''}</Text>
-      </Flex>
+      )}
     </Box>
   );
 }

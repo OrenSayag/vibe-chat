@@ -5,7 +5,7 @@ import {
 } from '@monday-whatsapp/shared-types';
 import { db } from '../../config';
 import { subscriptionMessages } from '../../schema';
-import { count, desc, eq } from 'drizzle-orm';
+import { and, count, desc, eq } from 'drizzle-orm';
 import { getContact } from '../contacts/get-contact';
 
 type Input = BaseGetListParams & GetChatSessionParams;
@@ -28,7 +28,12 @@ export const getChatSession = async ({
   const getsMessagesRes = await db
     .select()
     .from(subscriptionMessages)
-    .where(eq(subscriptionMessages.subscriptionId, subscriptionId))
+    .where(
+      and(
+        eq(subscriptionMessages.subscriptionId, subscriptionId),
+        eq(subscriptionMessages.contactId, contact.id)
+      )
+    )
     .offset(offset)
     .limit(limit)
     .orderBy(desc(subscriptionMessages.createdAt));

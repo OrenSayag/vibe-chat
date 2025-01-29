@@ -40,10 +40,6 @@ export const useChatList = ({ subscriptionId }: Input): Output => {
       setState('error');
     },
     onSuccess({ list, hasMore }) {
-      console.log('Success getting list!');
-      console.log({
-        list,
-      });
       setState('available');
       setList(list);
       setHasMore(Boolean(hasMore));
@@ -57,9 +53,23 @@ export const useChatList = ({ subscriptionId }: Input): Output => {
   const onLoadMore = () => {
     console.log('onLoadMore: not implemented');
   };
+
   return {
     list,
-    onSelectChat: setSelectedChatId,
+    onSelectChat: (chatid) => {
+      const contactExists = list.some((i) => i.phoneNumberId == chatid);
+      if (!contactExists) {
+        setList((prev) => [
+          ...prev,
+          {
+            name: chatid,
+            phoneNumberId: chatid,
+            displayPhoneNumber: chatid,
+          },
+        ]);
+      }
+      setSelectedChatId(chatid);
+    },
     selectedChatId,
     onLoadMore,
     state,

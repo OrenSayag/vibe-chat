@@ -1,5 +1,6 @@
 import {
   ChatHistory,
+  ChatListProps,
   ChatSessionProps,
   GET_CHAT_SESSION_HISTORY_RESULTS_PER_PAGE,
   GetChatSessionResponse,
@@ -11,14 +12,16 @@ import { getChatSession } from '../../../../server/chat/get-chat-session';
 
 type Input = {
   subscriptionId?: number;
-  phoneNumberId?: string;
+  selectedChatId?: ChatListProps['selectedChatId'];
+  isNewContact?: boolean;
 };
 
 type Output = ChatSessionProps;
 
 export const useChatSession = ({
-  phoneNumberId,
+  selectedChatId,
   subscriptionId,
+  isNewContact,
 }: Input): Output => {
   const [state, setState] = useState<GetListState>('loading');
   const [currPage, setCurrPage] = useState(1);
@@ -32,7 +35,7 @@ export const useChatSession = ({
       return getChatSession({
         params: {
           subscriptionId: subscriptionId!,
-          phoneNumberId: phoneNumberId!,
+          phoneNumberId: selectedChatId!,
         },
         query: {
           offset: (currPage - 1) * GET_CHAT_SESSION_HISTORY_RESULTS_PER_PAGE,
@@ -50,11 +53,22 @@ export const useChatSession = ({
     },
   });
   useEffect(() => {
-    if (!phoneNumberId || !subscriptionId) {
+    if (!selectedChatId || !subscriptionId) {
+      return;
+    }
+    if (isNewContact) {
+      setHistory({
+        contact: {
+          phoneNumberId: selectedChatId,
+          name: selectedChatId,
+        },
+        history: [],
+      });
+      setState('available');
       return;
     }
     startAction(undefined);
-  }, [phoneNumberId]);
+  }, [selectedChatId]);
   const onLoadMore = () => {
     console.log('onLoadMore: not implemented');
   };

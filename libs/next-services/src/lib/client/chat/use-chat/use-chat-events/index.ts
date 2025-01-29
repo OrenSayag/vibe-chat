@@ -7,7 +7,7 @@ import {
   UpdateMessageStatusEventPayload,
 } from '@monday-whatsapp/shared-types';
 import { useSocket } from '@monday-whatsapp/next-services';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 type Input = {
   list: ChatListItem[];
@@ -19,8 +19,6 @@ type Output = {
   list: ChatListItem[];
   sessionHistory?: ChatHistory;
   sendMessage(input: SendMessageRequest): void;
-  newChatDialog?: boolean;
-  setNewChatDialog(val: boolean): void;
 };
 
 export const useChatEvents = ({
@@ -103,6 +101,14 @@ export const useChatEvents = ({
     [list, updatedList]
   );
 
+  const sortedList = useMemo(() => {
+    return updatedList.sort((a, b) => {
+      const aVal = Number(a.latestMessage?.timestamp ?? 0);
+      const bVal = Number(b.latestMessage?.timestamp ?? 0);
+      return bVal - aVal;
+    });
+  }, [updatedList]);
+
   useEffect(() => {
     if (!socket) {
       return;
@@ -139,14 +145,9 @@ export const useChatEvents = ({
     },
     [socket]
   );
-
-  const [newChatDialog, setNewChatDialog] = useState(false);
-
   return {
-    list: updatedList,
+    list: sortedList,
     sessionHistory: updatedHistory,
     sendMessage,
-    setNewChatDialog,
-    newChatDialog,
   };
 };

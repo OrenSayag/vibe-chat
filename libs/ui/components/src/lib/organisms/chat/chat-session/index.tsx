@@ -55,7 +55,6 @@ function Session({
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!ref.current) return;
-    console.log('should scroll to bottom of session');
     ref.current.scrollIntoView({ behavior: 'smooth' });
   }, [ref.current, chatHistory]);
   return (

@@ -40,7 +40,7 @@ export const ChatMessageBox: FC<Props> = ({ className, message }) => {
         rounded={'medium'}
       >
         <Content text={message.text.body ?? ''} />
-        <Flex gap={'xs'} justify={'end'}>
+        <Flex gap={'xs'} justify={'end'} align={'end'}>
           <Timestamp timestamp={message.timestamp} />
           {message.direction === MessageDirection.OUTGOING && (
             <Checks status={message.status} />

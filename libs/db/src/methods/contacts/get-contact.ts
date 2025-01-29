@@ -8,7 +8,7 @@ type Input = {
   subscriptionId: number;
 };
 
-type Output = ContactInfo | undefined;
+type Output = (ContactInfo & { id: number }) | undefined;
 
 export const getContact = async ({
   phoneNumberId,
@@ -26,5 +26,5 @@ export const getContact = async ({
   if (res.length === 0) {
     return undefined;
   }
-  return res[0].info;
+  return { ...res[0].info, id: res[0].id };
 };

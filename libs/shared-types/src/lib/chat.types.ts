@@ -1,5 +1,5 @@
 import { Message, WhatsappMessageType } from './whatsapp.types';
-import { BackendBaseResponse, GetListState } from './app.types';
+import { BackendBaseResponse, GetListState, ListItem } from './app.types';
 import { z } from 'zod';
 import { CSSProperties } from 'react';
 
@@ -10,7 +10,7 @@ export type ChatListItem = {
   displayPhoneNumber?: string;
   contactName?: string;
   name: string;
-  latestMessage: Message;
+  latestMessage?: Message;
 };
 
 export type ChatHistory = {
@@ -125,4 +125,7 @@ export type NewChatModalProps = {
   onClose(): void;
   onConfirm(phoneNumberId: string): void;
   active?: boolean;
+  contacts?: ListItem[];
+  pendingGetContacts?: boolean;
+  errorGetContacts?: string;
 };

@@ -2,6 +2,8 @@ import { ChatProps } from '@monday-whatsapp/shared-types';
 import { useChatList } from './use-chat-list';
 import { useChatSession } from './use-chat-session';
 import { useChatEvents } from './use-chat-events';
+import { useNewChatModal } from './use-new-chat-modal';
+import { useEffect } from 'react';
 
 type Output = ChatProps;
 
@@ -13,17 +15,23 @@ export const useChat = ({ subscriptionId }: Input): Output => {
   const chatListProps = useChatList({ subscriptionId });
   const chatSessionProps = useChatSession({
     subscriptionId,
-    phoneNumberId: chatListProps?.selectedChatId,
+    selectedChatId: chatListProps?.selectedChatId,
+    isNewContact: !chatListProps.list.find(
+      (i) => i.phoneNumberId == chatListProps?.selectedChatId
+    )?.latestMessage,
   });
-  const { sessionHistory, list, sendMessage, setNewChatDialog, newChatDialog } =
-    useChatEvents({
-      list: chatListProps.list,
-      subscriptionId,
-      sessionHistory:
-        chatSessionProps.state === 'available'
-          ? chatSessionProps.history
-          : undefined,
-    });
+  const { sessionHistory, list, sendMessage } = useChatEvents({
+    list: chatListProps.list,
+    subscriptionId,
+    sessionHistory:
+      chatSessionProps.state === 'available'
+        ? chatSessionProps.history
+        : undefined,
+  });
+
+  const { onOpen: onOpenNewChatModal, ...newChatModalProps } = useNewChatModal({
+    onNewChat: chatListProps.onSelectChat,
+  });
 
   return {
     listProps: { ...chatListProps, list },
@@ -45,18 +53,10 @@ export const useChat = ({ subscriptionId }: Input): Output => {
         : undefined,
     masterHeaderProps: {
       onNewChat() {
-        setNewChatDialog(true);
+        onOpenNewChatModal();
       },
     },
-    newChatModalProps: {
-      active: newChatDialog,
-      onClose() {
-        setNewChatDialog(false);
-      },
-      onConfirm(phoneNumberId: string) {
-        console.log('onConfirm: not implemented');
-      },
-    },
+    newChatModalProps,
     loading: chatListProps.state === 'loading',
     error: chatListProps.state === 'error',
   };

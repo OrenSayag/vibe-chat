@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react';
 import { Theme } from 'monday-sdk-js/types/theme-config.type';
 import { SocketProvider } from '@monday-whatsapp/next-services';
 
+import 'react-phone-number-input/style.css';
+
 const monday = mondaySdk();
 
 export default function RootLayout({

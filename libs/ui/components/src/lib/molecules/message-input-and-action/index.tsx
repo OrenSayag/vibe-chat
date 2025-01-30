@@ -1,7 +1,10 @@
 import { FC, useState } from 'react';
 import { Box, Button, Flex, TextArea, TextField } from '@vibe/core';
-import { MessageInputAndActionProps } from '@monday-whatsapp/shared-types';
-import { SendHorizonal } from 'lucide-react';
+import {
+  MessageInputAndActionProps,
+  WhatsappMessageType,
+} from '@monday-whatsapp/shared-types';
+import { Bot, SendHorizonal } from 'lucide-react';
 
 export const MessageInputAndAction: FC<MessageInputAndActionProps> = ({
   className,
@@ -9,6 +12,8 @@ export const MessageInputAndAction: FC<MessageInputAndActionProps> = ({
   disabled,
   type = 'text',
   style,
+  templates,
+  templatesOnly,
 }) => {
   const [input, setInput] = useState<string>('');
   const InputComponent = type === 'text' ? TextField : TextArea;
@@ -16,14 +21,16 @@ export const MessageInputAndAction: FC<MessageInputAndActionProps> = ({
     <>
       <Box style={style}>
         <Flex gap={'small'}>
+          <TemplateButton onClick={() => {}} />
           <InputComponent
+            disabled={templatesOnly}
             className={'h-full'}
             placeholder={'Type a message...'}
             onChange={(e) => setInput(type === 'text' ? e : e.target.value)}
             value={input}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                onSend(input);
+                onSend({ type: WhatsappMessageType.TEXT, txt: input });
                 setInput('');
               }
             }}
@@ -38,7 +45,7 @@ export const MessageInputAndAction: FC<MessageInputAndActionProps> = ({
                 size={'small'}
                 disabled={!input || disabled}
                 onClick={() => {
-                  onSend(input);
+                  onSend({ type: WhatsappMessageType.TEXT, txt: input });
                   setInput('');
                 }}
               >
@@ -51,3 +58,17 @@ export const MessageInputAndAction: FC<MessageInputAndActionProps> = ({
     </>
   );
 };
+
+function TemplateButton({ onClick }: { onClick(): void }) {
+  return (
+    <Button onClick={onClick} size={'small'}>
+      <Bot size={20} />
+    </Button>
+  );
+}
+
+function useTemplateList({
+  template,
+}: {
+  template: MessageInputAndActionProps['templates'];
+}) {}

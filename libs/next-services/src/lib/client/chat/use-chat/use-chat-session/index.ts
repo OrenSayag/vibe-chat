@@ -91,6 +91,7 @@ export const useChatSession = ({
     messageInputAndActionProps: {
       type: 'text',
       onSend: onSendMessage,
+      templates: [], // todo implement
     },
   };
 };

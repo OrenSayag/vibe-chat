@@ -84,6 +84,7 @@ type Text = {
 };
 
 export enum WhatsappMessageType {
+  TEMPLATE = 'template',
   TEXT = 'text',
   DOCUMENT = 'document',
 }

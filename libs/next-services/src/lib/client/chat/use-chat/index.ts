@@ -3,7 +3,7 @@ import { useChatList } from './use-chat-list';
 import { useChatSession } from './use-chat-session';
 import { useChatEvents } from './use-chat-events';
 import { useNewChatModal } from './use-new-chat-modal';
-import { useEffect } from 'react';
+import { isBefore, subHours } from 'date-fns';
 
 type Output = ChatProps;
 
@@ -42,12 +42,20 @@ export const useChat = ({ subscriptionId }: Input): Output => {
             history: sessionHistory,
             messageInputAndActionProps: {
               ...chatSessionProps.messageInputAndActionProps,
-              onSend(txt: string) {
-                sendMessage({
-                  chatIds: [chatListProps.selectedChatId!],
-                  message: txt,
-                });
+              onSend(input) {
+                if (input.type === 'text') {
+                  sendMessage({
+                    chatIds: [chatListProps.selectedChatId!],
+                    message: input.txt,
+                  });
+                }
               },
+              templatesOnly:
+                !sessionHistory.history?.[0]?.timestamp ||
+                isBefore(
+                  Number(sessionHistory.history?.[0].timestamp) * 1_000,
+                  subHours(new Date(), 12) // TODO fix 24
+                ),
             },
           }
         : undefined,

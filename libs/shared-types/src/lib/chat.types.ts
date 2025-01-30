@@ -66,10 +66,19 @@ export type ChatSessionHeaderProps = {
 
 export type MessageInputAndActionProps = {
   className?: string;
-  onSend(txt: string): void;
+  onSend(
+    input:
+      | { type: WhatsappMessageType.TEXT; txt: string }
+      | {
+          type: WhatsappMessageType.TEMPLATE;
+          templateId: string;
+        }
+  ): void;
   disabled?: boolean;
   type?: 'text-area' | 'text';
   style?: CSSProperties;
+  templatesOnly?: boolean;
+  templates: {}[];
 };
 
 export type ChatSessionProps = {

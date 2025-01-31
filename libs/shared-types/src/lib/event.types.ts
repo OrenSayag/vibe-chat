@@ -1,10 +1,10 @@
-import { z } from 'zod';
-import { Message } from './whatsapp.types';
+import { Message } from './whatsapp/whatsapp.types';
+import { SendMessageRequest } from './whatsapp/whatsapp-messages.types';
 
 export type EventClientId = `subscription:${string}-${string}`;
 
 export enum EventType {
-  SEND_TEXT_MESSAGE = 'sendTextMessage',
+  SEND_MESSAGE = 'sendMessage',
   UPDATE_MESSAGE_STATUS = 'updateMessageStatus',
 }
 
@@ -15,7 +15,7 @@ export type UpdateMessageStatusEventPayload = {
 
 export type EventMessageContent =
   | {
-      type: EventType.SEND_TEXT_MESSAGE;
+      type: EventType.SEND_MESSAGE;
       data: SendMessageRequest;
     }
   | {
@@ -26,10 +26,3 @@ export type EventMessageContent =
 export type EventClientData = {
   subscriptionId: number;
 };
-
-export const sendMessageRequestSchema = z.object({
-  chatIds: z.array(z.string()),
-  message: z.string(),
-});
-
-export type SendMessageRequest = z.infer<typeof sendMessageRequestSchema>;

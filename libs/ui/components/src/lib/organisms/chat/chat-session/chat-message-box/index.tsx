@@ -7,6 +7,7 @@ import {
   Message,
   MessageDirection,
   MessageStatus,
+  WhatsappMessageType,
 } from '@monday-whatsapp/shared-types';
 
 interface Props {
@@ -39,7 +40,9 @@ export const ChatMessageBox: FC<Props> = ({ className, message }) => {
         }}
         rounded={'medium'}
       >
-        <Content text={message.text.body ?? ''} />
+        {message.message.type === WhatsappMessageType.TEXT && (
+          <TextContent text={message.message.text.body ?? ''} />
+        )}
         <Flex gap={'xs'} justify={'end'} align={'end'}>
           <Timestamp timestamp={message.timestamp} />
           {message.direction === MessageDirection.OUTGOING && (
@@ -79,7 +82,13 @@ function Checks({
   );
 }
 
-function Content({ text, className }: { className?: string; text: string }) {
+function TextContent({
+  text,
+  className,
+}: {
+  className?: string;
+  text: string;
+}) {
   return (
     <Box className={cn(className)}>
       <Text>{text}</Text>

@@ -37,9 +37,12 @@ export const handleWebhook = async ({ data, eventsService }: Input) => {
               for (const msg of change.value.messages ?? []) {
                 await handleInboundMessage({
                   message: {
-                    ...msg,
                     status: MessageStatus.READ,
                     direction: MessageDirection.INCOMING,
+                    id: msg.id,
+                    from: msg.from,
+                    timestamp: msg.timestamp,
+                    message: msg,
                   },
                   contact: change.value.contacts![0]!,
                   subscriptionPhoneNumberId:

@@ -74,10 +74,6 @@ export const useChatEvents = ({
       const item = updatedList.find(
         (item) => item.phoneNumberId === payload.contactPhoneNumberId
       );
-      console.log('updateList');
-      console.log({
-        item,
-      });
       if (item) {
         setUpdatedList((prev) =>
           updatedList.map((it) => {
@@ -116,6 +112,10 @@ export const useChatEvents = ({
     socket.on(
       EventType.UPDATE_MESSAGE_STATUS,
       (data: { data: UpdateMessageStatusEventPayload }) => {
+        console.log('Received event UPDATE_MESSAGE_STATUS');
+        console.log({
+          data,
+        });
         updateHistory(data.data.message);
         updateList(data.data);
       }
@@ -131,7 +131,7 @@ export const useChatEvents = ({
       if (!socket) {
         return;
       }
-      socket.emit(EventType.SEND_TEXT_MESSAGE, input, (res: Message) => {
+      socket.emit(EventType.SEND_MESSAGE, input, (res: Message) => {
         setUpdatedHistory((prev) => {
           if (!prev) {
             return;

@@ -7,7 +7,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { createZodDto } from 'nestjs-zod';
+import { createZodDto, ZodValidationPipe } from 'nestjs-zod';
 import {
   BackendBaseResponse,
   baseGetListParams,
@@ -15,7 +15,8 @@ import {
   GetChatListResponse,
   getChatSessionParamsSchema,
   GetChatSessionResponse,
-  sendMessageRequestBodySchema,
+  SendMessageRequest,
+  sendMessageSchema,
 } from '@monday-whatsapp/shared-types';
 import { getList } from './methods/get-list';
 import { getSession } from './methods/get-session';
@@ -26,9 +27,6 @@ class GetChatSessionParamsDto extends createZodDto(
   getChatSessionParamsSchema
 ) {}
 class ListSearchParamsDto extends createZodDto(baseGetListParams) {}
-class SendMessageRequestBodyDto extends createZodDto(
-  sendMessageRequestBodySchema
-) {}
 
 @Controller('chat')
 export class ChatController {
@@ -65,14 +63,14 @@ export class ChatController {
   @Post(':subscriptionId/send-message')
   async sendMessage(
     @Param('subscriptionId') subscriptionId: string,
-    @Body() body: SendMessageRequestBodyDto
+    @Body(new ZodValidationPipe(sendMessageSchema)) body: SendMessageRequest
   ): Promise<BackendBaseResponse<{ mid: string }>> {
     if (Number.isNaN(Number(subscriptionId))) {
       throw new BadRequestException('Invalid subscription ID');
     }
     const message = await _sendMessage({
       subscriptionId: Number(subscriptionId),
-      ...body,
+      sendMessageData: body,
     });
     return {
       success: true,

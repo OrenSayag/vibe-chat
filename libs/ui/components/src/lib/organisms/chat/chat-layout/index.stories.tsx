@@ -5,6 +5,7 @@ import {
   ChatListItem as ChatListItemData,
   MessageDirection,
   MessageStatus,
+  WhatsappMessageType,
 } from '@monday-whatsapp/shared-types';
 import { useMemo, useState } from 'react';
 
@@ -14,9 +15,11 @@ const outgoingChatMessage: ChatListItemData = {
     'https://pps.whatsapp.net/v/t61.24694-24/439076101_965804545042779_7683015297817172094_n.jpg?ccb=11-4&oh=01_Q5AaIEEef2buVf7H4d6FmnykDTPCYFOyi5i68MqzGknY1_T_&oe=679C3C2F&_nc_sid=5e03e0&_nc_cat=102',
   name: 'Oren',
   latestMessage: {
-    type: 'text',
-    text: {
-      body: 'hello',
+    message: {
+      type: WhatsappMessageType.TEXT,
+      text: {
+        body: 'hello',
+      },
     },
     timestamp: '1737352566',
     status: MessageStatus.SENT,
@@ -32,9 +35,11 @@ const incomingChatMessage: ChatListItemData = {
     'https://pps.whatsapp.net/v/t61.24694-24/362291313_1502482213898085_5283722348083602419_n.jpg?ccb=11-4&oh=01_Q5AaIBoEZ3t1kXpOLLv0mkTQTk7bKEd7q8oWSHtyoO1zxIvv&oe=679B0550&_nc_sid=5e03e0&_nc_cat=107',
   name: 'Ilay',
   latestMessage: {
-    type: 'text',
-    text: {
-      body: 'hello',
+    message: {
+      type: WhatsappMessageType.TEXT,
+      text: {
+        body: 'hello',
+      },
     },
     timestamp: '1737352566',
     status: MessageStatus.SENT,
@@ -47,8 +52,8 @@ const incomingChatMessage: ChatListItemData = {
 const sessions: ChatHistory[] = [
   {
     history: [
-      incomingChatMessage.latestMessage,
-      outgoingChatMessage.latestMessage,
+      incomingChatMessage.latestMessage!,
+      outgoingChatMessage.latestMessage!,
     ],
     contact: {
       phoneNumberId: '972504506225@c.us',
@@ -59,8 +64,8 @@ const sessions: ChatHistory[] = [
   },
   {
     history: [
-      incomingChatMessage.latestMessage,
-      outgoingChatMessage.latestMessage,
+      incomingChatMessage.latestMessage!,
+      outgoingChatMessage.latestMessage!,
     ],
     contact: {
       phoneNumberId: '972542090500@c.us',
@@ -102,8 +107,11 @@ const meta: Meta<typeof ChatLayout> = {
                   avatarSrc: session.contact.avatarSrc,
                 },
                 messageInputAndActionProps: {
-                  onSend(txt: string) {},
+                  onSend(input) {},
+                  templates: [],
                 },
+                state: 'available',
+                onLoadMore() {},
               }
             : undefined
         }
@@ -114,6 +122,9 @@ const meta: Meta<typeof ChatLayout> = {
     listProps: {
       list: [outgoingChatMessage, incomingChatMessage],
       selectedChatId: incomingChatMessage.phoneNumberId,
+      state: 'available',
+      onLoadMore() {},
+      onSelectChat(id: string) {},
     },
   },
 };

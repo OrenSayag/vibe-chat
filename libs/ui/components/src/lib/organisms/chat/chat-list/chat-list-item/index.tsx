@@ -1,9 +1,12 @@
 import { FC } from 'react';
 import { customFormatDate } from '@monday-whatsapp/ui-utils';
-import { ChatListItem as ChatListItemData } from '@monday-whatsapp/shared-types';
+import {
+  ChatListItem as ChatListItemData,
+  WhatsappMessageType,
+} from '@monday-whatsapp/shared-types';
 import { Avatar as VibeAvatar, Box, Flex, Text } from '@vibe/core';
 import { MessageStatusCheck } from '../../../../atoms/message-status-check';
-import { MessageDirection } from 'libs/shared-types/src/lib/whatsapp.types';
+import { MessageDirection } from 'libs/shared-types/src/lib/whatsapp/whatsapp.types';
 
 interface Props {
   className?: string;
@@ -53,7 +56,9 @@ function Content({
               <MessageStatusCheck status={message.status} />
             )}
           </Flex>
-          <Text>{message.text.body ?? ''}</Text>
+          {message.message.type === WhatsappMessageType.TEXT ? (
+            <Text>{message.message.text.body ?? ''}</Text>
+          ) : null}
         </Flex>
       )}
     </Box>

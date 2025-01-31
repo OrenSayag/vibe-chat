@@ -2,7 +2,7 @@ import {
   Message,
   MessageDirection,
   MessageStatus,
-  SendMessageRequestBody,
+  SendMessageRequest,
   WhatsappMessageType,
   WhatsappSendMessageRequestBody,
   WhatsappSendMessageResponseBody,
@@ -14,27 +14,32 @@ import {
   upsertMessageInHistory,
 } from '@monday-whatsapp/db';
 
-type Input = SendMessageRequestBody & {
+type Input = {
   subscriptionId: number;
+  sendMessageData: SendMessageRequest;
 };
 
 type Output = Message;
 
 export const sendMessage = async ({
   subscriptionId,
-  to,
-  text,
+  sendMessageData,
 }: Input): Promise<Output> => {
+  const { type, to } = sendMessageData;
   const { phoneNumberId } = await getSubscriptionPhoneNumberId({
     subscriptionId,
   });
   const rb: WhatsappSendMessageRequestBody = {
     messaging_product: 'whatsapp',
-    type: WhatsappMessageType.TEXT,
+    type,
     to,
-    text,
     recipient_type: 'individual',
-  };
+    text: type === WhatsappMessageType.TEXT ? sendMessageData.text : undefined,
+    template:
+      type === WhatsappMessageType.TEMPLATE
+        ? sendMessageData.template
+        : undefined,
+  } as WhatsappSendMessageRequestBody;
   const { id: contactId } = await getContactByPhoneNumberId({
     subscriptionId,
     phoneNumberId: to,
@@ -53,11 +58,10 @@ export const sendMessage = async ({
   const message: Message = {
     id: messageId,
     from: phoneNumberId,
-    text,
-    type: 'text',
     timestamp: Math.floor(new Date().getTime() / 1_000).toString(),
     direction: MessageDirection.OUTGOING,
     status: MessageStatus.PENDING,
+    message: sendMessageData,
   };
   await upsertMessageInHistory({
     subscriptionId,

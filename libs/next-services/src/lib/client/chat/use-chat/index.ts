@@ -4,6 +4,7 @@ import { useChatSession } from './use-chat-session';
 import { useChatEvents } from './use-chat-events';
 import { useNewChatModal } from './use-new-chat-modal';
 import { isBefore, subHours } from 'date-fns';
+import { useEffect } from 'react';
 
 type Output = ChatProps;
 
@@ -33,6 +34,13 @@ export const useChat = ({ subscriptionId }: Input): Output => {
     onNewChat: chatListProps.onSelectChat,
   });
 
+  useEffect(() => {
+    console.log({
+      chatSessionProps,
+      sessionHistory,
+    });
+  }, [chatSessionProps, sessionHistory]);
+
   return {
     listProps: { ...chatListProps, list },
     sessionProps:
@@ -45,8 +53,8 @@ export const useChat = ({ subscriptionId }: Input): Output => {
               onSend(input) {
                 if (input.type === 'text') {
                   sendMessage({
-                    chatIds: [chatListProps.selectedChatId!],
-                    message: input.txt,
+                    to: chatListProps.selectedChatId!,
+                    ...input,
                   });
                 }
               },
@@ -54,7 +62,7 @@ export const useChat = ({ subscriptionId }: Input): Output => {
                 !sessionHistory.history?.[0]?.timestamp ||
                 isBefore(
                   Number(sessionHistory.history?.[0].timestamp) * 1_000,
-                  subHours(new Date(), 12) // TODO fix 24
+                  subHours(new Date(), 24)
                 ),
             },
           }

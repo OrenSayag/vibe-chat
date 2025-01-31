@@ -1,7 +1,8 @@
-import { Message, WhatsappMessageType } from './whatsapp.types';
+import { Message } from './whatsapp/whatsapp.types';
 import { BackendBaseResponse, GetListState, ListItem } from './app.types';
 import { z } from 'zod';
 import { CSSProperties } from 'react';
+import { WhatsappMessage } from './whatsapp/whatsapp-messages.types';
 
 export type ChatListItem = {
   avatarSrc?: string;
@@ -66,14 +67,7 @@ export type ChatSessionHeaderProps = {
 
 export type MessageInputAndActionProps = {
   className?: string;
-  onSend(
-    input:
-      | { type: WhatsappMessageType.TEXT; txt: string }
-      | {
-          type: WhatsappMessageType.TEMPLATE;
-          templateId: string;
-        }
-  ): void;
+  onSend(input: WhatsappMessage): void;
   disabled?: boolean;
   type?: 'text-area' | 'text';
   style?: CSSProperties;
@@ -113,22 +107,6 @@ export type ChatProps = {
 export const GET_CHAT_LIST_RESULTS_PER_PAGE = 25;
 
 export const GET_CHAT_SESSION_HISTORY_RESULTS_PER_PAGE = 100;
-
-export const messageType = z.union([
-  z.literal(WhatsappMessageType.TEXT),
-  z.literal(WhatsappMessageType.DOCUMENT),
-]);
-
-export const sendMessageRequestBodySchema = z.object({
-  to: z.string(),
-  text: z.object({
-    body: z.string(),
-  }),
-});
-
-export type SendMessageRequestBody = z.infer<
-  typeof sendMessageRequestBodySchema
->;
 
 export type NewChatModalProps = {
   onClose(): void;

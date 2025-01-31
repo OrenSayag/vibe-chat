@@ -15,6 +15,13 @@
       "when": 1737870997838,
       "tag": "0001_useful_thing",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1738335568312,
+      "tag": "0002_heavy_joystick",
+      "breakpoints": true
     }
   ]
 }

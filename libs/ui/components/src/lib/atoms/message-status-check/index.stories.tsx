@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { MessageStatusCheck } from '.';
-import { StatusMessage } from '@monday-whatsapp/shared-types';
+import { MessageStatus } from '@monday-whatsapp/shared-types';
 
 const meta: Meta<typeof MessageStatusCheck> = {
   component: MessageStatusCheck,
@@ -13,12 +13,12 @@ type Story = StoryObj<typeof MessageStatusCheck>;
 
 export const Sent: Story = {
   args: {
-    status: StatusMessage.Sent,
+    status: MessageStatus.SENT,
   },
 };
 
-export const Delivered: Story = {
+export const Read: Story = {
   args: {
-    status: StatusMessage.Delivered,
+    status: MessageStatus.READ,
   },
 };

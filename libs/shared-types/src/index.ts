@@ -7,4 +7,7 @@ export * from './lib/event.types';
 export * from './lib/board.types';
 export * from './lib/chat.types';
 export * from './lib/contact.types';
-export * from './lib/whatsapp.types';
+export * from './lib/whatsapp/whatsapp.types';
+export * from './lib/whatsapp/whatsapp-messages.types';
+export * from './lib/whatsapp/whatsapp-app-api.types';
+export * from './lib/whatsapp/whatsapp-flow.types';

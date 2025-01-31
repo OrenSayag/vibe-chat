@@ -79,30 +79,21 @@ export class EventsGateway {
     });
   }
 
-  @SubscribeMessage(EventType.SEND_TEXT_MESSAGE)
-  async handleSendTextMessage(
+  @SubscribeMessage(EventType.SEND_MESSAGE)
+  async handleSendMessage(
     @MessageBody() message: SendMessageRequest,
     @ConnectedSocket() client: Socket
   ) {
     try {
       const { subscriptionId } = this.eventsService.getClientData(client.id)!;
-      if (message.chatIds.length === 1) {
-        const sentMessage = await sendMessage({
-          subscriptionId,
-          text: { body: message.message },
-          to: message.chatIds[0],
-        });
-        return sentMessage;
-      }
-      await Promise.all(
-        message.chatIds.map(async (id) => {
-          await sendMessage({
-            subscriptionId,
-            text: { body: message.message },
-            to: id,
-          });
-        })
-      );
+      console.log({
+        message,
+      });
+      const sentMessage = await sendMessage({
+        subscriptionId,
+        sendMessageData: message,
+      });
+      return sentMessage;
     } catch (e) {
       console.log('Error in socket handleSendTextMessage');
       console.log(e);

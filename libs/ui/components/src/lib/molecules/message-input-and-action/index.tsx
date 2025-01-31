@@ -30,7 +30,12 @@ export const MessageInputAndAction: FC<MessageInputAndActionProps> = ({
             value={input}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                onSend({ type: WhatsappMessageType.TEXT, txt: input });
+                onSend({
+                  type: WhatsappMessageType.TEXT,
+                  text: {
+                    body: input,
+                  },
+                });
                 setInput('');
               }
             }}
@@ -45,7 +50,12 @@ export const MessageInputAndAction: FC<MessageInputAndActionProps> = ({
                 size={'small'}
                 disabled={!input || disabled}
                 onClick={() => {
-                  onSend({ type: WhatsappMessageType.TEXT, txt: input });
+                  onSend({
+                    type: WhatsappMessageType.TEXT,
+                    text: {
+                      body: input,
+                    },
+                  });
                   setInput('');
                 }}
               >

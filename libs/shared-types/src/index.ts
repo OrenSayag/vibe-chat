@@ -11,3 +11,4 @@ export * from './lib/whatsapp/whatsapp.types';
 export * from './lib/whatsapp/whatsapp-messages.types';
 export * from './lib/whatsapp/whatsapp-app-api.types';
 export * from './lib/whatsapp/whatsapp-flow.types';
+export * from './lib/whatsapp/whatsapp-component-props.types';

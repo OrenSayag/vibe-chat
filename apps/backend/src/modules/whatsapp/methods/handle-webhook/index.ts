@@ -65,19 +65,24 @@ async function handleOutboundMessageStatusChange({
   status: MessageStatus;
   eventsService: EventsService;
 }) {
-  const message = await updateMessageStatus({
-    mid,
-    status,
-  });
+  try {
+    const message = await updateMessageStatus({
+      mid,
+      status,
+    });
 
-  const contact = await getMessageContact({
-    mid,
-  });
+    const contact = await getMessageContact({
+      mid,
+    });
 
-  await eventsService.broadcastMessageStatusChange({
-    message,
-    contactPhoneNumberId: contact.phoneNumberId,
-  });
+    await eventsService.broadcastMessageStatusChange({
+      message,
+      contactPhoneNumberId: contact.phoneNumberId,
+    });
+  } catch (e) {
+    console.log(e);
+    console.log('Error in method handleOutboundMessageStatusChange');
+  }
 }
 
 async function handleInboundMessage({

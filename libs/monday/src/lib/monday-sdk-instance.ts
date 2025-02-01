@@ -1,3 +1,7 @@
 import mondaySdk from 'monday-sdk-js';
 
-export const monday = mondaySdk();
+const apiToken = process.env['DEV_API_TOKEN'];
+
+export const monday = mondaySdk({
+  apiToken,
+});

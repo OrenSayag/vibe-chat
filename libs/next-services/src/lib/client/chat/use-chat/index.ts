@@ -1,10 +1,9 @@
-import { ChatProps } from '@monday-whatsapp/shared-types';
+import { ChatProps, MessageDirection } from '@monday-whatsapp/shared-types';
 import { useChatList } from './use-chat-list';
 import { useChatSession } from './use-chat-session';
 import { useChatEvents } from './use-chat-events';
 import { useNewChatModal } from './use-new-chat-modal';
-import { isBefore, subHours } from 'date-fns';
-import { useEffect } from 'react';
+import { useMessageInputAndAction } from './use-message-input-and-action';
 
 type Output = ChatProps;
 
@@ -34,12 +33,13 @@ export const useChat = ({ subscriptionId }: Input): Output => {
     onNewChat: chatListProps.onSelectChat,
   });
 
-  useEffect(() => {
-    console.log({
-      chatSessionProps,
-      sessionHistory,
-    });
-  }, [chatSessionProps, sessionHistory]);
+  const messageInputAndActionProps = useMessageInputAndAction({
+    subscriptionId,
+    onSend: sendMessage,
+    latestMessage: sessionHistory?.history?.filter(
+      (m) => m.direction === MessageDirection.INCOMING
+    )?.[0],
+  });
 
   return {
     listProps: { ...chatListProps, list },
@@ -48,23 +48,7 @@ export const useChat = ({ subscriptionId }: Input): Output => {
         ? {
             ...chatSessionProps,
             history: sessionHistory,
-            messageInputAndActionProps: {
-              ...chatSessionProps.messageInputAndActionProps,
-              onSend(input) {
-                if (input.type === 'text') {
-                  sendMessage({
-                    to: chatListProps.selectedChatId!,
-                    ...input,
-                  });
-                }
-              },
-              templatesOnly:
-                !sessionHistory.history?.[0]?.timestamp ||
-                isBefore(
-                  Number(sessionHistory.history?.[0].timestamp) * 1_000,
-                  subHours(new Date(), 24)
-                ),
-            },
+            messageInputAndActionProps,
           }
         : undefined,
     masterHeaderProps: {

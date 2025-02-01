@@ -3,6 +3,7 @@ import { BackendBaseResponse, GetListState, ListItem } from './app.types';
 import { z } from 'zod';
 import { CSSProperties } from 'react';
 import { WhatsappMessage } from './whatsapp/whatsapp-messages.types';
+import { WhatsappMessageTemplateSelectorProps } from './whatsapp/whatsapp-component-props.types';
 
 export type ChatListItem = {
   avatarSrc?: string;
@@ -72,7 +73,7 @@ export type MessageInputAndActionProps = {
   type?: 'text-area' | 'text';
   style?: CSSProperties;
   templatesOnly?: boolean;
-  templates: {}[];
+  templateSelectorProps: WhatsappMessageTemplateSelectorProps;
 };
 
 export type ChatSessionProps = {

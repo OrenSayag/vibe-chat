@@ -128,22 +128,26 @@ export const useChatEvents = ({
 
   const sendMessage = useCallback(
     (input: SendMessageRequest) => {
-      if (!socket) {
+      if (!socket || !updatedHistory?.contact) {
         return;
       }
-      socket.emit(EventType.SEND_MESSAGE, input, (res: Message) => {
-        setUpdatedHistory((prev) => {
-          if (!prev) {
-            return;
-          }
-          return {
-            ...prev,
-            history: [res, ...prev.history],
-          };
-        });
-      });
+      socket.emit(
+        EventType.SEND_MESSAGE,
+        { ...input, to: updatedHistory.contact.phoneNumberId },
+        (res: Message) => {
+          setUpdatedHistory((prev) => {
+            if (!prev) {
+              return;
+            }
+            return {
+              ...prev,
+              history: [res, ...prev.history],
+            };
+          });
+        }
+      );
     },
-    [socket]
+    [socket, updatedHistory?.contact.phoneNumberId]
   );
   return {
     list: sortedList,

@@ -1,10 +1,11 @@
-import { FC, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { Box, Button, Flex, TextArea, TextField } from '@vibe/core';
 import {
   MessageInputAndActionProps,
   WhatsappMessageType,
 } from '@monday-whatsapp/shared-types';
-import { Bot, SendHorizonal } from 'lucide-react';
+import { Bot, MessageCircleIcon, SendHorizonal } from 'lucide-react';
+import { WhatsappMessageTemplateSelector } from '../whatsapp-message-template-selector';
 
 export const MessageInputAndAction: FC<MessageInputAndActionProps> = ({
   className,
@@ -12,34 +13,71 @@ export const MessageInputAndAction: FC<MessageInputAndActionProps> = ({
   disabled,
   type = 'text',
   style,
-  templates,
+  templateSelectorProps,
   templatesOnly,
 }) => {
   const [input, setInput] = useState<string>('');
+  const [mode, setMode] = useState<'template' | 'message'>(
+    templatesOnly ? 'template' : 'message'
+  );
+  const toggleMode = () => setMode(mode === 'message' ? 'template' : 'message');
   const InputComponent = type === 'text' ? TextField : TextArea;
+  const onSendMessage = useCallback(() => {
+    if (mode === 'message') {
+      onSend({
+        type: WhatsappMessageType.TEXT,
+        text: {
+          body: input,
+        },
+      });
+      setInput('');
+    }
+    if (mode === 'template') {
+      onSend({
+        type: WhatsappMessageType.TEMPLATE,
+        template: {
+          name: templateSelectorProps.selectedTemplateName!,
+          language: {
+            code: templateSelectorProps.templates.find(
+              (t) => t.name === templateSelectorProps.selectedTemplateName!
+            )!.language,
+          },
+        },
+      });
+    }
+  }, [mode, input, templateSelectorProps.selectedTemplateName]);
   return (
     <>
-      <Box style={style}>
+      <div style={style}>
         <Flex gap={'small'}>
-          <TemplateButton onClick={() => {}} />
-          <InputComponent
-            disabled={templatesOnly}
-            className={'h-full'}
-            placeholder={'Type a message...'}
-            onChange={(e) => setInput(type === 'text' ? e : e.target.value)}
-            value={input}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                onSend({
-                  type: WhatsappMessageType.TEXT,
-                  text: {
-                    body: input,
-                  },
-                });
-                setInput('');
-              }
-            }}
+          <ModeToggle
+            onClick={toggleMode}
+            disabled={templatesOnly && mode === 'template'}
+            mode={mode}
           />
+          {mode === 'template' && (
+            <TemplateSelection templateSelectorProps={templateSelectorProps} />
+          )}
+          {mode === 'message' && (
+            <InputComponent
+              disabled={templatesOnly}
+              className={'h-full'}
+              placeholder={'Type a message...'}
+              onChange={(e) => setInput(type === 'text' ? e : e.target.value)}
+              value={input}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  onSend({
+                    type: WhatsappMessageType.TEXT,
+                    text: {
+                      body: input,
+                    },
+                  });
+                  setInput('');
+                }
+              }}
+            />
+          )}
           <Box
             marginTop={type === 'text-area' ? 'small' : undefined}
             rounded={'small'}
@@ -48,37 +86,50 @@ export const MessageInputAndAction: FC<MessageInputAndActionProps> = ({
               <Button
                 color={'positive'}
                 size={'small'}
-                disabled={!input || disabled}
-                onClick={() => {
-                  onSend({
-                    type: WhatsappMessageType.TEXT,
-                    text: {
-                      body: input,
-                    },
-                  });
-                  setInput('');
-                }}
+                disabled={
+                  (mode === 'message' && !input) ||
+                  (mode === 'template' &&
+                    !templateSelectorProps.selectedTemplateName) ||
+                  disabled
+                }
+                onClick={onSendMessage}
               >
                 <SendHorizonal size={20} />
               </Button>
             </Flex>
           </Box>
         </Flex>
-      </Box>
+      </div>
     </>
   );
 };
 
-function TemplateButton({ onClick }: { onClick(): void }) {
+function TemplateSelection({
+  templateSelectorProps,
+}: {
+  templateSelectorProps: MessageInputAndActionProps['templateSelectorProps'];
+}) {
   return (
-    <Button onClick={onClick} size={'small'}>
-      <Bot size={20} />
-    </Button>
+    <WhatsappMessageTemplateSelector
+      {...templateSelectorProps}
+      style={{ width: '100%' }}
+    />
   );
 }
 
-function useTemplateList({
-  template,
+function ModeToggle({
+  onClick,
+  disabled,
+  mode,
 }: {
-  template: MessageInputAndActionProps['templates'];
-}) {}
+  onClick(): void;
+  disabled?: boolean;
+  mode: 'template' | 'message';
+}) {
+  const Icon = mode === 'message' ? Bot : MessageCircleIcon;
+  return (
+    <Button onClick={onClick} size={'small'} disabled={disabled}>
+      <Icon size={20} />
+    </Button>
+  );
+}

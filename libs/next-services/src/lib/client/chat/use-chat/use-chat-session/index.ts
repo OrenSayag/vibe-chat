@@ -72,9 +72,7 @@ export const useChatSession = ({
   const onLoadMore = () => {
     console.log('onLoadMore: not implemented');
   };
-  const onSendMessage = () => {
-    console.log('onSendMessage: not implemented');
-  };
+
   if (state === 'loading' || state === 'error') {
     return {
       state,
@@ -88,10 +86,5 @@ export const useChatSession = ({
       name: history!.contact.name,
       avatarSrc: history?.contact.avatarSrc,
     },
-    messageInputAndActionProps: {
-      type: 'text',
-      onSend: onSendMessage,
-      templates: [], // todo implement
-    },
-  };
+  } as Output;
 };

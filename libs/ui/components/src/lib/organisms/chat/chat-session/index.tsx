@@ -55,7 +55,7 @@ function Session({
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!ref.current) return;
-    ref.current.scrollIntoView({ behavior: 'smooth' });
+    ref.current.scrollIntoView();
   }, [ref.current, chatHistory]);
   return (
     <Box

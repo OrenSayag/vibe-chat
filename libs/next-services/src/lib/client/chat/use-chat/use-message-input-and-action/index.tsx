@@ -25,8 +25,10 @@ export const useMessageInputAndAction = ({
       subscriptionId,
     });
   useEffect(() => {
-    getTemplates(undefined);
-  }, []);
+    if (subscriptionId) {
+      getTemplates(undefined);
+    }
+  }, [subscriptionId]);
   const [selectedTemplateName, setSelectedTemplateName] = useState<string>('');
   return {
     onSend,

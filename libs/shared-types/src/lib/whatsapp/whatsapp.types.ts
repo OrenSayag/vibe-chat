@@ -137,16 +137,19 @@ export enum WhatsappTemplateComponentType {
   BUTTONS = 'BUTTONS',
 }
 
+type BaseWhatsappTemplateHeaderComponent = {
+  type: WhatsappTemplateComponentType.HEADER;
+  format: WhatsappTemplateComponentFormat;
+};
+
+export type WhatsappTemplateHeaderTextComponent =
+  BaseWhatsappTemplateHeaderComponent & {
+    text: string;
+    format: WhatsappTemplateComponentFormat.TEXT;
+  };
+
 export type WhatsappTemplateHeaderComponent =
-  | {
-      type: WhatsappTemplateComponentType.HEADER;
-      format: WhatsappTemplateComponentFormat;
-    }
-  | {
-      type: WhatsappTemplateComponentType.HEADER;
-      format: WhatsappTemplateComponentFormat.TEXT;
-      text: string;
-    };
+  WhatsappTemplateHeaderTextComponent;
 
 export type WhatsappTemplateBodyComponent = {
   type: WhatsappTemplateComponentType.BODY;

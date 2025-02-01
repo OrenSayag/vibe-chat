@@ -9,5 +9,6 @@ export * from './lib/client/board/use-board-page';
 export * from './lib/client/board/use-board-level-auth';
 export * from './lib/client/board-group/use-board-group-page';
 export * from './lib/client/item/use-item-page';
+export * from './lib/client/chat/use-chat';
 export * from './lib/client/multiple-items/use-multiple-items-page';
 export * from './lib/client/subscription/use-get-subscription';

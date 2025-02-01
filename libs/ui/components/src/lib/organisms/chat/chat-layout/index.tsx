@@ -1,3 +1,5 @@
+'use client';
+
 import { FC } from 'react';
 import { ChatList } from '../chat-list';
 import { ChatSession } from '../chat-session';

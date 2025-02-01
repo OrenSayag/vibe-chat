@@ -8,14 +8,17 @@ import {
   MessageDirection,
   MessageStatus,
   WhatsappMessageType,
+  WhatsappTemplate,
 } from '@monday-whatsapp/shared-types';
+import { TemplateMessage } from './template-message';
 
 interface Props {
   className?: string;
   message: Message;
+  template?: WhatsappTemplate;
 }
 
-export const ChatMessageBox: FC<Props> = ({ className, message }) => {
+export const ChatMessageBox: FC<Props> = ({ className, message, template }) => {
   return (
     <>
       <Box
@@ -26,6 +29,7 @@ export const ChatMessageBox: FC<Props> = ({ className, message }) => {
               : 'rgba(0, 0, 0, .1)',
           padding: '.5em .9em',
           width: 'fit-content',
+          maxWidth: '30em',
           marginRight:
             message.direction === MessageDirection.INCOMING
               ? 'auto'
@@ -42,6 +46,9 @@ export const ChatMessageBox: FC<Props> = ({ className, message }) => {
       >
         {message.message.type === WhatsappMessageType.TEXT && (
           <TextContent text={message.message.text.body ?? ''} />
+        )}
+        {message.message.type === WhatsappMessageType.TEMPLATE && template && (
+          <TemplateMessage template={template} />
         )}
         <Flex gap={'xs'} justify={'end'} align={'end'}>
           <Timestamp timestamp={message.timestamp} />

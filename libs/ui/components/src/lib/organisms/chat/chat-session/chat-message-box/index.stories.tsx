@@ -6,6 +6,7 @@ import {
   MessageStatus,
   WhatsappMessageType,
 } from '@monday-whatsapp/shared-types';
+import { templates } from '../../../../molecules/whatsapp-message-template-selector/story-assets';
 
 const outgoingChatMessage: ChatListItemData = {
   phoneNumberId: 'somephonenumberid',
@@ -65,5 +66,27 @@ export const Incoming: Story = {
 export const Outgoing: Story = {
   args: {
     message: outgoingChatMessage.latestMessage,
+  },
+};
+
+export const Template: Story = {
+  args: {
+    message: {
+      id: 'someid',
+      message: {
+        type: WhatsappMessageType.TEMPLATE,
+        template: {
+          name: templates[0].name,
+          language: {
+            code: templates[0].language,
+          },
+        },
+      },
+      from: 'me',
+      timestamp: outgoingChatMessage.latestMessage!.timestamp,
+      direction: MessageDirection.OUTGOING,
+      status: MessageStatus.DELIVERED,
+    },
+    template: templates[0],
   },
 };

@@ -1,8 +1,13 @@
+'use client';
+
 import { FC, useEffect, useMemo, useRef } from 'react';
 import {
   ChatHistory,
   ChatSessionProps,
   Message,
+  WhatsappMessageType,
+  WhatsappTemplate,
+  WhatsappTemplateMessage,
 } from '@monday-whatsapp/shared-types';
 import { Box, Text } from '@vibe/core';
 import { ChatSessionHeader } from './chat-session-header';
@@ -27,7 +32,12 @@ export const ChatSession: FC<ChatSessionProps> = (props) => {
         {state === 'available' && (
           <>
             <ChatSessionHeader {...props.headerProps} />
-            <Session chatHistory={props.history} />
+            <Session
+              chatHistory={props.history}
+              templates={
+                props.messageInputAndActionProps.templateSelectorProps.templates
+              }
+            />
             <MessageInputAndAction
               {...props.messageInputAndActionProps}
               style={{
@@ -44,9 +54,11 @@ export const ChatSession: FC<ChatSessionProps> = (props) => {
 function Session({
   chatHistory,
   className,
+  templates,
 }: {
   chatHistory: ChatHistory;
   className?: string;
+  templates?: WhatsappTemplate[];
 }) {
   const grouped = useMemo(
     () => groupByDateToArrays(chatHistory.history),
@@ -69,7 +81,7 @@ function Session({
       }}
     >
       {grouped.map((g) => (
-        <SessionDay messages={g} key={g[0].id} />
+        <SessionDay messages={g} key={g[0].id} templates={templates} />
       ))}
 
       <div ref={ref} style={{ float: 'left', clear: 'both' }} />
@@ -77,7 +89,21 @@ function Session({
   );
 }
 
-function SessionDay({ messages }: { messages: Message[] }) {
+function SessionDay({
+  messages,
+  templates,
+}: {
+  messages: Message[];
+  templates?: WhatsappTemplate[];
+}) {
+  const getMessageTemplate = (m: Message) => {
+    if (m.message.type !== WhatsappMessageType.TEMPLATE) {
+      return;
+    }
+    return templates?.find(
+      (t) => t.name === (m.message as WhatsappTemplateMessage).template.name
+    );
+  };
   return (
     <Box className={'pt-2'}>
       <ChatSessionCurrentDateIndicator
@@ -91,7 +117,11 @@ function SessionDay({ messages }: { messages: Message[] }) {
         }}
       >
         {messages.map((m) => (
-          <ChatMessageBox message={m} key={m.id} />
+          <ChatMessageBox
+            message={m}
+            key={m.id}
+            template={getMessageTemplate(m)}
+          />
         ))}
       </Box>
     </Box>

@@ -22,6 +22,13 @@
       "when": 1738335568312,
       "tag": "0002_heavy_joystick",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1738473556177,
+      "tag": "0003_perpetual_maximus",
+      "breakpoints": true
     }
   ]
 }

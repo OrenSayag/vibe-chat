@@ -29,7 +29,7 @@ export const getUserByLogin = async ({ loginForm }: Input): Promise<Output> => {
   const isValid = validatePassword(loginForm.password, res.password);
 
   if (!isValid) {
-    throw new Error('Not authorized');
+    return { user };
   }
   return {
     user: {

@@ -19,7 +19,7 @@ export default function LoginPage() {
           success = true;
         } catch (e: any) {
           return {
-            error: e.message,
+            error: e.message.split('|||')[0],
           };
         }
         if (success) {

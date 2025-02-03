@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { LoginTemplate, LoginType } from '.';
+import { LoginTemplate } from '.';
+import { LoginType } from '@monday-whatsapp/shared-types';
 
 const meta: Meta<typeof LoginTemplate> = {
   component: LoginTemplate,

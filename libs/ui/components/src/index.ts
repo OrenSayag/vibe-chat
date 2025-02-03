@@ -10,3 +10,4 @@ export * from './lib/templates/item-template/provider';
 
 export * from './dashboard/templates/login-template';
 export * from './dashboard/providers/theme-provider';
+export * from './dashboard/layout/main-layout';

@@ -3,7 +3,14 @@
 import '@monday-whatsapp/preset';
 import '@vibe/core/tokens';
 
-import { ComponentPropsWithoutRef, FC, ReactNode, useState } from 'react';
+import {
+  ComponentPropsWithoutRef,
+  createContext,
+  FC,
+  ReactNode,
+  useContext,
+  useState,
+} from 'react';
 import { Box, ThemeProvider as VibeThemeProvider } from '@vibe/core';
 
 interface Props {
@@ -14,12 +21,37 @@ type ThemeConfig = ComponentPropsWithoutRef<
   typeof VibeThemeProvider
 >['themeConfig'];
 
-type ThemeContext = {
-  config: ThemeConfig;
-  setConfig: (config: ThemeConfig) => void;
+export enum Theme {
+  BLACK = 'black',
+  DARK = 'dark',
+  LIGHT = 'light',
+}
+
+type ThemeContextData = {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
 };
 
+export const ThemeContext = createContext<ThemeContextData>({
+  theme: Theme.DARK,
+  setTheme: (theme: Theme) => {},
+});
+
 export const ThemeProvider: FC<Props> = ({ children }) => {
+  const [theme, setTheme] = useState<Theme>(Theme.DARK);
+  return (
+    <ThemeContext.Provider
+      value={{
+        theme,
+        setTheme,
+      }}
+    >
+      <Wrapped>{children}</Wrapped>
+    </ThemeContext.Provider>
+  );
+};
+
+export function Wrapped({ children }: { children: ReactNode }) {
   const [themeConfig, setThemeConfig] = useState<
     ComponentPropsWithoutRef<typeof VibeThemeProvider>['themeConfig']
   >({
@@ -39,11 +71,11 @@ export const ThemeProvider: FC<Props> = ({ children }) => {
     },
     name: 'overview-theme',
   });
+  const { theme } = useContext(ThemeContext);
   return (
-    <VibeThemeProvider themeConfig={themeConfig} systemTheme={'dark'}>
+    <VibeThemeProvider themeConfig={themeConfig} systemTheme={theme}>
       <Box
         backgroundColor={'primaryBackgroundColor'}
-        padding={'large'}
         style={{
           height: '100vh',
         }}
@@ -52,4 +84,4 @@ export const ThemeProvider: FC<Props> = ({ children }) => {
       </Box>
     </VibeThemeProvider>
   );
-};
+}

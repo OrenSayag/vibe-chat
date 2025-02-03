@@ -15,7 +15,7 @@ export const Header: FC<HeaderProps> = ({
           justify={'space-between'}
           align={'center'}
           style={{
-            padding: '.2em 1em',
+            padding: '.6em 1em',
           }}
         >
           <div></div>
@@ -27,7 +27,7 @@ export const Header: FC<HeaderProps> = ({
             }}
           />
         </Flex>
-        <Divider />
+        <Divider withoutMargin />
       </div>
     </>
   );
@@ -54,7 +54,7 @@ function Profile({
         }
         hideTrigger={['clickoutside']}
       >
-        <Avatar src={avatarSrc} type={'img'} />
+        <Avatar src={avatarSrc} type={'img'} size={'medium'} />
       </Dialog>
       <Text>{profileName}</Text>
     </Flex>

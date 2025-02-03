@@ -81,37 +81,37 @@ function NavigationList({ selectedPath }: { selectedPath: string }) {
   > = {
     DASHBOARD: {
       label: 'Dashboard',
-      href: '/',
+      href: '/dashboard',
       icon: <Gauge size={ICON_SIZE} stroke={iconColor} />,
     },
     CHATS: {
       label: 'Chats',
-      href: '/chats',
+      href: '/dashboard/chats',
       icon: <MessagesSquare size={ICON_SIZE} stroke={iconColor} />,
     },
     TEMPLATES: {
       label: 'Templates',
-      href: '/templates',
+      href: '/dashboard/templates',
       icon: <TableOfContents size={ICON_SIZE} stroke={iconColor} />,
     },
     SCHEDULED: {
       label: 'Scheduled',
-      href: '/schedules',
+      href: '/dashboard/scheduled',
       icon: <Clock size={ICON_SIZE} stroke={iconColor} />,
     },
     CONTACTS: {
       label: 'Contacts',
-      href: '/contacts',
+      href: '/dashboard/contacts',
       icon: <Contact size={ICON_SIZE} stroke={iconColor} />,
     },
     ANALYTICS: {
       label: 'Analytics',
-      href: '/analytics',
+      href: '/dashboard/analytics',
       icon: <ChartLine size={ICON_SIZE} stroke={iconColor} />,
     },
     SETTINGS: {
       label: 'Settings',
-      href: '/settings',
+      href: '/dashboard/settings',
       icon: <Settings size={ICON_SIZE} stroke={iconColor} />,
     },
   } as const;
@@ -140,8 +140,8 @@ function NavigationList({ selectedPath }: { selectedPath: string }) {
     isSelected?: boolean;
   }) {
     return (
-      <ListItem size={'medium'} selected={isSelected}>
-        <Link href={info.href}>
+      <Link href={info.href}>
+        <ListItem size={'medium'} selected={isSelected}>
           <Flex
             align={'center'}
             gap={'large'}
@@ -152,8 +152,8 @@ function NavigationList({ selectedPath }: { selectedPath: string }) {
             <span>{info.icon}</span>
             <Text>{info.label}</Text>
           </Flex>
-        </Link>
-      </ListItem>
+        </ListItem>
+      </Link>
     );
   }
 }

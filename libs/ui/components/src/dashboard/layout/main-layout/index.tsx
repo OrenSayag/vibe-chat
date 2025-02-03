@@ -37,7 +37,13 @@ export const MainLayout: FC<MainLayoutProps> = ({
               headerProps.signOut();
             }}
           />
-          {children}
+          <div
+            style={{
+              padding: '1em',
+            }}
+          >
+            {children}
+          </div>
         </div>
       </Flex>
     </>

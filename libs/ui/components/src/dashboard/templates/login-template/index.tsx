@@ -36,7 +36,11 @@ export const LoginTemplate: FC<Props> = ({ onLogin, type }) => {
   const [error, setError] = useState('');
   return (
     <div>
-      <div>
+      <div
+        style={{
+          paddingTop: '1em',
+        }}
+      >
         <Image
           src={Logo}
           alt={'logo'}

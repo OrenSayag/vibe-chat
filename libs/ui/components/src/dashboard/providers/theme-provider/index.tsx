@@ -33,7 +33,7 @@ type ThemeContextData = {
 };
 
 export const ThemeContext = createContext<ThemeContextData>({
-  theme: Theme.DARK,
+  theme: Theme.LIGHT,
   setTheme: (theme: Theme) => {},
 });
 

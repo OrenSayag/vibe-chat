@@ -9,5 +9,6 @@ export * from './lib/organisms/chat/chat-layout';
 export * from './lib/templates/item-template/provider';
 
 export * from './dashboard/templates/login-template';
+export * from './dashboard/templates/no-user-linked-organization-template';
 export * from './dashboard/providers/theme-provider';
 export * from './dashboard/layout/main-layout';

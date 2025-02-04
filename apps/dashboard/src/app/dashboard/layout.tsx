@@ -22,8 +22,8 @@ export default async function RootLayout({
   return (
     <MainLayout
       headerProps={{
-        profileName: session.user.name ?? '',
-        avatarSrc: session.user.image ?? '',
+        profileName: session.user?.name ?? '',
+        avatarSrc: session.user?.image ?? '',
         signOut: async () => {
           'use server';
           await onSignOut();

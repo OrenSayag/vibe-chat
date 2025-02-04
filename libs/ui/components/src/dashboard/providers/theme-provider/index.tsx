@@ -2,6 +2,7 @@
 
 import '@monday-whatsapp/preset';
 import '@vibe/core/tokens';
+import 'react-phone-number-input/style.css';
 
 import {
   ComponentPropsWithoutRef,
@@ -33,12 +34,12 @@ type ThemeContextData = {
 };
 
 export const ThemeContext = createContext<ThemeContextData>({
-  theme: Theme.LIGHT,
+  theme: Theme.BLACK,
   setTheme: (theme: Theme) => {},
 });
 
 export const ThemeProvider: FC<Props> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>(Theme.DARK);
+  const [theme, setTheme] = useState<Theme>(Theme.BLACK);
   return (
     <ThemeContext.Provider
       value={{

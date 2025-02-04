@@ -1,6 +1,18 @@
-import { FC } from 'react';
-import { Avatar, Button, Dialog, Divider, Flex, Text } from '@vibe/core';
+import { FC, useContext } from 'react';
+import {
+  Avatar,
+  Box,
+  Dialog,
+  DialogContentContainer,
+  Divider,
+  Flex,
+  List,
+  ListItem,
+  Text,
+} from '@vibe/core';
 import { HeaderProps } from '@monday-whatsapp/shared-types';
+import { ChevronLeft, Moon, Sparkle, Sun } from 'lucide-react';
+import { Theme, ThemeContext } from '@monday-whatsapp/components';
 
 export const Header: FC<HeaderProps> = ({
   className,
@@ -43,35 +55,132 @@ function Profile({
   signOut(): void;
 }) {
   return (
-    <Flex align={'center'} gap={'small'}>
-      <Dialog
-        content={
+    <Dialog
+      content={
+        <DialogContentContainer>
           <ProfileMenu
             signOut={() => {
               signOut();
             }}
           />
-        }
-        hideTrigger={['clickoutside']}
-      >
-        <Avatar src={avatarSrc} type={'img'} size={'medium'} />
-      </Dialog>
-      <Text>{profileName}</Text>
-    </Flex>
+        </DialogContentContainer>
+      }
+      hideTrigger={['clickoutside']}
+      showTrigger={['mouseenter', 'click']}
+    >
+      <button>
+        <Flex align={'center'} gap={'small'}>
+          <Avatar src={avatarSrc} type={'img'} size={'medium'} />
+          <Text>{profileName}</Text>
+        </Flex>
+      </button>
+    </Dialog>
   );
 }
 
 function ProfileMenu({ signOut }: { signOut(): void }) {
   return (
-    <Flex direction={'column'}>
-      <Button
-        size={'xs'}
-        onClick={() => {
-          signOut();
-        }}
-      >
-        Logout
-      </Button>
-    </Flex>
+    <Box rounded={'medium'} backgroundColor={'allgreyBackgroundColor'}>
+      <List style={{ width: '100%' }}>
+        <ListItem onClick={signOut}>
+          <Box style={{ width: '100%' }}>Logout</Box>
+        </ListItem>
+        <Dialog
+          content={
+            <DialogContentContainer>
+              <ThemeMenu />
+            </DialogContentContainer>
+          }
+          position={'left'}
+          hideTrigger={['clickoutside']}
+          showTrigger={['click']}
+        >
+          <ListItem>
+            <Box
+              style={{
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '.4em',
+              }}
+            >
+              <ChevronLeft size={15} />
+              <span>Theme</span>
+            </Box>
+          </ListItem>
+        </Dialog>
+        <ListItem>
+          <Box
+            style={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '.4em',
+            }}
+          >
+            <ChevronLeft size={15} />
+            <span>Language</span>
+          </Box>
+        </ListItem>
+      </List>
+    </Box>
+  );
+}
+
+function ThemeMenu() {
+  const { theme, setTheme } = useContext(ThemeContext);
+  return (
+    <Box rounded={'medium'} backgroundColor={'allgreyBackgroundColor'}>
+      <List style={{ width: '100%' }}>
+        <ListItem
+          selected={theme === Theme.LIGHT}
+          onClick={() => setTheme(Theme.LIGHT)}
+        >
+          <Box
+            style={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '.4em',
+            }}
+          >
+            <Sun size={15} />
+            <span>Light</span>
+          </Box>
+        </ListItem>
+        <ListItem
+          selected={theme === Theme.DARK}
+          onClick={() => setTheme(Theme.DARK)}
+        >
+          <Box
+            style={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '.4em',
+            }}
+          >
+            <Moon size={15} />
+            <span>Dark</span>
+          </Box>
+        </ListItem>
+        <ListItem
+          selected={theme === Theme.BLACK}
+          onClick={() => setTheme(Theme.BLACK)}
+        >
+          <Box
+            style={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '.4em',
+            }}
+          >
+            <Sparkle size={15} />
+            <span>Black</span>
+          </Box>
+        </ListItem>
+      </List>
+    </Box>
   );
 }

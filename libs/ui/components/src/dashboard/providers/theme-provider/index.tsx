@@ -34,17 +34,22 @@ type ThemeContextData = {
 };
 
 export const ThemeContext = createContext<ThemeContextData>({
-  theme: Theme.BLACK,
+  theme: Theme.LIGHT,
   setTheme: (theme: Theme) => {},
 });
 
 export const ThemeProvider: FC<Props> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>(Theme.BLACK);
+  const [theme, setTheme] = useState<Theme>(
+    getLocalStorageTheme() ?? Theme.LIGHT
+  );
   return (
     <ThemeContext.Provider
       value={{
         theme,
-        setTheme,
+        setTheme: (theme) => {
+          setLocalStorageTheme(theme);
+          setTheme(theme);
+        },
       }}
     >
       <Wrapped>{children}</Wrapped>
@@ -85,4 +90,30 @@ export function Wrapped({ children }: { children: ReactNode }) {
       </Box>
     </VibeThemeProvider>
   );
+}
+
+function getLocalStorageTheme() {
+  if (typeof localStorage === 'undefined') {
+    return;
+  }
+
+  const existing = localStorage.getItem('theme');
+  if (existing && isTheme(existing)) {
+    return existing as Theme;
+  }
+}
+function setLocalStorageTheme(theme: Theme) {
+  if (typeof localStorage === 'undefined') {
+    return;
+  }
+  return localStorage.setItem('theme', theme);
+}
+
+function isTheme(val: string): boolean {
+  const rec: Record<Theme, any> = {
+    [Theme.BLACK]: '',
+    [Theme.DARK]: '',
+    [Theme.LIGHT]: '',
+  };
+  return Object.keys(rec).includes(val);
 }

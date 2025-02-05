@@ -2,11 +2,11 @@
 
 import { FC } from 'react';
 import { Navbar } from '../../organisms/navbar';
-import { usePathname } from 'next/navigation';
 import { Divider, Flex } from '@vibe/core';
 import { Header } from '../../molecules/header';
 import { MainLayoutProps } from '@monday-whatsapp/shared-types';
-import { SocketProvider } from '@monday-whatsapp/next-services';
+import { SocketProvider, useDir } from '@monday-whatsapp/next-services';
+import { usePathname } from '@monday-whatsapp/next-services/server';
 
 export const MainLayout: FC<MainLayoutProps> = ({
   className,
@@ -14,15 +14,22 @@ export const MainLayout: FC<MainLayoutProps> = ({
   headerProps,
 }) => {
   const pathname = usePathname();
+  const dir = useDir();
   return (
     <>
       <SocketProvider>
-        <Flex style={{ height: '100vh' }}>
+        <Flex
+          style={{
+            height: '100vh',
+            flexDirection: dir === 'rtl' ? 'row-reverse' : undefined,
+          }}
+        >
           <div
             style={{
               width: '20em',
               height: '100%',
             }}
+            dir={dir}
           >
             <Navbar selectedPath={pathname} />
           </div>

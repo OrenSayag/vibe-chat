@@ -1,6 +1,6 @@
 import { MainLayout } from '@monday-whatsapp/components';
 import { auth, signOut } from '../../../auth';
-import { redirect } from 'next/navigation';
+import { redirect } from '@monday-whatsapp/next-services/server';
 
 export const metadata = {
   title: 'VibeChat - Dashboard',
@@ -8,12 +8,14 @@ export const metadata = {
 
 export default async function RootLayout({
   children,
+  params: { locale },
 }: {
   children: React.ReactNode;
+  params: { locale: string };
 }) {
   const session = await auth();
   if (!session) {
-    redirect('/auth/login');
+    redirect({ href: '/auth/login', locale });
   }
   const onSignOut = async () => {
     'use server';
@@ -22,8 +24,8 @@ export default async function RootLayout({
   return (
     <MainLayout
       headerProps={{
-        profileName: session.user?.name ?? '',
-        avatarSrc: session.user?.image ?? '',
+        profileName: session!.user?.name ?? '',
+        avatarSrc: session!.user?.image ?? '',
         signOut: async () => {
           'use server';
           await onSignOut();

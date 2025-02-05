@@ -2,7 +2,11 @@ import { LoginTemplate } from '@monday-whatsapp/components';
 import { signIn } from '../../../../auth';
 import { LoginType } from '@monday-whatsapp/shared-types';
 
-export default function LoginPage() {
+export default function LoginPage({
+  params: { locale },
+}: {
+  params: { locale: string };
+}) {
   return (
     <LoginTemplate
       type={LoginType.SIGN_UP}
@@ -11,7 +15,7 @@ export default function LoginPage() {
         try {
           await signIn(provider, {
             ...formData,
-            redirectTo: '/dashboard',
+            redirectTo: `/${locale}/dashboard`,
             type: LoginType.SIGN_UP,
           });
         } catch (e: any) {

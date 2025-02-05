@@ -1,6 +1,5 @@
 import { UpdateBoardRequest } from '@monday-whatsapp/shared-types';
 import { getSubscription } from '@monday-whatsapp/db';
-import { NotFoundException } from '@nestjs/common';
 import { db } from '../../config';
 import { subscriptions } from '../../schema';
 import { eq } from 'drizzle-orm';
@@ -26,7 +25,7 @@ export const updateWorkspaceBoard = async ({
     .find((w) => w.id == workspaceId.toString())
     ?.activatedBoards.find((b) => b.id == boardId.toString());
   if (!subscription || !boardIsActivated) {
-    throw new NotFoundException();
+    throw new Error('not found');
   }
   await db
     .update(subscriptions)

@@ -41,7 +41,9 @@ export const UsernamePasswordForm: FC<Props> = ({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+  });
 
   return (
     <>

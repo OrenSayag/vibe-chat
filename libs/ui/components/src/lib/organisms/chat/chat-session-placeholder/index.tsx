@@ -17,7 +17,7 @@ export const ChatSessionPlaceholder: FC<Props> = ({ className }) => {
           alignItems: 'center',
         }}
       >
-        <Text>monday Chat</Text>
+        <Text>Vibe Chat</Text>
       </Box>
     </>
   );

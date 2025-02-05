@@ -1,6 +1,5 @@
 import { UpdateWorkspaceInfoRequest } from '@monday-whatsapp/shared-types';
 import { getSubscription } from '@monday-whatsapp/db';
-import { NotFoundException } from '@nestjs/common';
 import { db } from '../../config';
 import { subscriptions } from '../../schema';
 
@@ -20,7 +19,7 @@ export const updateWorkspaceInfo = async ({
     id: subscriptionId,
   });
   if (!subscription) {
-    throw new NotFoundException();
+    throw new Error('Subscription not found');
   }
   await db.update(subscriptions).set({
     info: {

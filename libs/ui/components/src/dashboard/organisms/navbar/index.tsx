@@ -1,4 +1,4 @@
-import { FC, ReactNode, useContext, useEffect } from 'react';
+import { FC, ReactNode, useContext } from 'react';
 import { Box, Divider, Flex, List, ListItem, Text } from '@vibe/core';
 import Image from 'next/image';
 import Logo from '../../assets/icons/icon.png';
@@ -11,8 +11,8 @@ import {
   Settings,
   TableOfContents,
 } from 'lucide-react';
-import Link from 'next/link';
 import { Theme, ThemeContext } from '@monday-whatsapp/components';
+import Link from 'next/link';
 
 interface Props {
   className?: string;
@@ -61,12 +61,6 @@ function Head() {
 
 function NavigationList({ selectedPath }: { selectedPath: string }) {
   const { theme } = useContext(ThemeContext);
-
-  useEffect(() => {
-    console.log({
-      theme,
-    });
-  }, [theme]);
 
   const iconColor =
     theme === Theme.LIGHT ? ICON_COLOR.default : ICON_COLOR.dark;

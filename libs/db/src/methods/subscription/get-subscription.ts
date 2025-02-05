@@ -1,6 +1,5 @@
 import { db } from '../../config';
 import { eq, sql } from 'drizzle-orm';
-import { NotFoundException } from '@nestjs/common';
 import { GetSubscriptionInfoResponse } from '@monday-whatsapp/shared-types';
 import { subscriptions } from '../../schema';
 
@@ -28,7 +27,7 @@ export const getSubscription = async (input: Input): Promise<Output> => {
     );
 
   if (res.length === 0) {
-    throw new NotFoundException('Subscription not found');
+    throw new Error('Subscription not found');
   }
 
   return {

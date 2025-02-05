@@ -1,7 +1,6 @@
 import { db } from '../../config';
 import { subscriptions } from '../../schema';
 import { sql } from 'drizzle-orm';
-import { BadRequestException } from '@nestjs/common';
 import { WhatsappCloudStatus } from '@monday-whatsapp/shared-types';
 
 type Input = {
@@ -14,7 +13,7 @@ export const createSubscription = async ({ accountId }: Input) => {
     .from(subscriptions)
     .where(sql`${subscriptions.info}->>'accountId' = ${accountId}`);
   if (exists.length > 0) {
-    throw new BadRequestException('Subscription already exists');
+    throw new Error('Subscription already exists');
   }
   await db.insert(subscriptions).values({
     info: {

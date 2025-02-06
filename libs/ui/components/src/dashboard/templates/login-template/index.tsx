@@ -7,6 +7,9 @@ import { Box, Text } from '@vibe/core';
 import { UsernamePasswordForm } from '../../organisms/username-password-form';
 import Image from 'next/image';
 import Link from 'next/link';
+import { AppLocaleMenu } from '../../molecules/app-locale-menu';
+import { useTranslations } from 'next-intl';
+import { useDir } from '@monday-whatsapp/next-services';
 
 type Props = {
   onLogin(
@@ -16,31 +19,38 @@ type Props = {
   type: LoginType;
 };
 
-const titlesMap: Record<
-  LoginType,
-  { title: string; oppositeHref: string; toOppositeTitle: string }
-> = {
-  [LoginType.SIGN_IN]: {
-    title: 'Sign in',
-    oppositeHref: '/auth/sign-up',
-    toOppositeTitle: "I don't have an account",
-  },
-  [LoginType.SIGN_UP]: {
-    title: 'Sign up',
-    oppositeHref: '/auth/login',
-    toOppositeTitle: 'I have an account',
-  },
-};
-
 export const LoginTemplate: FC<Props> = ({ onLogin, type }) => {
   const [error, setError] = useState('');
+
+  const t = useTranslations('LoginTemplate');
+
+  const titlesMap: Record<
+    LoginType,
+    { title: string; oppositeHref: string; toOppositeTitle: string }
+  > = {
+    [LoginType.SIGN_IN]: {
+      title: t('SignIn'),
+      oppositeHref: '/auth/sign-up',
+      toOppositeTitle: t('NoAccountLink'),
+    },
+    [LoginType.SIGN_UP]: {
+      title: t('SignUp'),
+      oppositeHref: '/auth/login',
+      toOppositeTitle: t('ExistingAccountLink'),
+    },
+  };
+
+  const dir = useDir();
+
   return (
-    <div>
-      <div
-        style={{
-          paddingTop: '1em',
-        }}
-      >
+    <div
+      dir={dir}
+      style={{
+        padding: '1em',
+      }}
+    >
+      <OptionsBar />
+      <div>
         <Image
           src={Logo}
           alt={'logo'}
@@ -89,3 +99,15 @@ export const LoginTemplate: FC<Props> = ({ onLogin, type }) => {
     </div>
   );
 };
+
+function OptionsBar() {
+  return (
+    <div
+      style={{
+        width: '8em',
+      }}
+    >
+      <AppLocaleMenu type={'dropdown'} />
+    </div>
+  );
+}

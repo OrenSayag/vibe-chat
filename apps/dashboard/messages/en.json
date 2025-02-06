@@ -1,5 +1,33 @@
 {
   "HomePage": {
     "title": "Hello world!"
+  },
+  "Navbar": {
+    "Dashboard": "Dashboard",
+    "Chats": "Chats",
+    "Templates": "Templates",
+    "Scheduled": "Scheduled",
+    "Contacts": "Contacts",
+    "Analytics": "Analytics",
+    "Settings": "Settings"
+  },
+  "ProfileMenu": {
+    "Logout": "Logout",
+    "Theme": "Theme",
+    "Language": "Language"
+  },
+  "Locale": {
+    "en": "English",
+    "he": "Hebrew"
+  },
+  "LoginTemplate": {
+    "SignIn": "Sign In",
+    "SignUp": "Sign Up",
+    "NoAccountLink": "I don't have an account",
+    "ExistingAccountLink": "I have an account",
+    "MailLabel": "Mail",
+    "PasswordLabel": "Password",
+    "SignInSubmitButton": "Sign In",
+    "SignUpSubmitButton": "Sign Up"
   }
 }

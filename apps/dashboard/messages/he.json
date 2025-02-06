@@ -1,5 +1,33 @@
 {
   "HomePage": {
     "title": "שלום עולם!"
+  },
+  "Navbar": {
+    "Dashboard": "הבית",
+    "Chats": "שיחות",
+    "Templates": "תבניות",
+    "Scheduled": "הודעות מתוזמנות",
+    "Contacts": "אנשי קשר",
+    "Analytics": "נתונים",
+    "Settings": "הגדרות"
+  },
+  "ProfileMenu": {
+    "Logout": "התנתקות",
+    "Theme": "ערכת נושא",
+    "Language": "שפה"
+  },
+  "Locale": {
+    "en": "אנגלית",
+    "he": "עברית"
+  },
+  "LoginTemplate": {
+    "SignIn": "התחברות",
+    "SignUp": "הרשמה",
+    "NoAccountLink": "אין לי משתמש",
+    "ExistingAccountLink": "יש לי משתמש",
+    "MailLabel": "מייל",
+    "PasswordLabel": "ססמה",
+    "SignInSubmitButton": "התחברות",
+    "SignUpSubmitButton": "הרשמה"
   }
 }

@@ -7,6 +7,7 @@ import { LoginType } from '@monday-whatsapp/shared-types';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslations } from 'next-intl';
 
 interface Props {
   className?: string;
@@ -14,15 +15,6 @@ interface Props {
   onSubmit(formData: FormData): void;
   style?: CSSProperties;
 }
-
-const titlesMap: Record<LoginType, { submitButton: string }> = {
-  [LoginType.SIGN_IN]: {
-    submitButton: 'Sign In',
-  },
-  [LoginType.SIGN_UP]: {
-    submitButton: 'Sign Up',
-  },
-};
 
 const schema = z.object({
   username: z.string().email(),
@@ -45,6 +37,17 @@ export const UsernamePasswordForm: FC<Props> = ({
     resolver: zodResolver(schema),
   });
 
+  const t = useTranslations('LoginTemplate');
+
+  const titlesMap: Record<LoginType, { submitButton: string }> = {
+    [LoginType.SIGN_IN]: {
+      submitButton: t('SignInSubmitButton'),
+    },
+    [LoginType.SIGN_UP]: {
+      submitButton: t('SignUpSubmitButton'),
+    },
+  };
+
   return (
     <>
       <form
@@ -60,7 +63,7 @@ export const UsernamePasswordForm: FC<Props> = ({
         }}
       >
         <Box>
-          <Text type={'text1'}>Mail</Text>
+          <Text type={'text1'}>{t('MailLabel')}</Text>
           <TextField
             {...register('username')}
             onChange={(_, e) => register('username').onChange(e)}
@@ -70,7 +73,7 @@ export const UsernamePasswordForm: FC<Props> = ({
           )}
         </Box>
         <Box>
-          <Text type={'text1'}>Password</Text>
+          <Text type={'text1'}>{t('PasswordLabel')}</Text>
           <TextField
             type={'password'}
             {...register('password')}

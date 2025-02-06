@@ -1,4 +1,4 @@
-import { FC, ReactNode, useContext, useEffect } from 'react';
+import { FC, useContext } from 'react';
 import {
   Avatar,
   Box,
@@ -10,13 +10,13 @@ import {
   ListItem,
   Text,
 } from '@vibe/core';
-import { HeaderProps, Locale } from '@monday-whatsapp/shared-types';
+import { HeaderProps } from '@monday-whatsapp/shared-types';
 import { ChevronLeft, ChevronRight, Moon, Sparkle, Sun } from 'lucide-react';
 import { Theme, ThemeContext } from '@monday-whatsapp/components';
-import { useLocale } from 'next-intl';
-import { usePathname, useRouter } from '@monday-whatsapp/next-services/server';
-import { useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useDir } from '@monday-whatsapp/next-services';
+import { Menu } from '../menu';
+import { AppLocaleMenu } from '../app-locale-menu';
 
 export const Header: FC<HeaderProps> = ({
   className,
@@ -91,11 +91,19 @@ function ProfileMenu({ signOut }: { signOut(): void }) {
     dir === 'rtl'
       ? () => <ChevronRight size={15} />
       : () => <ChevronLeft size={15} />;
+  const t = useTranslations('ProfileMenu');
   return (
     <Box rounded={'medium'} backgroundColor={'allgreyBackgroundColor'}>
       <List style={{ width: '100%' }}>
         <ListItem onClick={signOut}>
-          <Box style={{ width: '100%' }}>Logout</Box>
+          <Box
+            style={{
+              width: '100%',
+              textAlign: dir === 'rtl' ? 'right' : undefined,
+            }}
+          >
+            {t('Logout')}
+          </Box>
         </ListItem>
         <Dialog
           content={
@@ -119,14 +127,14 @@ function ProfileMenu({ signOut }: { signOut(): void }) {
               }}
             >
               <Chevron />
-              <span>Theme</span>
+              <span>{t('Theme')}</span>
             </Box>
           </ListItem>
         </Dialog>
         <Dialog
           content={
             <DialogContentContainer>
-              <LanguagesMenu />
+              <AppLocaleMenu />
             </DialogContentContainer>
           }
           position={'left'}
@@ -144,7 +152,7 @@ function ProfileMenu({ signOut }: { signOut(): void }) {
               }}
             >
               <Chevron />
-              <span>Language</span>
+              <span>{t('Language')}</span>
             </Box>
           </ListItem>
         </Dialog>
@@ -185,81 +193,6 @@ function ThemeMenu() {
             <>
               <Sparkle size={15} />
               <span>Black</span>
-            </>
-          ),
-        },
-      ]}
-    />
-  );
-}
-
-function Menu({
-  items,
-}: {
-  items: {
-    label: ReactNode;
-    selected?: boolean;
-    onClick?(): void;
-  }[];
-}) {
-  return (
-    <Box rounded={'medium'} backgroundColor={'allgreyBackgroundColor'}>
-      <List style={{ width: '100%' }}>
-        {items.map((item, i) => (
-          <ListItem
-            key={`menu-item-${i}`}
-            selected={item.selected}
-            onClick={item.onClick}
-          >
-            <Box
-              style={{
-                width: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '.4em',
-              }}
-            >
-              {item.label}
-            </Box>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
-}
-
-function LanguagesMenu() {
-  const locale = useLocale();
-  const router = useRouter();
-  const pathname = usePathname();
-  const params = useParams();
-  const onLocaleChange = (l: Locale) => {
-    router.replace(
-      // @ts-expect-error -- TypeScript will validate that only known `params`
-      // are used in combination with a given `pathname`. Since the two will
-      // always match for the current route, we can skip runtime checks.
-      { pathname, params },
-      { locale: l }
-    );
-  };
-  return (
-    <Menu
-      items={[
-        {
-          selected: locale === Locale.ENGLISH,
-          onClick: () => onLocaleChange(Locale.ENGLISH),
-          label: (
-            <>
-              <span>English</span>
-            </>
-          ),
-        },
-        {
-          selected: locale === Locale.HEBREW,
-          onClick: () => onLocaleChange(Locale.HEBREW),
-          label: (
-            <>
-              <span>Hebrew</span>
             </>
           ),
         },

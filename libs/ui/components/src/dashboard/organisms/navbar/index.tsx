@@ -12,7 +12,8 @@ import {
   TableOfContents,
 } from 'lucide-react';
 import { Theme, ThemeContext } from '@monday-whatsapp/components';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@monday-whatsapp/next-services/server';
 
 interface Props {
   className?: string;
@@ -61,7 +62,7 @@ function Head() {
 
 function NavigationList({ selectedPath }: { selectedPath: string }) {
   const { theme } = useContext(ThemeContext);
-
+  const t = useTranslations('Navbar');
   const iconColor =
     theme === Theme.LIGHT ? ICON_COLOR.default : ICON_COLOR.dark;
 
@@ -74,37 +75,37 @@ function NavigationList({ selectedPath }: { selectedPath: string }) {
     }
   > = {
     DASHBOARD: {
-      label: 'Dashboard',
+      label: t('Dashboard'),
       href: '/dashboard',
       icon: <Gauge size={ICON_SIZE} stroke={iconColor} />,
     },
     CHATS: {
-      label: 'Chats',
+      label: t('Chats'),
       href: '/dashboard/chats',
       icon: <MessagesSquare size={ICON_SIZE} stroke={iconColor} />,
     },
     TEMPLATES: {
-      label: 'Templates',
+      label: t('Templates'),
       href: '/dashboard/templates',
       icon: <TableOfContents size={ICON_SIZE} stroke={iconColor} />,
     },
     SCHEDULED: {
-      label: 'Scheduled',
+      label: t('Scheduled'),
       href: '/dashboard/scheduled',
       icon: <Clock size={ICON_SIZE} stroke={iconColor} />,
     },
     CONTACTS: {
-      label: 'Contacts',
+      label: t('Contacts'),
       href: '/dashboard/contacts',
       icon: <Contact size={ICON_SIZE} stroke={iconColor} />,
     },
     ANALYTICS: {
-      label: 'Analytics',
+      label: t('Analytics'),
       href: '/dashboard/analytics',
       icon: <ChartLine size={ICON_SIZE} stroke={iconColor} />,
     },
     SETTINGS: {
-      label: 'Settings',
+      label: t('Settings'),
       href: '/dashboard/settings',
       icon: <Settings size={ICON_SIZE} stroke={iconColor} />,
     },

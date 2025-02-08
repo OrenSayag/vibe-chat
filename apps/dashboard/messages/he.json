@@ -9,7 +9,11 @@
     "Scheduled": "הודעות מתוזמנות",
     "Contacts": "אנשי קשר",
     "Analytics": "נתונים",
-    "Settings": "הגדרות"
+    "Settings": "הגדרות",
+    "Instagram": "אינסטגרם",
+    "Messenger": "מסנג'ר",
+    "WhatsApp": "וואטסאפ",
+    "Telegram": "טלגרם"
   },
   "ProfileMenu": {
     "Logout": "התנתקות",

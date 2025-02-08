@@ -29,6 +29,11 @@ import { useParams } from 'next/navigation';
 import { FC, ReactNode, useContext, useMemo } from 'react';
 import Logo from '../../assets/icons/icon.png';
 
+import Instagram from '../../assets/icons/social/instagram.svg';
+import Messenger from '../../assets/icons/social/messenger.svg';
+import Telegram from '../../assets/icons/social/telegram.svg';
+import Whatsapp from '../../assets/icons/social/whatsapp.svg';
+
 interface Props {
   className?: string;
   selectedPath: string;
@@ -50,6 +55,60 @@ export const Navbar: FC<Props> = ({
   const { subscriptionId } = useParams();
   const router = useRouter();
 
+  return (
+    <>
+      <div>
+        <Head />
+        <Divider />
+        <OrganizationSelector
+          organizations={organizations}
+          selectedPath={selectedPath}
+          subscriptionId={subscriptionId}
+          router={router}
+        />
+        <Divider />
+        <NavigationList
+          selectedPath={selectedPath}
+          subscriptionId={subscriptionId as string}
+        />
+        <Divider />
+        <IntegrationsLinks />
+      </div>
+    </>
+  );
+};
+
+function Head() {
+  return (
+    <Flex
+      style={{
+        padding: '.9em 2em .4em',
+      }}
+      justify={'start'}
+      align={'center'}
+      gap={'medium'}
+    >
+      <Box>
+        <Image
+          src={Logo}
+          alt={'logo'}
+          style={{
+            margin: '0 auto',
+            width: '2em',
+          }}
+        />
+      </Box>
+      <Text>Vibe Chat</Text>
+    </Flex>
+  );
+}
+
+function OrganizationSelector({
+  organizations,
+  selectedPath,
+  subscriptionId,
+  router,
+}) {
   const dropdownOptions = useMemo(
     () =>
       organizations.map((org) => ({
@@ -90,59 +149,23 @@ export const Navbar: FC<Props> = ({
   }, [organizations, subscriptionId]);
 
   return (
-    <>
-      <div>
-        <Head />
-        <Divider />
-        <div style={{ padding: '1em 2em' }}>
-          <Dropdown
-            clearable={false}
-            value={selectedOrganization}
-            searchable={false}
-            options={dropdownOptions}
-            onChange={(selected) => {
-              if (selected?.value) {
-                const newPath = selectedPath.replace(
-                  subscriptionId as string,
-                  selected.value
-                );
-                router.replace(newPath);
-              }
-            }}
-          />
-        </div>
-        <Divider />
-        <NavigationList
-          selectedPath={selectedPath}
-          subscriptionId={subscriptionId as string}
-        />
-      </div>
-    </>
-  );
-};
-
-function Head() {
-  return (
-    <Flex
-      style={{
-        padding: '.9em 2em .4em',
-      }}
-      justify={'start'}
-      align={'center'}
-      gap={'medium'}
-    >
-      <Box>
-        <Image
-          src={Logo}
-          alt={'logo'}
-          style={{
-            margin: '0 auto',
-            width: '2em',
-          }}
-        />
-      </Box>
-      <Text>Vibe Chat</Text>
-    </Flex>
+    <div style={{ padding: '1em 2em' }}>
+      <Dropdown
+        clearable={false}
+        value={selectedOrganization}
+        searchable={false}
+        options={dropdownOptions}
+        onChange={(selected) => {
+          if (selected?.value) {
+            const newPath = selectedPath.replace(
+              subscriptionId as string,
+              selected.value
+            );
+            router.replace(newPath);
+          }
+        }}
+      />
+    </div>
   );
 }
 
@@ -243,4 +266,67 @@ function NavigationList({
       </Link>
     );
   }
+}
+
+function IntegrationsLinks() {
+  const t = useTranslations('Navbar');
+  const { subscriptionId } = useParams();
+  const integrations = [
+    {
+      href: `/dashboard/${subscriptionId}/integration/whatsapp`,
+      src: Whatsapp,
+      alt: 'WhatsApp',
+      label: t('WhatsApp'),
+    },
+    {
+      href: `/dashboard/${subscriptionId}/integration/instagram`,
+      src: Instagram,
+      alt: 'Instagram',
+      label: t('Instagram'),
+    },
+    {
+      href: `/dashboard/${subscriptionId}/integration/messenger`,
+      src: Messenger,
+      alt: 'Messenger',
+      label: t('Messenger'),
+    },
+    {
+      href: `/dashboard/${subscriptionId}/integration/telegram`,
+      src: Telegram,
+      alt: 'Telegram',
+      label: t('Telegram'),
+    },
+  ];
+
+  return (
+    <Box>
+      <List>
+        {integrations.map(({ href, src, alt, label }) => (
+          <Link href={href} key={label}>
+            <ListItem size={'medium'}>
+              <Flex
+                align={'center'}
+                gap={'large'}
+                style={{
+                  padding: '0 1em',
+                }}
+              >
+                <span>
+                  <Image
+                    src={src}
+                    alt={alt}
+                    style={{
+                      width: '1.5em',
+                      height: '1.5em',
+                    }}
+                  />
+                </span>
+                <Text>{label}</Text>
+              </Flex>
+            </ListItem>
+          </Link>
+        ))}
+      </List>
+    </Box>
+  );
 }

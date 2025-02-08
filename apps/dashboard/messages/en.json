@@ -9,7 +9,11 @@
     "Scheduled": "Scheduled",
     "Contacts": "Contacts",
     "Analytics": "Analytics",
-    "Settings": "Settings"
+    "Settings": "Settings",
+    "Instagram": "Instagram",
+    "Messenger": "Messenger",
+    "WhatsApp": "WhatsApp",
+    "Telegram": "Telegram"
   },
   "ProfileMenu": {
     "Logout": "Logout",

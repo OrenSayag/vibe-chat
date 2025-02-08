@@ -8,7 +8,7 @@ import { getSubscription } from '../../subscription/methods/get-subscription';
 import { UnauthorizedException } from '@nestjs/common';
 
 type Input = {
-  subscriptionId: number;
+  subscriptionId: string;
 };
 
 type Output = {
@@ -19,12 +19,14 @@ export const getTemplates = async ({
   subscriptionId,
 }: Input): Promise<Output> => {
   const {
-    info: { whatsappCloudInfo },
+    info: {
+      integrations: { whatsappCloudInfo },
+    },
   } = await getSubscription({
     type: 'subscriptionId',
     id: subscriptionId,
   });
-  if (whatsappCloudInfo.status !== WhatsappCloudStatus.SIGNED) {
+  if (whatsappCloudInfo?.status !== WhatsappCloudStatus.SIGNED) {
     throw new UnauthorizedException();
   }
   const res = await sendRequestToWhatsappGraph({

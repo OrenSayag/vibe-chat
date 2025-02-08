@@ -13,3 +13,6 @@ export * from './dashboard/templates/no-user-linked-organization-template';
 export * from './dashboard/providers/theme-provider';
 export * from './dashboard/templates/chat-template/provider';
 export * from './dashboard/layout/main-layout';
+export * from './dashboard/templates/create-organization-template/provider';
+
+export * from './dashboard/molecules/header';

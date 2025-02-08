@@ -4,7 +4,7 @@ import { getWhatsappMessageTemplates } from '../../server/whatsapp/get-whatsapp-
 import { useState } from 'react';
 
 type Input = {
-  subscriptionId?: number;
+  subscriptionId?: string;
 };
 
 export const useWhatsappMessageTemplates = ({ subscriptionId }: Input) => {

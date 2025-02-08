@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 type Input = {
   onSend: Output['onSend'];
   latestMessage?: Message;
-  subscriptionId?: number;
+  subscriptionId?: string;
 };
 
 type Output = MessageInputAndActionProps;

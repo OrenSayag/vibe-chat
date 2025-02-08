@@ -44,7 +44,7 @@ export class EventsService {
     subscriptionId,
     message,
   }: {
-    subscriptionId: number;
+    subscriptionId: string;
     message: EventMessageContent;
   }) {
     for (const [key, value] of this.clients) {

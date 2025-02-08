@@ -15,7 +15,7 @@ import {
 } from '@monday-whatsapp/db';
 
 type Input = {
-  subscriptionId: number;
+  subscriptionId: string;
   sendMessageData: SendMessageRequest;
 };
 

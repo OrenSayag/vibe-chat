@@ -30,7 +30,9 @@ export const useGetSubscription = () => {
     getSubscription: onGetSubscription,
     pendingGetSubscription,
     subscriptionData: data,
-    accountNotConfigured:
-      data?.info.whatsappCloudInfo.status === WhatsappCloudStatus.NOT_SIGNED,
+    accountNotConfigured: data?.info.integrations.whatsappCloudInfo
+      ? data?.info.integrations.whatsappCloudInfo.status ===
+        WhatsappCloudStatus.NOT_SIGNED
+      : true,
   };
 };

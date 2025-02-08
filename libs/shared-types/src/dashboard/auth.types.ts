@@ -5,8 +5,9 @@ export enum LoginType {
 
 export type User = {
   mail: string;
-  image?: string;
-  name?: string;
+  image?: string | null;
+  name?: string | null;
+  id: string;
 };
 
 export type LoginForm = { username: string; password: string };

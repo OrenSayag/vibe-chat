@@ -2,7 +2,7 @@ import { updateSubscription as _updateSubscription } from '@monday-whatsapp/db';
 import { UpdateSubscriptionInfoRequest } from '@monday-whatsapp/shared-types';
 
 type Input = {
-  subscriptionId: number;
+  subscriptionId: string;
   info: UpdateSubscriptionInfoRequest;
 };
 

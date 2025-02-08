@@ -1,27 +1,43 @@
-import { db } from '../../config';
-import { subscriptions } from '../../schema';
-import { sql } from 'drizzle-orm';
-import { WhatsappCloudStatus } from '@monday-whatsapp/shared-types';
+import {
+  OrganizationInfoSchema,
+  OrganizationUserRole,
+} from '@monday-whatsapp/shared-types';
+import { db, subscriptions, subscriptionsUsers } from '@monday-whatsapp/db';
 
 type Input = {
-  accountId: string;
+  organizationInfo: OrganizationInfoSchema;
+  userId: string;
 };
 
-export const createSubscription = async ({ accountId }: Input) => {
-  const exists = await db
-    .select()
-    .from(subscriptions)
-    .where(sql`${subscriptions.info}->>'accountId' = ${accountId}`);
-  if (exists.length > 0) {
-    throw new Error('Subscription already exists');
-  }
-  await db.insert(subscriptions).values({
-    info: {
-      accountId,
-      activatedWorkspaces: [],
-      whatsappCloudInfo: {
-        status: WhatsappCloudStatus.NOT_SIGNED,
-      },
-    },
+type Output = {
+  id: string;
+};
+
+export const createSubscription = async ({
+  organizationInfo,
+  userId,
+}: Input): Promise<Output> => {
+  return await db.transaction(async (tx) => {
+    const queryRes = await tx
+      .insert(subscriptions)
+      .values({
+        info: {
+          organizationInfo,
+          integrations: {},
+        },
+      })
+      .returning({ insertedId: subscriptions.id });
+
+    const { insertedId } = queryRes[0];
+
+    await tx.insert(subscriptionsUsers).values({
+      userId,
+      subscriptionId: insertedId,
+      role: OrganizationUserRole.OWNER,
+    });
+
+    return {
+      id: insertedId,
+    };
   });
 };

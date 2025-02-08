@@ -29,5 +29,12 @@
     "PasswordLabel": "ססמה",
     "SignInSubmitButton": "התחברות",
     "SignUpSubmitButton": "הרשמה"
+  },
+  "CreateOrganizationTemplate": {
+    "OrganizationNameField": "שם העסק",
+    "OrganizationPictureField": "תמונה",
+    "SubmitForm": "צור",
+    "Title": "שלום!",
+    "Subtitle": "צור את פרופיל העסק שלך."
   }
 }

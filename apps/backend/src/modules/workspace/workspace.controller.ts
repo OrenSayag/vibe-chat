@@ -21,7 +21,7 @@ export class WorkspaceController {
   ): Promise<UpdateWorkspaceInfoResponse> {
     await updateWorkspaceInfo({
       workspaceId: Number(workspaceId),
-      subscriptionId: Number(subscriptionId),
+      subscriptionId,
       data: input,
     });
     return {
@@ -41,7 +41,7 @@ export class WorkspaceController {
     console.log('SHOULD UPDATE BOARD');
     await updateWorkspaceBoard({
       workspaceId: Number(workspaceId),
-      subscriptionId: Number(subscriptionId),
+      subscriptionId,
       data: input,
       boardId: Number(boardId),
     });

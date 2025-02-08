@@ -15,3 +15,6 @@ export * from './lib/whatsapp/whatsapp-component-props.types';
 export * from './dashboard/auth.types';
 export * from './dashboard/props.types';
 export * from './dashboard/locales.types';
+export * from './dashboard/organization.types';
+export * from './dashboard/organization.props';
+export * from './dashboard/users.types';

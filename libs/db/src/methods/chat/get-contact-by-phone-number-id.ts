@@ -5,7 +5,7 @@ import { and, eq, sql } from 'drizzle-orm';
 type Input = {
   phoneNumberId: string;
   displayedPhoneNumber: string;
-  subscriptionId: number;
+  subscriptionId: string;
   name?: string;
 };
 

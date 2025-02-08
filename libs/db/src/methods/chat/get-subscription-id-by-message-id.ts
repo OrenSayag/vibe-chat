@@ -7,7 +7,7 @@ type Input = {
 };
 
 type Output = {
-  subscriptionId: number;
+  subscriptionId: string;
 };
 
 export const getSubscriptionIdByMessageId = async ({

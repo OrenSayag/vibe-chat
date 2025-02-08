@@ -11,7 +11,7 @@ import { useBackendRequest } from '@monday-whatsapp/next-services';
 import { getChatSession } from '../../../../server/chat/get-chat-session';
 
 type Input = {
-  subscriptionId?: number;
+  subscriptionId?: string;
   selectedChatId?: ChatListProps['selectedChatId'];
   isNewContact?: boolean;
 };

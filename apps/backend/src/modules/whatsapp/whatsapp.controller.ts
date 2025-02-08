@@ -42,7 +42,7 @@ export class WhatsappController {
     @Param('subscriptionId') subscriptionId: string
   ): Promise<GetTemplatesResponse> {
     const templates = await getTemplates({
-      subscriptionId: Number(subscriptionId),
+      subscriptionId,
     });
     return {
       success: true,

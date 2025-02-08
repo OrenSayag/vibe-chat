@@ -7,7 +7,7 @@ import { eq } from 'drizzle-orm';
 type Input = {
   workspaceId: number;
   boardId: number;
-  subscriptionId: number;
+  subscriptionId: string;
   data: UpdateBoardRequest;
 };
 
@@ -21,9 +21,10 @@ export const updateWorkspaceBoard = async ({
     type: 'subscriptionId',
     id: subscriptionId,
   });
-  const boardIsActivated = subscription.info.activatedWorkspaces
-    .find((w) => w.id == workspaceId.toString())
-    ?.activatedBoards.find((b) => b.id == boardId.toString());
+  const boardIsActivated =
+    subscription.info.integrations.monday?.activatedWorkspaces
+      .find((w) => w.id == workspaceId.toString())
+      ?.activatedBoards.find((b) => b.id == boardId.toString());
   if (!subscription || !boardIsActivated) {
     throw new Error('not found');
   }
@@ -32,26 +33,35 @@ export const updateWorkspaceBoard = async ({
     .set({
       info: {
         ...subscription.info,
-        activatedWorkspaces: subscription.info.activatedWorkspaces.map(
-          (workspace) => {
-            if (workspace.id == workspaceId.toString()) {
-              return {
-                ...workspace,
-                activatedBoards: workspace.activatedBoards.map((board) => {
-                  if (board.id !== boardId.toString()) {
-                    return board;
+        integrations: {
+          ...subscription.info.integrations,
+          monday: {
+            ...subscription.info.integrations.monday!,
+            activatedWorkspaces:
+              subscription.info.integrations.monday?.activatedWorkspaces.map(
+                (workspace) => {
+                  if (workspace.id == workspaceId.toString()) {
+                    return {
+                      ...workspace,
+                      activatedBoards: workspace.activatedBoards.map(
+                        (board) => {
+                          if (board.id !== boardId.toString()) {
+                            return board;
+                          }
+                          return {
+                            ...board,
+                            ...data,
+                          };
+                        }
+                      ),
+                    };
+                  } else {
+                    return workspace;
                   }
-                  return {
-                    ...board,
-                    ...data,
-                  };
-                }),
-              };
-            } else {
-              return workspace;
-            }
-          }
-        ),
+                }
+              ) ?? [],
+          },
+        },
       },
     })
     .where(eq(subscriptions.id, subscriptionId));

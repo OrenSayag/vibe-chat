@@ -6,7 +6,7 @@ import { ChatLayout } from '@monday-whatsapp/components';
 
 type Props = {
   style?: CSSProperties;
-  subscriptionId: number;
+  subscriptionId: string;
 };
 
 export const ChatTemplateProvider: FC<Props> = ({

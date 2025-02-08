@@ -5,8 +5,8 @@ import { io, Socket } from 'socket.io-client';
 
 interface SocketContextType {
   socket: Socket | null;
-  subscriptionId?: number;
-  setSubscriptionId(id: number): void;
+  subscriptionId?: string;
+  setSubscriptionId(id: string): void;
 }
 
 const SocketContext = createContext<SocketContextType | undefined>(undefined);
@@ -15,7 +15,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [subscriptionId, setSubscriptionId] = useState<number>();
+  const [subscriptionId, setSubscriptionId] = useState<string>();
 
   useEffect(() => {
     if (!subscriptionId) return;
@@ -50,7 +50,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({
 export const useSocket = ({
   subscriptionId,
 }: {
-  subscriptionId?: number;
+  subscriptionId?: string;
 }): Socket | null => {
   const context = useContext(SocketContext);
   if (!context) {

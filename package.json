@@ -9,6 +9,7 @@
   "private": true,
   "dependencies": {
     "@auth/drizzle-adapter": "^1.7.4",
+    "@aws-sdk/client-s3": "^3.744.0",
     "@hookform/resolvers": "^3.10.0",
     "@nestjs/common": "^10.0.2",
     "@nestjs/config": "^3.3.0",
@@ -24,6 +25,7 @@
     "express": "^4.21.2",
     "lucide-react": "^0.473.0",
     "monday-sdk-js": "^0.5.6",
+    "nanoid": "^3.3.8",
     "nestjs-zod": "^4.2.0",
     "next": "^14.2.23",
     "next-auth": "5.0.0-beta.25",
@@ -62,6 +64,7 @@
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
     "@types/express": "^5.0.0",
+    "@types/multer": "^1.4.12",
     "@types/node": "18.16.9",
     "@types/pg": "^8.11.11",
     "@types/react": "18.3.1",

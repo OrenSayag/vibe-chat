@@ -3,7 +3,6 @@ import { LoginType, User } from '@monday-whatsapp/shared-types';
 
 export async function POST(request: Request) {
   const body = await request.json();
-  console.log(body);
   const { username, password, type } = body;
   if (!username || !password) {
     return Response.json(
@@ -29,12 +28,13 @@ export async function POST(request: Request) {
           { status: 401 }
         );
       }
-      await createUser({
+      const { id } = await createUser({
         username: username as string,
         password: password as string,
       });
       user = {
         mail: username as string,
+        id,
       };
       break;
     case LoginType.SIGN_IN:

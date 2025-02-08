@@ -37,17 +37,33 @@ export const whatsappCloudInfo = z.union([
 
 export type WhatsappCloudInfo = z.infer<typeof whatsappCloudInfo>;
 
+export const organizationInfoSchema = z.object({
+  displayName: z.string(),
+  image: z.number().optional(),
+});
+
+export type OrganizationInfoSchema = z.infer<typeof organizationInfoSchema>;
+
+const subscriptionIntegrationsSchema = z
+  .object({
+    monday: z.object({
+      accountId: z.string(),
+      activatedWorkspaces: z.array(activatedWorkspaceSchema),
+    }),
+    whatsappCloudInfo,
+  })
+  .partial();
+
 const subscriptionInfoSchema = z.object({
-  accountId: z.string(),
-  activatedWorkspaces: z.array(activatedWorkspaceSchema),
-  whatsappCloudInfo: whatsappCloudInfo,
+  organizationInfo: organizationInfoSchema,
+  integrations: subscriptionIntegrationsSchema,
 });
 
 export type SubscriptionInfo = z.infer<typeof subscriptionInfoSchema>;
 
 export type GetSubscriptionInfoResponse = BackendBaseResponse<{
   info: SubscriptionInfo;
-  id: number;
+  id: string;
 }>;
 
 export const updateSubscriptionInfoRequest = z.object({
@@ -57,3 +73,13 @@ export const updateSubscriptionInfoRequest = z.object({
 export type UpdateSubscriptionInfoRequest = z.infer<
   typeof updateSubscriptionInfoRequest
 >;
+
+export const createSubscriptionRequestSchema = organizationInfoSchema;
+
+export type CreateSubscriptionInfoRequest = z.infer<
+  typeof createSubscriptionRequestSchema
+>;
+
+export type CreateSubscriptionInfoResponse = BackendBaseResponse<{
+  id: string;
+}>;

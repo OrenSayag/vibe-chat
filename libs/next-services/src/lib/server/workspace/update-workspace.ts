@@ -8,7 +8,7 @@ import { sendRequestToServer } from '../utils/send-request-to-backend';
 import { revalidatePath } from 'next/cache';
 
 type Input = {
-  subscriptionId: number;
+  subscriptionId: string;
   data: UpdateWorkspaceInfoRequest;
   workspaceId: number;
 };

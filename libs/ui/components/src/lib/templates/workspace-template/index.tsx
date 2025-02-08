@@ -10,7 +10,7 @@ interface Props {
   className?: string;
   activatedBoards: ActivatedItem[];
   deactivatedBoards: DeactivatedItem[];
-  subscriptionId: number;
+  subscriptionId: string;
   onToggleActivation(itemId: string): void;
   pendingToggleActivation?: boolean;
 }

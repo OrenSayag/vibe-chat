@@ -10,7 +10,7 @@ import { useBackendRequest } from '@monday-whatsapp/next-services';
 import { getChatList } from '../../../../server/chat/get-chat-list';
 
 type Input = {
-  subscriptionId?: number;
+  subscriptionId?: string;
 };
 
 type Output = ChatListProps;

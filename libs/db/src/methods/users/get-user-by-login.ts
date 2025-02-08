@@ -36,6 +36,7 @@ export const getUserByLogin = async ({ loginForm }: Input): Promise<Output> => {
       name: res.name,
       image: res.image,
       mail: res.email,
+      id: res.id,
     } as User,
   };
 };

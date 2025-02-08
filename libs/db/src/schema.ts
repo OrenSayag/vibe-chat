@@ -1,11 +1,13 @@
 import {
   ContactInfo,
   Message,
+  OrganizationUserRole,
   SubscriptionInfo,
 } from '@monday-whatsapp/shared-types';
 import {
   integer,
   json,
+  pgEnum,
   pgTable,
   primaryKey,
   serial,
@@ -14,9 +16,12 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 import type { AdapterAccountType } from 'next-auth/adapters';
+import { nanoid } from 'nanoid';
 
 export const subscriptions = pgTable('subscriptions', {
-  id: serial('id').primaryKey(),
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => nanoid(6)),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').$onUpdate(() => new Date()),
   info: json('info').$type<SubscriptionInfo>().notNull(),
@@ -27,8 +32,13 @@ export const subscriptionContacts = pgTable('subscription_contacts', {
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').$onUpdate(() => new Date()),
   info: json('info').$type<ContactInfo>().notNull(),
-  subscriptionId: integer('subscription_id').references(() => subscriptions.id),
+  subscriptionId: text('subscription_id').references(() => subscriptions.id),
 });
+
+export const organizationUserRoleEnum = pgEnum(
+  'role',
+  Object.values(OrganizationUserRole) as [string, ...string[]]
+);
 
 export const subscriptionsUsers = pgTable('subscriptions_users', {
   id: serial('id').primaryKey(),
@@ -37,14 +47,15 @@ export const subscriptionsUsers = pgTable('subscriptions_users', {
   userId: text('userId')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
-  subscriptionId: integer('subscription_id').references(() => subscriptions.id),
+  subscriptionId: text('subscription_id').references(() => subscriptions.id),
+  role: organizationUserRoleEnum().notNull(),
 });
 
 export const subscriptionMessages = pgTable('subscription_messages', {
   id: varchar('id').primaryKey(),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').$onUpdate(() => new Date()),
-  subscriptionId: integer('subscription_id')
+  subscriptionId: text('subscription_id')
     .references(() => subscriptions.id)
     .notNull(),
   contactId: integer('contact_id')
@@ -97,3 +108,21 @@ export const accounts = pgTable(
     },
   ]
 );
+
+export const images = pgTable('images', {
+  id: serial('id').primaryKey(),
+  filename: text('image'),
+});
+
+export const media = pgTable('media', {
+  id: serial('id').primaryKey(),
+  key: text('key').notNull(), // S3/Minio key
+  bucket: text('bucket').notNull(),
+  mimeType: text('mime_type').notNull(),
+  size: integer('size').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+export type Media = typeof media.$inferSelect;
+export type NewMedia = typeof media.$inferInsert;

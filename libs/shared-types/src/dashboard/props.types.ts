@@ -1,9 +1,16 @@
 import { ReactNode } from 'react';
+import { OrganizationInfoSchema } from '../lib/subscription.types';
+import { OrganizationUserRole } from './organization.types';
 
 export type MainLayoutProps = {
   className?: string;
   children: ReactNode;
   headerProps: HeaderProps;
+  organizations: (Omit<OrganizationInfoSchema, 'image'> & {
+    subscriptionId: string;
+    organizationUserRole: OrganizationUserRole;
+    image: string;
+  })[];
 };
 
 export type HeaderProps = {

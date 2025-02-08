@@ -29,5 +29,12 @@
     "PasswordLabel": "Password",
     "SignInSubmitButton": "Sign In",
     "SignUpSubmitButton": "Sign Up"
+  },
+  "CreateOrganizationTemplate": {
+    "OrganizationNameField": "Business Name",
+    "OrganizationPictureField": "Picture",
+    "SubmitForm": "Create",
+    "Title": "Hello!",
+    "Subtitle": "Create your business profile."
   }
 }

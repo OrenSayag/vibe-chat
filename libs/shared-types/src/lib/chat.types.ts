@@ -21,10 +21,7 @@ export type ChatHistory = {
 };
 
 export const getChatListParamsSchema = z.object({
-  subscriptionId: z
-    .string()
-    .refine((s) => !Number.isNaN(Number(s)))
-    .transform((s) => Number(s)),
+  subscriptionId: z.string()
 });
 
 export type GetChatListParams = z.infer<typeof getChatListParamsSchema>;
@@ -35,10 +32,7 @@ export type GetChatListResponse = BackendBaseResponse<{
 }>;
 
 export const getChatSessionParamsSchema = z.object({
-  subscriptionId: z
-    .string()
-    .refine((s) => !Number.isNaN(Number(s)))
-    .transform((s) => Number(s)),
+  subscriptionId: z.string(),
   phoneNumberId: z.string().min(1),
 });
 

@@ -12,7 +12,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 type Input = {
   list: ChatListItem[];
   sessionHistory?: ChatHistory;
-  subscriptionId?: number;
+  subscriptionId?: string;
 };
 
 type Output = {

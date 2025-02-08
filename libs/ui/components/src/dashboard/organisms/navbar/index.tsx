@@ -1,7 +1,19 @@
-import { FC, ReactNode, useContext } from 'react';
-import { Box, Divider, Flex, List, ListItem, Text } from '@vibe/core';
-import Image from 'next/image';
-import Logo from '../../assets/icons/icon.png';
+import { Theme, ThemeContext } from '@monday-whatsapp/components';
+import { Link, useRouter } from '@monday-whatsapp/next-services/server';
+import {
+  OrganizationInfoSchema,
+  OrganizationUserRole,
+} from '@monday-whatsapp/shared-types';
+import {
+  Avatar,
+  Box,
+  Divider,
+  Dropdown,
+  Flex,
+  List,
+  ListItem,
+  Text,
+} from '@vibe/core';
 import {
   ChartLine,
   Clock,
@@ -11,25 +23,99 @@ import {
   Settings,
   TableOfContents,
 } from 'lucide-react';
-import { Theme, ThemeContext } from '@monday-whatsapp/components';
 import { useTranslations } from 'next-intl';
-import { Link } from '@monday-whatsapp/next-services/server';
+import Image from 'next/image';
+import { useParams } from 'next/navigation';
+import { FC, ReactNode, useContext, useMemo } from 'react';
+import Logo from '../../assets/icons/icon.png';
 
 interface Props {
   className?: string;
   selectedPath: string;
+  organizations: (Omit<OrganizationInfoSchema, 'image'> & {
+    subscriptionId: string;
+    organizationUserRole: OrganizationUserRole;
+    image: string;
+  })[];
 }
 
 const ICON_SIZE = 20;
 const ICON_COLOR = { default: '#374151', dark: 'white' };
 
-export const Navbar: FC<Props> = ({ className, selectedPath }) => {
+export const Navbar: FC<Props> = ({
+  className,
+  selectedPath,
+  organizations,
+}) => {
+  const { subscriptionId } = useParams();
+  const router = useRouter();
+
+  const dropdownOptions = useMemo(
+    () =>
+      organizations.map((org) => ({
+        label: org.displayName,
+        value: org.subscriptionId,
+        ...(org.image
+          ? {
+              leftIcon: () => (
+                <span style={{ marginRight: '.5em' }}>
+                  <Avatar size={'small'} type="img" src={org.image} />
+                </span>
+              ),
+            }
+          : {}),
+      })),
+    [organizations]
+  );
+
+  const selectedOrganization = useMemo(() => {
+    const found = organizations.find(
+      (org) => org.subscriptionId === subscriptionId
+    );
+    return found
+      ? {
+          label: found.displayName,
+          value: found.subscriptionId,
+          ...(found.image
+            ? {
+                leftIcon: () => (
+                  <span style={{ marginRight: '.5em' }}>
+                    <Avatar size={'small'} type="img" src={found.image} />
+                  </span>
+                ),
+              }
+            : {}),
+        }
+      : undefined;
+  }, [organizations, subscriptionId]);
+
   return (
     <>
       <div>
         <Head />
         <Divider />
-        <NavigationList selectedPath={selectedPath} />
+        <div style={{ padding: '1em 2em' }}>
+          <Dropdown
+            clearable={false}
+            value={selectedOrganization}
+            searchable={false}
+            options={dropdownOptions}
+            onChange={(selected) => {
+              if (selected?.value) {
+                const newPath = selectedPath.replace(
+                  subscriptionId as string,
+                  selected.value
+                );
+                router.replace(newPath);
+              }
+            }}
+          />
+        </div>
+        <Divider />
+        <NavigationList
+          selectedPath={selectedPath}
+          subscriptionId={subscriptionId as string}
+        />
       </div>
     </>
   );
@@ -60,7 +146,13 @@ function Head() {
   );
 }
 
-function NavigationList({ selectedPath }: { selectedPath: string }) {
+function NavigationList({
+  selectedPath,
+  subscriptionId,
+}: {
+  selectedPath: string;
+  subscriptionId: string;
+}) {
   const { theme } = useContext(ThemeContext);
   const t = useTranslations('Navbar');
   const iconColor =
@@ -76,37 +168,37 @@ function NavigationList({ selectedPath }: { selectedPath: string }) {
   > = {
     DASHBOARD: {
       label: t('Dashboard'),
-      href: '/dashboard',
+      href: `/dashboard/${subscriptionId}`,
       icon: <Gauge size={ICON_SIZE} stroke={iconColor} />,
     },
     CHATS: {
       label: t('Chats'),
-      href: '/dashboard/chats',
+      href: `/dashboard/${subscriptionId}/chats`,
       icon: <MessagesSquare size={ICON_SIZE} stroke={iconColor} />,
     },
     TEMPLATES: {
       label: t('Templates'),
-      href: '/dashboard/templates',
+      href: `/dashboard/${subscriptionId}/templates`,
       icon: <TableOfContents size={ICON_SIZE} stroke={iconColor} />,
     },
     SCHEDULED: {
       label: t('Scheduled'),
-      href: '/dashboard/scheduled',
+      href: `/dashboard/${subscriptionId}/scheduled`,
       icon: <Clock size={ICON_SIZE} stroke={iconColor} />,
     },
     CONTACTS: {
       label: t('Contacts'),
-      href: '/dashboard/contacts',
+      href: `/dashboard/${subscriptionId}/contacts`,
       icon: <Contact size={ICON_SIZE} stroke={iconColor} />,
     },
     ANALYTICS: {
       label: t('Analytics'),
-      href: '/dashboard/analytics',
+      href: `/dashboard/${subscriptionId}/analytics`,
       icon: <ChartLine size={ICON_SIZE} stroke={iconColor} />,
     },
     SETTINGS: {
       label: t('Settings'),
-      href: '/dashboard/settings',
+      href: `/dashboard/${subscriptionId}/settings`,
       icon: <Settings size={ICON_SIZE} stroke={iconColor} />,
     },
   } as const;

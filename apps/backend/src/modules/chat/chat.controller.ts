@@ -69,7 +69,7 @@ export class ChatController {
       throw new BadRequestException('Invalid subscription ID');
     }
     const message = await _sendMessage({
-      subscriptionId: Number(subscriptionId),
+      subscriptionId,
       sendMessageData: body,
     });
     return {

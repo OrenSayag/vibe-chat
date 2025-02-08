@@ -6,7 +6,7 @@ import { getSubscription } from './get-subscription';
 
 type Input = {
   info: UpdateSubscriptionInfoRequest;
-  id: number;
+  id: string;
 };
 
 export const updateSubscription = async ({ info, id }: Input) => {
@@ -19,19 +19,26 @@ export const updateSubscription = async ({ info, id }: Input) => {
     .set({
       info: {
         ...existingSubscriptionInfo.info,
-        activatedWorkspaces: info.activatedWorkspaces.map((itemId) => {
-          const exists = existingSubscriptionInfo.info.activatedWorkspaces.find(
-            (ws) => ws.id === itemId
-          );
-          if (exists) {
-            return exists;
-          }
-          return {
-            id: itemId,
-            activationTime: new Date().toISOString(),
-            activatedBoards: [],
-          };
-        }),
+        integrations: {
+          ...existingSubscriptionInfo.info.integrations,
+          monday: {
+            ...existingSubscriptionInfo.info.integrations.monday!,
+            activatedWorkspaces: info.activatedWorkspaces.map((itemId) => {
+              const exists =
+                existingSubscriptionInfo.info.integrations.monday?.activatedWorkspaces.find(
+                  (ws) => ws.id === itemId
+                );
+              if (exists) {
+                return exists;
+              }
+              return {
+                id: itemId,
+                activationTime: new Date().toISOString(),
+                activatedBoards: [],
+              };
+            }),
+          },
+        },
       },
     })
     .where(eq(subscriptions.id, id));

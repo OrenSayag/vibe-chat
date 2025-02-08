@@ -7,5 +7,10 @@
     "compilerOptions": {
       "module": "commonjs"
     }
+  },
+  "compilerOptions": {
+    "types": [
+      "multer"
+    ]
   }
 }

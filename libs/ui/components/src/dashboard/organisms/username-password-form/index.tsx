@@ -35,6 +35,10 @@ export const UsernamePasswordForm: FC<Props> = ({
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      username: 'orensayag500@gmail.com',
+      password: '12345678',
+    },
   });
 
   const t = useTranslations('LoginTemplate');

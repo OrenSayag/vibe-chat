@@ -1,12 +1,12 @@
-import { MainLayout } from '@monday-whatsapp/components';
+import { Header } from '@monday-whatsapp/components';
 import { auth, signOut } from '../../../auth';
 import { redirect } from '@monday-whatsapp/next-services/server';
 
 export const metadata = {
-  title: 'VibeChat - Dashboard',
+  title: 'VibeChat - Create Organization',
 };
 
-export default async function RootLayout({
+export default async function CreateOrganizationLayout({
   children,
   params: { locale },
 }: {
@@ -17,22 +17,23 @@ export default async function RootLayout({
   if (!session) {
     redirect({ href: '/auth/login', locale });
   }
+
   const onSignOut = async () => {
     'use server';
     await signOut();
   };
+
   return (
-    <MainLayout
-      headerProps={{
-        profileName: session!.user?.name ?? '',
-        avatarSrc: session!.user?.image ?? '',
-        signOut: async () => {
+    <>
+      <Header
+        profileName={session!.user?.name ?? ''}
+        avatarSrc={session!.user?.image ?? ''}
+        signOut={async () => {
           'use server';
           await onSignOut();
-        },
-      }}
-    >
+        }}
+      />
       {children}
-    </MainLayout>
+    </>
   );
 }

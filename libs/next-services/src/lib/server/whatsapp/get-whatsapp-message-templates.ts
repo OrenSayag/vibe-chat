@@ -2,7 +2,7 @@ import { GetTemplatesResponse } from '@monday-whatsapp/shared-types';
 import { sendRequestToServer } from '../utils/send-request-to-backend';
 
 type Input = {
-  subscriptionId: number;
+  subscriptionId: string;
 };
 
 type Output = GetTemplatesResponse;

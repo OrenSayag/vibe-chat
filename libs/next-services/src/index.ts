@@ -12,4 +12,7 @@ export * from './lib/client/item/use-item-page';
 export * from './lib/client/chat/use-chat';
 export * from './lib/client/multiple-items/use-multiple-items-page';
 export * from './lib/client/subscription/use-get-subscription';
+export * from './lib/client/subscription/use-create-subscription';
+export * from './lib/client/subscription/use-create-subscription-template';
 export * from './lib/client/utils/use-dir';
+

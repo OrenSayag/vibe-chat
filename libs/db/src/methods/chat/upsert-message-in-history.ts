@@ -4,7 +4,7 @@ import { subscriptionMessages } from '../../schema';
 
 type Input = {
   message: Message;
-  subscriptionId: number;
+  subscriptionId: string;
   contactId: number;
 };
 

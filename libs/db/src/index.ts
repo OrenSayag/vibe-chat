@@ -1,6 +1,6 @@
 export * from './methods/subscription/get-subscription';
-export * from './methods/subscription/create-subscription';
 export * from './methods/subscription/update-subscription';
+export * from './methods/subscription/create-subscription';
 export * from './methods/workspace/update-workspace-info';
 export * from './methods/workspace/update-workspace-board';
 export * from './methods/chat/get-chat-list';
@@ -13,5 +13,8 @@ export * from './methods/chat/get-subscription-id-by-phone-number-id';
 export * from './methods/contacts/get-message-contact';
 export * from './methods/users/get-user-by-login';
 export * from './methods/users/create-user';
+export * from './methods/users/get-user-organizations';
 export * from './config';
 export * from './schema';
+export * from './methods/subscription/create-media';
+export * from './methods/users/get-user-default-subscription';

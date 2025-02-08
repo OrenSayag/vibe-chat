@@ -41,12 +41,12 @@ export class EventsGateway {
       const subscriptionId = params.get('subscriptionId');
 
       const validation = async () => {
-        if (Number.isNaN(Number(subscriptionId))) {
-          throw new Error('invalid subscriptionId');
+        if (!subscriptionId) {
+          throw new Error('missing subscriptionId');
         }
-        const {} = await getSubscription({
+        await getSubscription({
           type: 'subscriptionId',
-          id: Number(subscriptionId),
+          id: subscriptionId,
         });
       };
 
@@ -55,7 +55,7 @@ export class EventsGateway {
       console.log(`Client id: ${client.id} connected`);
 
       this.eventsService.setClientData(client.id, {
-        subscriptionId: Number(subscriptionId),
+        subscriptionId: subscriptionId!,
       });
 
       console.debug(`Number of connected clients: ${sockets.size}`);

@@ -5,37 +5,36 @@ import { subscriptions } from '../../schema';
 
 type Input =
   | {
-      type: 'accountId';
+      type: 'mondayAccountId';
       accountId: string;
     }
   | {
       type: 'subscriptionId';
-      id: number;
+      id: string;
     };
 
 type Output = GetSubscriptionInfoResponse['data'];
 
 export const getSubscription = async (input: Input): Promise<Output> => {
   const { type } = input;
-  const res = await db
+  const [subscription] = await db
     .select()
     .from(subscriptions)
     .where(
-      type === 'accountId'
+      type === 'mondayAccountId'
         ? sql`${subscriptions.info}->>'accountId' = ${input.accountId}`
         : eq(subscriptions.id, input.id)
     );
 
-  if (res.length === 0) {
-    throw new Error('Subscription not found');
+  if (!subscription) {
+    throw new Error(
+      `Subscription not found for ${type === 'mondayAccountId' ? 'accountId: ' + input.accountId : 'id: ' + input.id}`
+    );
   }
 
+  const { info, id } = subscription;
   return {
-    info: {
-      accountId: res[0].info.accountId,
-      activatedWorkspaces: res[0].info.activatedWorkspaces,
-      whatsappCloudInfo: res[0].info.whatsappCloudInfo,
-    },
-    id: res[0].id,
+    id,
+    info
   };
 };

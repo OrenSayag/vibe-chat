@@ -8,7 +8,7 @@ import { useMessageInputAndAction } from './use-message-input-and-action';
 type Output = ChatProps;
 
 type Input = {
-  subscriptionId?: number;
+  subscriptionId?: string;
 };
 
 export const useChat = ({ subscriptionId }: Input): Output => {

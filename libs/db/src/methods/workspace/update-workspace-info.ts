@@ -5,7 +5,7 @@ import { subscriptions } from '../../schema';
 
 type Input = {
   workspaceId: number;
-  subscriptionId: number;
+  subscriptionId: string;
   data: UpdateWorkspaceInfoRequest;
 };
 
@@ -24,34 +24,34 @@ export const updateWorkspaceInfo = async ({
   await db.update(subscriptions).set({
     info: {
       ...subscription.info,
-      activatedWorkspaces: subscription.info.activatedWorkspaces.map((w) => {
-        if (w.id !== workspaceId.toString()) {
-          return w;
-        }
-        const newActivatedBoards = data.activatedBoards.map((b) => {
-          const exists = w.activatedBoards.find((ab) => ab.id == b);
-          if (exists) {
-            return exists;
-          }
-          return {
-            id: b,
-            activationTime: new Date().toISOString(),
-          };
-        });
-        return {
-          ...w,
-          activatedBoards: data.activatedBoards.map((b) => {
-            const exists = w.activatedBoards.find((ab) => ab.id == b);
-            if (exists) {
-              return exists;
-            }
-            return {
-              id: b,
-              activationTime: new Date().toISOString(),
-            };
-          }),
-        };
-      }),
+      integrations: {
+        ...subscription.info.integrations,
+        monday: {
+          ...subscription.info.integrations.monday!,
+          activatedWorkspaces:
+            subscription.info.integrations.monday?.activatedWorkspaces.map(
+              (w) => {
+                if (w.id !== workspaceId.toString()) {
+                  return w;
+                }
+                const newActivatedBoards = data.activatedBoards.map((b) => {
+                  const exists = w.activatedBoards.find((ab) => ab.id == b);
+                  if (exists) {
+                    return exists;
+                  }
+                  return {
+                    id: b,
+                    activationTime: new Date().toISOString(),
+                  };
+                });
+                return {
+                  ...w,
+                  activatedBoards: newActivatedBoards,
+                };
+              }
+            ) ?? [],
+        },
+      },
     },
   });
 };

@@ -12,6 +12,7 @@ export const MainLayout: FC<MainLayoutProps> = ({
   className,
   children,
   headerProps,
+  organizations,
 }) => {
   const pathname = usePathname();
   const dir = useDir();
@@ -31,7 +32,7 @@ export const MainLayout: FC<MainLayoutProps> = ({
             }}
             dir={dir}
           >
-            <Navbar selectedPath={pathname} />
+            <Navbar selectedPath={pathname} organizations={organizations} />
           </div>
           <Divider direction={'vertical'} withoutMargin />
           <div

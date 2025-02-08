@@ -5,7 +5,7 @@ import { and, eq, sql } from 'drizzle-orm';
 
 type Input = {
   phoneNumberId: string;
-  subscriptionId: number;
+  subscriptionId: string;
 };
 
 type Output = (ContactInfo & { id: number }) | undefined;

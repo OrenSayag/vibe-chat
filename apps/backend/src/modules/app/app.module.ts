@@ -7,6 +7,7 @@ import { EventsModule } from '../events/events.module';
 import { WorkspaceModule } from '../workspace/workspace.module';
 import { WhatsappModule } from '../whatsapp/whatsapp.module';
 import { ChatModule } from '../chat/chat.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ChatModule } from '../chat/chat.module';
     WorkspaceModule,
     WhatsappModule,
     ChatModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

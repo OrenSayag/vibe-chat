@@ -24,5 +24,5 @@ export type EventMessageContent =
     };
 
 export type EventClientData = {
-  subscriptionId: number;
+  subscriptionId: string;
 };

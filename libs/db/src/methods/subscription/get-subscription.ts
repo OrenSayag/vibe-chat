@@ -1,6 +1,10 @@
 import { db } from '../../config';
 import { eq, sql } from 'drizzle-orm';
-import { GetSubscriptionInfoResponse } from '@vibe-chat/shared-types';
+import {
+  GetSubscriptionInfoResponse,
+  IntegrationType,
+  WhatsappCloudStatus,
+} from '@vibe-chat/shared-types';
 import { subscriptions } from '../../schema';
 
 type Input =
@@ -37,8 +41,21 @@ export const getSubscription = async (input: Input): Promise<Output> => {
   }
 
   const { info, id } = subscription;
+
+  const getConnectedIntegrations = (): IntegrationType[] => {
+    const { integrations } = info;
+    const connectedIntegrations: IntegrationType[] = [];
+    if (
+      integrations?.whatsappCloudInfo?.status === WhatsappCloudStatus.SIGNED
+    ) {
+      connectedIntegrations.push(IntegrationType.WHATSAPP);
+    }
+    return connectedIntegrations;
+  };
+
   return {
     id,
     info,
+    connectedIntegrations: getConnectedIntegrations(),
   };
 };

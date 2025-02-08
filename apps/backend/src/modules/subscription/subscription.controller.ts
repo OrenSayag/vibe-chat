@@ -32,20 +32,22 @@ export class SubscriptionController {
     private readonly subscriptionService: SubscriptionService,
     private readonly mediaService: MediaService
   ) {}
-  @Get(':accountId')
+  @Get(':subscriptionId')
   public async getSubscription(
-    @Param('accountId') accountId: string
+    @Param('subscriptionId') subscriptionId: string
   ): Promise<GetSubscriptionInfoResponse> {
-    const { id, info } = await this.subscriptionService.getSubscription({
-      accountId,
-      type: 'mondayAccountId',
-    });
+    const { id, info, connectedIntegrations } =
+      await this.subscriptionService.getSubscription({
+        id: subscriptionId,
+        type: 'subscriptionId',
+      });
     return {
       success: true,
       message: 'Successfully retrieved subscription info',
       data: {
         info,
         id,
+        connectedIntegrations,
       },
     };
   }

@@ -19,3 +19,7 @@ export type HeaderProps = {
   profileName: string;
   signOut(): void;
 };
+
+export type IntegrationNotConnectedViewProps = {
+  onConnect: () => void;
+};

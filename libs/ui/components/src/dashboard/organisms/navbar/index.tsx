@@ -72,7 +72,7 @@ export const Navbar: FC<Props> = ({
           subscriptionId={subscriptionId as string}
         />
         <Divider />
-        <IntegrationsLinks />
+        <IntegrationsLinks selectedPath={selectedPath} />
       </div>
     </>
   );
@@ -268,7 +268,7 @@ function NavigationList({
   }
 }
 
-function IntegrationsLinks() {
+function IntegrationsLinks({ selectedPath }: { selectedPath: string }) {
   const t = useTranslations('Navbar');
   const { subscriptionId } = useParams();
   const integrations = [
@@ -303,7 +303,7 @@ function IntegrationsLinks() {
       <List>
         {integrations.map(({ href, src, alt, label }) => (
           <Link href={href} key={label}>
-            <ListItem size={'medium'}>
+            <ListItem size={'medium'} selected={selectedPath === href}>
               <Flex
                 align={'center'}
                 gap={'large'}

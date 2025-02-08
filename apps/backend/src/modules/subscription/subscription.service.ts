@@ -9,7 +9,11 @@ export class SubscriptionService {
     input: Parameters<typeof _getSubscription>[0]
   ): Promise<GetSubscriptionInfoResponse['data']> {
     const data = await _getSubscription(input);
-    return { id: data.id, info: data.info };
+    return {
+      id: data.id,
+      info: data.info,
+      connectedIntegrations: data.connectedIntegrations,
+    };
   }
   updateSubscription(input: Parameters<typeof _updateSubscription>[0]) {
     return _updateSubscription(input);

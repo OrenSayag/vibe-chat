@@ -18,3 +18,4 @@ export * from './dashboard/locales.types';
 export * from './dashboard/organization.types';
 export * from './dashboard/organization.props';
 export * from './dashboard/users.types';
+export * from './dashboard/integrations.types';

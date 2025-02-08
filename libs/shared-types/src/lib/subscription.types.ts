@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { BackendBaseResponse } from './app.types';
+import { IntegrationType } from '../dashboard/integrations.types';
 
 const baseActivatedItemScheme = z.object({
   activationTime: z.string().datetime(),
@@ -64,6 +65,7 @@ export type SubscriptionInfo = z.infer<typeof subscriptionInfoSchema>;
 export type GetSubscriptionInfoResponse = BackendBaseResponse<{
   info: SubscriptionInfo;
   id: string;
+  connectedIntegrations: IntegrationType[];
 }>;
 
 export const updateSubscriptionInfoRequest = z.object({

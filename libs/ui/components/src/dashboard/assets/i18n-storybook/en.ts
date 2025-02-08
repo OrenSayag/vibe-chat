@@ -35,4 +35,8 @@ export const i18nStorybookMessagesEn = {
     OrganizationPictureField: 'Picture',
     SubmitForm: 'Create',
   },
+  IntegrationNotConnectedView: {
+    title: 'Integration Not Connected',
+    connect: 'Connect',
+  },
 };

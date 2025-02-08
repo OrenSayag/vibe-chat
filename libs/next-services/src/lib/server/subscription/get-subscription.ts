@@ -2,16 +2,16 @@ import { GetSubscriptionInfoResponse } from '@vibe-chat/shared-types';
 import { sendRequestToServer } from '../utils/send-request-to-backend';
 
 type Input = {
-  accountId: string;
+  subscriptionId: string;
 };
 
 type Output = GetSubscriptionInfoResponse['data'];
 
 export const getSubscription = async ({
-  accountId,
+  subscriptionId,
 }: Input): Promise<Output> => {
   const res = await sendRequestToServer<Output>({
-    path: `subscription/${accountId}`,
+    path: `subscription/${subscriptionId}`,
     options: {
       next: {
         revalidate: 0,

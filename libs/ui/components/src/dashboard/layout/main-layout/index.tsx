@@ -53,6 +53,7 @@ export const MainLayout: FC<MainLayoutProps> = ({
               style={{
                 flexGrow: 1,
               }}
+              dir={dir}
             >
               {children}
             </div>

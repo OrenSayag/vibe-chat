@@ -40,5 +40,9 @@
     "SubmitForm": "Create",
     "Title": "Hello!",
     "Subtitle": "Create your business profile."
+  },
+  "IntegrationNotConnectedView": {
+    "title": "Integration Not Connected",
+    "connect": "Connect"
   }
 }

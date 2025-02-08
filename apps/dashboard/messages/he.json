@@ -40,5 +40,9 @@
     "SubmitForm": "צור",
     "Title": "שלום!",
     "Subtitle": "צור את פרופיל העסק שלך."
+  },
+  "IntegrationNotConnectedView": {
+    "title": "אינטגרציה לא מחוברת",
+    "connect": "התחברות"
   }
 }

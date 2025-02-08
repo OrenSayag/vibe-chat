@@ -5,14 +5,14 @@ import {
   MessageStatus,
   UpdateMessageStatusEventPayload,
   WhatsappWebhook,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import {
   getContactByPhoneNumberId,
   getMessageContact,
   getSubscriptionIdByPhoneNumberId,
   updateMessageStatus,
   upsertMessageInHistory,
-} from '@monday-whatsapp/db';
+} from '@vibe-chat/db';
 import { EventsService } from '../../../events/events.service';
 
 type Input = {

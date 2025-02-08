@@ -1,5 +1,5 @@
 import { auth } from '../../../auth';
-import { redirect } from '@monday-whatsapp/next-services/server';
+import { redirect } from '@vibe-chat/next-services/server';
 
 export default async function AuthLayout({
   children,

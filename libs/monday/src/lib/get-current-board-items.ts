@@ -1,5 +1,5 @@
-import { monday } from '@monday-whatsapp/monday';
-import { BoardItem } from '@monday-whatsapp/shared-types';
+import { monday } from '@vibe-chat/monday';
+import { BoardItem } from '@vibe-chat/shared-types';
 
 type Input =
   | {

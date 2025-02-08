@@ -1,6 +1,6 @@
-import { Header } from '@monday-whatsapp/components';
+import { Header } from '@vibe-chat/components';
 import { auth, signOut } from '../../../auth';
-import { redirect } from '@monday-whatsapp/next-services/server';
+import { redirect } from '@vibe-chat/next-services/server';
 
 export const metadata = {
   title: 'VibeChat - Create Organization',

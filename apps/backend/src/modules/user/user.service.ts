@@ -1,4 +1,4 @@
-import { getUserDefaultSubscription } from '@monday-whatsapp/db';
+import { getUserDefaultSubscription } from '@vibe-chat/db';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

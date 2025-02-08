@@ -6,7 +6,7 @@ import {
   MessageDirection,
   MessageStatus,
   WhatsappMessageType,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { useMemo, useState } from 'react';
 
 const outgoingChatMessage: ChatListItemData = {

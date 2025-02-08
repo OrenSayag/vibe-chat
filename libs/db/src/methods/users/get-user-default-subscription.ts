@@ -1,5 +1,5 @@
 import { and, desc, eq } from 'drizzle-orm';
-import { OrganizationUserRole } from '@monday-whatsapp/shared-types';
+import { OrganizationUserRole } from '@vibe-chat/shared-types';
 import { db } from 'libs/db/src/config';
 import { subscriptionsUsers } from 'libs/db/src/schema';
 

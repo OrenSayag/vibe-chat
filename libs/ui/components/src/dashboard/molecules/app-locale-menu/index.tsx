@@ -1,13 +1,13 @@
 import { CSSProperties, FC, useMemo } from 'react';
 import { useLocale } from 'next-intl';
-import { usePathname, useRouter } from '@monday-whatsapp/next-services/server';
+import { usePathname, useRouter } from '@vibe-chat/next-services/server';
 import { useParams } from 'next/navigation';
 import {
   ListItem,
   Locale,
   localeOriginalNameMap,
   locales,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { Menu } from '../menu';
 import { Dropdown } from '@vibe/core';
 

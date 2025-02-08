@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { MessageSquarePlus } from 'lucide-react';
-import { Button } from '@monday-whatsapp/components';
+import { Button } from '@vibe-chat/components';
 import { Box, Divider, Flex, Heading } from '@vibe/core';
-import { ChatMasterHeaderProps } from '@monday-whatsapp/shared-types';
+import { ChatMasterHeaderProps } from '@vibe-chat/shared-types';
 
 export const ChatMasterHeader: FC<ChatMasterHeaderProps> = ({ onNewChat }) => {
   return (

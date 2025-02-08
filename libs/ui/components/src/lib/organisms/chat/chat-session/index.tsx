@@ -8,7 +8,7 @@ import {
   WhatsappMessageType,
   WhatsappTemplate,
   WhatsappTemplateMessage,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { Box, Text } from '@vibe/core';
 import { ChatSessionHeader } from './chat-session-header';
 import { MessageInputAndAction } from '../../../molecules/message-input-and-action';

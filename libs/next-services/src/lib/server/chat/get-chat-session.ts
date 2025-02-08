@@ -2,7 +2,7 @@ import {
   BaseGetListParams,
   GetChatSessionParams,
   GetChatSessionResponse,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { sendRequestToServer } from '../utils/send-request-to-backend';
 
 type Input = {

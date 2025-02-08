@@ -1,6 +1,6 @@
 import { FC, useMemo } from 'react';
 import { Dropdown } from '@vibe/core';
-import { BoardColumn, ListItem } from '@monday-whatsapp/shared-types';
+import { BoardColumn, ListItem } from '@vibe-chat/shared-types';
 
 interface Props {
   className?: string;

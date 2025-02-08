@@ -1,9 +1,9 @@
 'use server';
 
 import {
-    getUserDefaultSubscription,
-    redirect,
-} from '@monday-whatsapp/next-services/server';
+  getUserDefaultSubscription,
+  redirect,
+} from '@vibe-chat/next-services/server';
 import { auth } from '../../../auth';
 
 export default async function DashboardPage({

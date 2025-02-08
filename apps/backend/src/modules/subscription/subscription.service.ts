@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { getSubscription as _getSubscription } from './methods/get-subscription';
 import { updateSubscription as _updateSubscription } from './methods/update-subscription';
-import { GetSubscriptionInfoResponse } from '@monday-whatsapp/shared-types';
+import { GetSubscriptionInfoResponse } from '@vibe-chat/shared-types';
 
 @Injectable()
 export class SubscriptionService {

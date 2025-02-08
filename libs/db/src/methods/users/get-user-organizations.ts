@@ -1,15 +1,10 @@
 import {
   OrganizationInfoSchema,
   OrganizationUserRole,
-} from '@monday-whatsapp/shared-types';
-import {
-  db,
-  subscriptions,
-  subscriptionsUsers,
-  media,
-} from '@monday-whatsapp/db';
+} from '@vibe-chat/shared-types';
+import { db, subscriptions, subscriptionsUsers, media } from '@vibe-chat/db';
 import { eq, sql } from 'drizzle-orm';
-import { getMediaDownloadUrl } from '@monday-whatsapp/utils';
+import { getMediaDownloadUrl } from '@vibe-chat/utils';
 
 type Input = {
   userId: string;

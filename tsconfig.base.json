@@ -16,17 +16,15 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@monday-whatsapp/components": ["libs/ui/components/src/index.ts"],
-      "@monday-whatsapp/db": ["libs/db/src/index.ts"],
-      "@monday-whatsapp/monday": ["libs/monday/src/index.ts"],
-      "@monday-whatsapp/next-services": ["libs/next-services/src/index.ts"],
-      "@monday-whatsapp/next-services/server": [
-        "libs/next-services/src/server.ts"
-      ],
-      "@monday-whatsapp/preset": ["libs/ui/preset/src/global.css"],
-      "@monday-whatsapp/shared-types": ["libs/shared-types/src/index.ts"],
-      "@monday-whatsapp/ui-utils": ["libs/ui/utils/src/index.ts"],
-      "@monday-whatsapp/utils": ["libs/utils/src/index.ts"]
+      "@vibe-chat/components": ["libs/ui/components/src/index.ts"],
+      "@vibe-chat/db": ["libs/db/src/index.ts"],
+      "@vibe-chat/monday": ["libs/monday/src/index.ts"],
+      "@vibe-chat/next-services": ["libs/next-services/src/index.ts"],
+      "@vibe-chat/next-services/server": ["libs/next-services/src/server.ts"],
+      "@vibe-chat/preset": ["libs/ui/preset/src/global.css"],
+      "@vibe-chat/shared-types": ["libs/shared-types/src/index.ts"],
+      "@vibe-chat/ui-utils": ["libs/ui/utils/src/index.ts"],
+      "@vibe-chat/utils": ["libs/utils/src/index.ts"]
     }
   }
 }

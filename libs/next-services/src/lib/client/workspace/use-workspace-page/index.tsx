@@ -2,7 +2,7 @@ import {
   ActivatedItem,
   DeactivatedItem,
   Workspace,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { useActivatedItems } from './methods/use-activated-items';
 import { useEffect, useState } from 'react';
 

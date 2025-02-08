@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import { customFormatDate } from '@monday-whatsapp/ui-utils';
+import { customFormatDate } from '@vibe-chat/ui-utils';
 import {
   ChatListItem as ChatListItemData,
   WhatsappMessageType,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { Avatar as VibeAvatar, Box, Flex, Text } from '@vibe/core';
 import { MessageStatusCheck } from '../../../../atoms/message-status-check';
 import { MessageDirection } from 'libs/shared-types/src/lib/whatsapp/whatsapp.types';

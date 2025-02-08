@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { MessageStatusCheck } from '.';
-import { MessageStatus } from '@monday-whatsapp/shared-types';
+import { MessageStatus } from '@vibe-chat/shared-types';
 
 const meta: Meta<typeof MessageStatusCheck> = {
   component: MessageStatusCheck,

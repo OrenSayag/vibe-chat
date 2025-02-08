@@ -1,4 +1,4 @@
-import { UpdateSubscriptionInfoRequest } from '@monday-whatsapp/shared-types';
+import { UpdateSubscriptionInfoRequest } from '@vibe-chat/shared-types';
 import { db } from '../../config';
 import { subscriptions } from '../../schema';
 import { eq } from 'drizzle-orm';

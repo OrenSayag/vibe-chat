@@ -1,5 +1,5 @@
 import { getSubscription } from './get-subscription';
-import { WhatsappCloudStatus } from '@monday-whatsapp/shared-types';
+import { WhatsappCloudStatus } from '@vibe-chat/shared-types';
 
 type Input = {
   subscriptionId: string;

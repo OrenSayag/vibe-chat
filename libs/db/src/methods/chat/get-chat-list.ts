@@ -2,7 +2,7 @@ import {
   BaseGetListParams,
   GetChatListParams,
   GetChatListResponse,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { db } from '../../config';
 import { subscriptionContacts, subscriptionMessages } from '../../schema';
 import { countDistinct, desc, eq } from 'drizzle-orm';

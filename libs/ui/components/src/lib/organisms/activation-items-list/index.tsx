@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { ActivatedItem, DeactivatedItem } from '@monday-whatsapp/shared-types';
+import { ActivatedItem, DeactivatedItem } from '@vibe-chat/shared-types';
 import {
   Box,
   Button,
@@ -13,7 +13,7 @@ import {
   TableRow,
   Text,
 } from '@vibe/core';
-import { cn } from '@monday-whatsapp/ui-utils';
+import { cn } from '@vibe-chat/ui-utils';
 import { format, isThisYear, isToday } from 'date-fns';
 
 interface Props {

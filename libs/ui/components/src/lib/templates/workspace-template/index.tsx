@@ -1,9 +1,9 @@
 'use client';
 
 import { FC } from 'react';
-import { cn } from '@monday-whatsapp/ui-utils';
+import { cn } from '@vibe-chat/ui-utils';
 import { Box, Heading } from '@vibe/core';
-import { ActivatedItem, DeactivatedItem } from '@monday-whatsapp/shared-types';
+import { ActivatedItem, DeactivatedItem } from '@vibe-chat/shared-types';
 import { ActivationItemsList } from '../../organisms/activation-items-list';
 
 interface Props {

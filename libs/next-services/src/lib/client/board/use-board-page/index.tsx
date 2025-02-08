@@ -1,4 +1,4 @@
-import { Board, ChatProps } from '@monday-whatsapp/shared-types';
+import { Board, ChatProps } from '@vibe-chat/shared-types';
 import { useUpdateBoard } from './methods/use-update-board';
 import { useChat } from '../../chat/use-chat';
 

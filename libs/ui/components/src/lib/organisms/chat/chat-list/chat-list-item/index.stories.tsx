@@ -3,7 +3,7 @@ import { ChatListItem } from '.';
 import {
   ChatListItem as ChatListItemData,
   WhatsappMessageType,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import {
   MessageDirection,
   MessageStatus,

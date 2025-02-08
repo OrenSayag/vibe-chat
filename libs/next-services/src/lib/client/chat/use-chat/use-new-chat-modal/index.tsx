@@ -1,6 +1,6 @@
-import { ListItem, NewChatModalProps } from '@monday-whatsapp/shared-types';
+import { ListItem, NewChatModalProps } from '@vibe-chat/shared-types';
 import { useEffect, useState, useTransition } from 'react';
-import { getCurrentBoardItems } from '@monday-whatsapp/monday';
+import { getCurrentBoardItems } from '@vibe-chat/monday';
 
 type Input = {
   onNewChat(phoneNumber: string): void;

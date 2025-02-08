@@ -1,4 +1,4 @@
-import { MultipleItemsTemplateProvider } from '@monday-whatsapp/components';
+import { MultipleItemsTemplateProvider } from '@vibe-chat/components';
 
 export default async function MultipleItemsPage() {
   return <MultipleItemsTemplateProvider />;

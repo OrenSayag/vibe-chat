@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { Heading, Text } from '@vibe/core';
 import { OrganizationForm } from '../../organisms/organization-form';
-import { CreateOrganizationTemplateProps } from '@monday-whatsapp/shared-types';
+import { CreateOrganizationTemplateProps } from '@vibe-chat/shared-types';
 import { useTranslations } from 'next-intl';
-import { useDir } from '@monday-whatsapp/next-services';
+import { useDir } from '@vibe-chat/next-services';
 
 export const CreateOrganizationTemplate: FC<
   CreateOrganizationTemplateProps

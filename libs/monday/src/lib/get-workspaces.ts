@@ -1,5 +1,5 @@
 import { monday } from './monday-sdk-instance';
-import { ActivatedItem } from '@monday-whatsapp/shared-types';
+import { ActivatedItem } from '@vibe-chat/shared-types';
 
 type Output = {
   workspaces: ActivatedItem[];

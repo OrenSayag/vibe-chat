@@ -4,8 +4,8 @@ import {
   BoardColumn,
   GetAuthState,
   SubscriptionInfo,
-} from '@monday-whatsapp/shared-types';
-import { monday } from '@monday-whatsapp/monday';
+} from '@vibe-chat/shared-types';
+import { monday } from '@vibe-chat/monday';
 import { Box, Text } from '@vibe/core';
 
 type Input = {

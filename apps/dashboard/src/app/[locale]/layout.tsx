@@ -1,8 +1,8 @@
-import { ThemeProvider } from '@monday-whatsapp/components';
+import { ThemeProvider } from '@vibe-chat/components';
 import { getMessages } from 'next-intl/server';
 import { NextIntlClientProvider } from 'next-intl';
 import NotFound from './not-found';
-import { routing } from '@monday-whatsapp/next-services/server';
+import { routing } from '@vibe-chat/next-services/server';
 
 export const metadata = {
   title: 'VibeChat',

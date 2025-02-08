@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react';
-import { OrganizationInfoSchema } from '@monday-whatsapp/shared-types';
+import { OrganizationInfoSchema } from '@vibe-chat/shared-types';
 
 export type OrganizationFormProps = {
   style?: CSSProperties;

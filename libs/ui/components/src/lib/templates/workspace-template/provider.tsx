@@ -5,13 +5,10 @@ import {
   GetAuthState,
   SubscriptionInfo,
   Workspace,
-} from '@monday-whatsapp/shared-types';
-import { getWorkspace, monday } from '@monday-whatsapp/monday';
+} from '@vibe-chat/shared-types';
+import { getWorkspace, monday } from '@vibe-chat/monday';
 import { Box, Loader, Text } from '@vibe/core';
-import {
-  useGetSubscription,
-  useWorkspacePage,
-} from '@monday-whatsapp/next-services';
+import { useGetSubscription, useWorkspacePage } from '@vibe-chat/next-services';
 import { WorkspaceTemplate } from './index';
 import { UnConfiguredAccountTemplate } from '../unconfigured-account-template';
 

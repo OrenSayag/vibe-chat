@@ -1,7 +1,7 @@
 'use client';
 import { FC } from 'react';
-import { cn } from '@monday-whatsapp/ui-utils';
-import { BoardColumn, BoardItem } from '@monday-whatsapp/shared-types';
+import { cn } from '@vibe-chat/ui-utils';
+import { BoardColumn, BoardItem } from '@vibe-chat/shared-types';
 import { Box, Text } from '@vibe/core';
 import { ColumnSelector } from '../../molecules/column-selector';
 import { MessageInputAndAction } from '../../molecules/message-input-and-action';

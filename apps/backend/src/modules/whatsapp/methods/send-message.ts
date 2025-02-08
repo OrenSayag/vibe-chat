@@ -6,13 +6,13 @@ import {
   WhatsappMessageType,
   WhatsappSendMessageRequestBody,
   WhatsappSendMessageResponseBody,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { sendRequestToWhatsappGraph } from './send-request-to-whatsapp-graph';
 import { getSubscriptionPhoneNumberId } from '../../subscription/methods/get-subscription-phone-number-id';
 import {
   getContactByPhoneNumberId,
   upsertMessageInHistory,
-} from '@monday-whatsapp/db';
+} from '@vibe-chat/db';
 
 type Input = {
   subscriptionId: string;

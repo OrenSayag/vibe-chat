@@ -1,4 +1,4 @@
-import { ChatTemplateProvider } from '@monday-whatsapp/components';
+import { ChatTemplateProvider } from '@vibe-chat/components';
 
 export default async function ChatsPage({
   params: { subscriptionId },

@@ -2,7 +2,7 @@ import { ComponentPropsWithoutRef, FC } from 'react';
 import GoogleIcon from '../../assets/icons/social/google.svg';
 import Image from 'next/image';
 import { Button } from '@vibe/core';
-import { cn } from '@monday-whatsapp/ui-utils';
+import { cn } from '@vibe-chat/ui-utils';
 
 export enum SocialProvider {
   GOOGLE = 'google',

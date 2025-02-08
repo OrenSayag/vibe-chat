@@ -1,9 +1,9 @@
 'use client';
 
 import { FC } from 'react';
-import { cn } from '@monday-whatsapp/ui-utils';
+import { cn } from '@vibe-chat/ui-utils';
 import { Heading } from '@vibe/core';
-import { Board, ChatProps } from '@monday-whatsapp/shared-types';
+import { Board, ChatProps } from '@vibe-chat/shared-types';
 import { ColumnSelector } from '../../molecules/column-selector';
 import { ChatLayout } from '../../organisms/chat/chat-layout';
 

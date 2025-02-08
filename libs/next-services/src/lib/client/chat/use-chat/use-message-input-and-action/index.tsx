@@ -2,7 +2,7 @@ import {
   Message,
   MessageInputAndActionProps,
   WhatsappTemplate,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { isBefore, subHours } from 'date-fns';
 import { useWhatsappMessageTemplates } from '../../../whatsapp/use-whatsapp-message-templates';
 import { useEffect, useState } from 'react';

@@ -4,9 +4,9 @@ import { FC } from 'react';
 import { Navbar } from '../../organisms/navbar';
 import { Divider, Flex } from '@vibe/core';
 import { Header } from '../../molecules/header';
-import { MainLayoutProps } from '@monday-whatsapp/shared-types';
-import { SocketProvider, useDir } from '@monday-whatsapp/next-services';
-import { usePathname } from '@monday-whatsapp/next-services/server';
+import { MainLayoutProps } from '@vibe-chat/shared-types';
+import { SocketProvider, useDir } from '@vibe-chat/next-services';
+import { usePathname } from '@vibe-chat/next-services/server';
 
 export const MainLayout: FC<MainLayoutProps> = ({
   className,

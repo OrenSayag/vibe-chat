@@ -1,4 +1,4 @@
-import { Message } from '@monday-whatsapp/shared-types';
+import { Message } from '@vibe-chat/shared-types';
 import { db } from '../../config';
 import { subscriptionMessages } from '../../schema';
 

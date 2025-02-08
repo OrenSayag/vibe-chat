@@ -1,4 +1,4 @@
-import { WorkspaceTemplateProvider } from '@monday-whatsapp/components';
+import { WorkspaceTemplateProvider } from '@vibe-chat/components';
 
 export default async function WorkspacePage() {
   return <WorkspaceTemplateProvider />;

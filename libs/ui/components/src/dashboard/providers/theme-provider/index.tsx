@@ -1,6 +1,6 @@
 'use client';
 
-import '@monday-whatsapp/preset';
+import '@vibe-chat/preset';
 import '@vibe/core/tokens';
 import 'react-phone-number-input/style.css';
 

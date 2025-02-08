@@ -1,10 +1,10 @@
 import { useEffect, useState, useTransition } from 'react';
-import { monday } from '@monday-whatsapp/monday';
+import { monday } from '@vibe-chat/monday';
 import {
   GetSubscriptionInfoResponse,
   WhatsappCloudStatus,
-} from '@monday-whatsapp/shared-types';
-import { getSubscription } from '@monday-whatsapp/next-services/server';
+} from '@vibe-chat/shared-types';
+import { getSubscription } from '@vibe-chat/next-services/server';
 
 export const useGetSubscription = () => {
   const [data, setDaa] = useState<GetSubscriptionInfoResponse['data']>();

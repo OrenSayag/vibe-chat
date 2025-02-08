@@ -1,7 +1,7 @@
-import { MainLayout } from '@monday-whatsapp/components';
+import { MainLayout } from '@vibe-chat/components';
 import { auth, signOut } from '../../../../auth';
-import { redirect } from '@monday-whatsapp/next-services/server';
-import { getUserOrganizations } from '@monday-whatsapp/db';
+import { redirect } from '@vibe-chat/next-services/server';
+import { getUserOrganizations } from '@vibe-chat/db';
 
 export const metadata = {
   title: 'VibeChat - Dashboard',

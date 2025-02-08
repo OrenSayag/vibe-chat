@@ -3,7 +3,7 @@ import {
   ListItem,
   WhatsappMessageTemplateSelectorProps,
   WhatsappTemplate,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { Dropdown } from '@vibe/core';
 
 export const WhatsappMessageTemplateSelector: FC<

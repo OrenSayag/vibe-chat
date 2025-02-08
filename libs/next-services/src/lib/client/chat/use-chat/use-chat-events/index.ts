@@ -5,8 +5,8 @@ import {
   Message,
   SendMessageRequest,
   UpdateMessageStatusEventPayload,
-} from '@monday-whatsapp/shared-types';
-import { useSocket } from '@monday-whatsapp/next-services';
+} from '@vibe-chat/shared-types';
+import { useSocket } from '@vibe-chat/next-services';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 type Input = {

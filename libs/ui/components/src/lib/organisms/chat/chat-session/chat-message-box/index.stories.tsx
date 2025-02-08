@@ -5,7 +5,7 @@ import {
   MessageDirection,
   MessageStatus,
   WhatsappMessageType,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { templates } from '../../../../molecules/whatsapp-message-template-selector/story-assets';
 
 const outgoingChatMessage: ChatListItemData = {

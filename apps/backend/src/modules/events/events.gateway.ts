@@ -10,7 +10,7 @@ import {
   EventMessageContent,
   EventType,
   SendMessageRequest,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { EventsService } from './events.service';
 import { getSubscription } from '../subscription/methods/get-subscription';
 import { sendMessage } from '../whatsapp/methods/send-message';

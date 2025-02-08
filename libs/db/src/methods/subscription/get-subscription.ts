@@ -1,6 +1,6 @@
 import { db } from '../../config';
 import { eq, sql } from 'drizzle-orm';
-import { GetSubscriptionInfoResponse } from '@monday-whatsapp/shared-types';
+import { GetSubscriptionInfoResponse } from '@vibe-chat/shared-types';
 import { subscriptions } from '../../schema';
 
 type Input =
@@ -28,13 +28,17 @@ export const getSubscription = async (input: Input): Promise<Output> => {
 
   if (!subscription) {
     throw new Error(
-      `Subscription not found for ${type === 'mondayAccountId' ? 'accountId: ' + input.accountId : 'id: ' + input.id}`
+      `Subscription not found for ${
+        type === 'mondayAccountId'
+          ? 'accountId: ' + input.accountId
+          : 'id: ' + input.id
+      }`
     );
   }
 
   const { info, id } = subscription;
   return {
     id,
-    info
+    info,
   };
 };

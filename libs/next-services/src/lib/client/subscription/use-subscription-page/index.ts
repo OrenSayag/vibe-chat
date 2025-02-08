@@ -2,10 +2,10 @@ import {
   ActivatedItem,
   DeactivatedItem,
   SubscriptionInfo,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { useActivatedItems } from './methods/use-activated-items';
 import { useCallback, useEffect, useState } from 'react';
-import { getWorkspaces, monday } from '@monday-whatsapp/monday';
+import { getWorkspaces, monday } from '@vibe-chat/monday';
 import { useGetSubscription } from '../use-get-subscription';
 
 export const useSubscriptionPage = () => {

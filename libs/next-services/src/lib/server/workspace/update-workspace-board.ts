@@ -3,7 +3,7 @@
 import {
   BackendBaseResponse,
   UpdateBoardRequest,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { sendRequestToServer } from '../utils/send-request-to-backend';
 import { revalidatePath } from 'next/cache';
 

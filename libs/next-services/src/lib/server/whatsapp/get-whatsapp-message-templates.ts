@@ -1,4 +1,4 @@
-import { GetTemplatesResponse } from '@monday-whatsapp/shared-types';
+import { GetTemplatesResponse } from '@vibe-chat/shared-types';
 import { sendRequestToServer } from '../utils/send-request-to-backend';
 
 type Input = {

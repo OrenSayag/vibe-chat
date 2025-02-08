@@ -1,4 +1,4 @@
-import { WhatsappTemplate } from '@monday-whatsapp/shared-types';
+import { WhatsappTemplate } from '@vibe-chat/shared-types';
 import { CSSProperties } from 'react';
 
 export type WhatsappMessageTemplateSelectorProps = {

@@ -1,5 +1,5 @@
 import NextAuth from 'next-auth';
-import { accounts, db, sessions, users } from '@monday-whatsapp/db';
+import { accounts, db, sessions, users } from '@vibe-chat/db';
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import authConfig from './auth.config';
 

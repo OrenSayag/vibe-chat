@@ -1,9 +1,9 @@
-import { Theme, ThemeContext } from '@monday-whatsapp/components';
-import { Link, useRouter } from '@monday-whatsapp/next-services/server';
+import { Theme, ThemeContext } from '@vibe-chat/components';
+import { Link, useRouter } from '@vibe-chat/next-services/server';
 import {
   OrganizationInfoSchema,
   OrganizationUserRole,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import {
   Avatar,
   Box,

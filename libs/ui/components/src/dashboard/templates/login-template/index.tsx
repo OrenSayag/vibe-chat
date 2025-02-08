@@ -1,7 +1,7 @@
 'use client';
 
 import { FC, useState } from 'react';
-import { LoginType } from '@monday-whatsapp/shared-types';
+import { LoginType } from '@vibe-chat/shared-types';
 import Logo from '../../assets/icons/icon.png';
 import { Box, Text } from '@vibe/core';
 import { UsernamePasswordForm } from '../../organisms/username-password-form';
@@ -9,7 +9,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { AppLocaleMenu } from '../../molecules/app-locale-menu';
 import { useTranslations } from 'next-intl';
-import { useDir } from '@monday-whatsapp/next-services';
+import { useDir } from '@vibe-chat/next-services';
 
 type Props = {
   onLogin(

@@ -4,9 +4,9 @@ import {
   GET_CHAT_LIST_RESULTS_PER_PAGE,
   GetChatListResponse,
   GetListState,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { useEffect, useState } from 'react';
-import { useBackendRequest } from '@monday-whatsapp/next-services';
+import { useBackendRequest } from '@vibe-chat/next-services';
 import { getChatList } from '../../../../server/chat/get-chat-list';
 
 type Input = {

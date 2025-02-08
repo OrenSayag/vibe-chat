@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { WhatsappMessageType } from '@monday-whatsapp/shared-types';
+import { WhatsappMessageType } from '@vibe-chat/shared-types';
 
 export const messageType = z.union([
   z.literal(WhatsappMessageType.TEXT),

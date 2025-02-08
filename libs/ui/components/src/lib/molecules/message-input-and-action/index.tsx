@@ -3,7 +3,7 @@ import { Box, Button, Flex, TextArea, TextField } from '@vibe/core';
 import {
   MessageInputAndActionProps,
   WhatsappMessageType,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { Bot, MessageCircleIcon, SendHorizonal } from 'lucide-react';
 import { WhatsappMessageTemplateSelector } from '../whatsapp-message-template-selector';
 

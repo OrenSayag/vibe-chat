@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { cn } from '@monday-whatsapp/ui-utils';
+import { cn } from '@vibe-chat/ui-utils';
 import { Box, Flex, Text } from '@vibe/core';
 import { format } from 'date-fns';
 import { MessageStatusCheck } from '../../../../atoms/message-status-check';
@@ -9,7 +9,7 @@ import {
   MessageStatus,
   WhatsappMessageType,
   WhatsappTemplate,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { TemplateMessage } from './template-message';
 
 interface Props {

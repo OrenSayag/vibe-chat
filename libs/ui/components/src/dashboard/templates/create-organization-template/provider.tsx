@@ -1,7 +1,7 @@
 'use client';
 
-import { useCreateSubscriptionTemplate } from '@monday-whatsapp/next-services';
-import { User } from '@monday-whatsapp/shared-types';
+import { useCreateSubscriptionTemplate } from '@vibe-chat/next-services';
+import { User } from '@vibe-chat/shared-types';
 import { CreateOrganizationTemplate } from './index';
 
 interface CreateOrganizationTemplateProviderProps {

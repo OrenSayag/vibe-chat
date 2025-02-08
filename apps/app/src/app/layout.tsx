@@ -7,7 +7,7 @@ import mondaySdk from 'monday-sdk-js';
 
 import { useEffect, useState } from 'react';
 import { Theme } from 'monday-sdk-js/types/theme-config.type';
-import { SocketProvider } from '@monday-whatsapp/next-services';
+import { SocketProvider } from '@vibe-chat/next-services';
 
 import 'react-phone-number-input/style.css';
 

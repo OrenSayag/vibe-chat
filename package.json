@@ -1,5 +1,5 @@
 {
-  "name": "@monday-whatsapp/source",
+  "name": "@vibe-chat/source",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -17,7 +17,7 @@
     "@nestjs/platform-express": "^10.0.2",
     "@nestjs/platform-socket.io": "^11.0.1",
     "@nestjs/websockets": "^11.0.1",
-    "@vibe/core": "^3.16.0",
+    "@vibe-chat/core": "^3.16.0",
     "axios": "^1.6.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",

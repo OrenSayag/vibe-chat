@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { cn } from '@monday-whatsapp/ui-utils';
+import { cn } from '@vibe-chat/ui-utils';
 import {
   WhatsappTemplate,
   WhatsappTemplateBodyComponent,
@@ -8,7 +8,7 @@ import {
   WhatsappTemplateComponentType,
   WhatsappTemplateFooterComponent,
   WhatsappTemplateHeaderComponent,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { Button, Text } from '@vibe/core';
 
 interface Props {

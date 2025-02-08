@@ -1,4 +1,4 @@
-import { getSubscription as _getSubscription } from '@monday-whatsapp/db';
+import { getSubscription as _getSubscription } from '@vibe-chat/db';
 
 type Input =
   | {

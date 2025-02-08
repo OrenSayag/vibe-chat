@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { customFormatDate } from '@monday-whatsapp/ui-utils';
+import { customFormatDate } from '@vibe-chat/ui-utils';
 import { Box } from '@vibe/core';
 
 interface Props {

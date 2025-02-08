@@ -1,4 +1,4 @@
-import { BoardTemplateProvider } from '@monday-whatsapp/components';
+import { BoardTemplateProvider } from '@vibe-chat/components';
 
 export default async function BoardPage() {
   return <BoardTemplateProvider />;

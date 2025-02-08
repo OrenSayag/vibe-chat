@@ -2,7 +2,7 @@ import {
   WhatsappApiPagination,
   WhatsappCloudStatus,
   WhatsappTemplate,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { sendRequestToWhatsappGraph } from './send-request-to-whatsapp-graph';
 import { getSubscription } from '../../subscription/methods/get-subscription';
 import { UnauthorizedException } from '@nestjs/common';

@@ -1,5 +1,5 @@
-import { LoginTemplate } from '@monday-whatsapp/components';
-import { LoginType } from '@monday-whatsapp/shared-types';
+import { LoginTemplate } from '@vibe-chat/components';
+import { LoginType } from '@vibe-chat/shared-types';
 import { signIn } from '../../../../auth';
 
 export default async function LoginPage({

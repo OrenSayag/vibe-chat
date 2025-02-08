@@ -1,5 +1,5 @@
 import { getRequestConfig } from 'next-intl/server';
-import { routing } from '@monday-whatsapp/next-services/server';
+import { routing } from '@vibe-chat/next-services/server';
 
 export default getRequestConfig(async ({ requestLocale }) => {
   // This typically corresponds to the `[locale]` segment

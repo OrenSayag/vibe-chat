@@ -1,9 +1,9 @@
 'use client';
 
 import { CSSProperties, FC } from 'react';
-import { cn } from '@monday-whatsapp/ui-utils';
+import { cn } from '@vibe-chat/ui-utils';
 import { Box, Button, Text, TextField } from '@vibe/core';
-import { LoginType } from '@monday-whatsapp/shared-types';
+import { LoginType } from '@vibe-chat/shared-types';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -30,15 +30,11 @@ export const UsernamePasswordForm: FC<Props> = ({
   style,
 }) => {
   const {
-    register,
+    register,˝
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
-    defaultValues: {
-      username: 'orensayag500@gmail.com',
-      password: '12345678',
-    },
   });
 
   const t = useTranslations('LoginTemplate');

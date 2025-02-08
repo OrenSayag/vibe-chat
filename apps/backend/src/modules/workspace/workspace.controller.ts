@@ -4,8 +4,8 @@ import {
   UpdateBoardResponse,
   updateWorkspaceInfoRequest,
   UpdateWorkspaceInfoResponse,
-} from '@monday-whatsapp/shared-types';
-import { updateWorkspaceBoard, updateWorkspaceInfo } from '@monday-whatsapp/db';
+} from '@vibe-chat/shared-types';
+import { updateWorkspaceBoard, updateWorkspaceInfo } from '@vibe-chat/db';
 import { createZodDto } from 'nestjs-zod';
 
 class UpdateWorkspaceInfoDtp extends createZodDto(updateWorkspaceInfoRequest) {}

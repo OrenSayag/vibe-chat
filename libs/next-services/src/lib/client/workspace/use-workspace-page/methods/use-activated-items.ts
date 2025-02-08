@@ -1,5 +1,5 @@
-import { ActivatedItem } from '@monday-whatsapp/shared-types';
-import { useBackendRequest } from '@monday-whatsapp/next-services';
+import { ActivatedItem } from '@vibe-chat/shared-types';
+import { useBackendRequest } from '@vibe-chat/next-services';
 import { updateWorkspace } from '../../../../server/workspace/update-workspace';
 import { useCallback, useMemo } from 'react';
 

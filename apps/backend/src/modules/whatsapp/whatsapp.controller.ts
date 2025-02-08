@@ -3,7 +3,7 @@ import {
   BackendBaseResponse,
   GetTemplatesResponse,
   WhatsappWebhook as IWhatsappWebhook,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { WhatsappService } from './whatsapp.service';
 import { WhatsappWebhook } from '../../decorators/whatsapp-webhook.decorator';
 import { EventsService } from '../events/events.service';

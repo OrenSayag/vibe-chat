@@ -1,10 +1,10 @@
 'use client';
 
 import { FC } from 'react';
-import { cn } from '@monday-whatsapp/ui-utils';
+import { cn } from '@vibe-chat/ui-utils';
 import { Box, Heading } from '@vibe/core';
 import { ActivationItemsList } from '../../organisms/activation-items-list';
-import { ActivatedItem, DeactivatedItem } from '@monday-whatsapp/shared-types';
+import { ActivatedItem, DeactivatedItem } from '@vibe-chat/shared-types';
 
 interface Props {
   className?: string;

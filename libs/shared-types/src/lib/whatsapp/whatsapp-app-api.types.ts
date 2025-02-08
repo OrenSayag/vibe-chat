@@ -1,6 +1,3 @@
-import {
-  BackendBaseResponse,
-  WhatsappTemplate,
-} from '@monday-whatsapp/shared-types';
+import { BackendBaseResponse, WhatsappTemplate } from '@vibe-chat/shared-types';
 
 export type GetTemplatesResponse = BackendBaseResponse<WhatsappTemplate[]>;

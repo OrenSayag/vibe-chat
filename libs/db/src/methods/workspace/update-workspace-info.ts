@@ -1,5 +1,5 @@
-import { UpdateWorkspaceInfoRequest } from '@monday-whatsapp/shared-types';
-import { getSubscription } from '@monday-whatsapp/db';
+import { UpdateWorkspaceInfoRequest } from '@vibe-chat/shared-types';
+import { getSubscription } from '@vibe-chat/db';
 import { db } from '../../config';
 import { subscriptions } from '../../schema';
 

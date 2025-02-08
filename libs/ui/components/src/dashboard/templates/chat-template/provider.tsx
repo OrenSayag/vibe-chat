@@ -1,8 +1,8 @@
 'use client';
 
 import { CSSProperties, FC } from 'react';
-import { useChat } from '@monday-whatsapp/next-services';
-import { ChatLayout } from '@monday-whatsapp/components';
+import { useChat } from '@vibe-chat/next-services';
+import { ChatLayout } from '@vibe-chat/components';
 
 type Props = {
   style?: CSSProperties;

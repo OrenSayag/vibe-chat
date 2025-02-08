@@ -12,11 +12,11 @@ import {
   ListItem,
   Text,
 } from '@vibe/core';
-import { HeaderProps } from '@monday-whatsapp/shared-types';
+import { HeaderProps } from '@vibe-chat/shared-types';
 import { ChevronLeft, ChevronRight, Moon, Sparkle, Sun } from 'lucide-react';
-import { Theme, ThemeContext } from '@monday-whatsapp/components';
+import { Theme, ThemeContext } from '@vibe-chat/components';
 import { useTranslations } from 'next-intl';
-import { useDir } from '@monday-whatsapp/next-services';
+import { useDir } from '@vibe-chat/next-services';
 import { Menu } from '../menu';
 import { AppLocaleMenu } from '../app-locale-menu';
 

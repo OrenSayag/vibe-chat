@@ -5,7 +5,7 @@ import { ChatList } from '../chat-list';
 import { ChatSession } from '../chat-session';
 import { ChatSessionPlaceholder } from '../chat-session-placeholder';
 import { Divider, Flex, Text } from '@vibe/core';
-import { ChatProps } from '@monday-whatsapp/shared-types';
+import { ChatProps } from '@vibe-chat/shared-types';
 import { ChatMasterHeader } from '../chat-master-header';
 import { NewChatModal } from '../new-chat-modal';
 

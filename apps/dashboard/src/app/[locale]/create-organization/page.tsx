@@ -1,6 +1,6 @@
-import { CreateOrganizationTemplateProvider } from '@monday-whatsapp/components';
-import { getUserOrganizations } from '@monday-whatsapp/db';
-import { User } from '@monday-whatsapp/shared-types';
+import { CreateOrganizationTemplateProvider } from '@vibe-chat/components';
+import { getUserOrganizations } from '@vibe-chat/db';
+import { User } from '@vibe-chat/shared-types';
 import { auth } from '../../../auth';
 
 export default async function CreateOrganizationPage({

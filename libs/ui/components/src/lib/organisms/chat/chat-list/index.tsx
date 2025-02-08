@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { ChatListProps } from '@monday-whatsapp/shared-types';
+import { ChatListProps } from '@vibe-chat/shared-types';
 import { Box, List, ListItem, Text } from '@vibe/core';
 import { ChatListItem } from './chat-list-item';
 

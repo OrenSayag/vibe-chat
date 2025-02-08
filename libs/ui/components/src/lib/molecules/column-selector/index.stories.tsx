@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 import { ColumnSelector } from '.';
-import { BoardColumn } from '@monday-whatsapp/shared-types';
+import { BoardColumn } from '@vibe-chat/shared-types';
 import { useState } from 'react';
 
 const meta: Meta<typeof ColumnSelector> = {

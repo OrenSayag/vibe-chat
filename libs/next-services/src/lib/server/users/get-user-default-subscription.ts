@@ -1,4 +1,4 @@
-import { GetUserDefaultSubscriptionResponse } from '@monday-whatsapp/shared-types';
+import { GetUserDefaultSubscriptionResponse } from '@vibe-chat/shared-types';
 import { sendRequestToServer } from '../utils/send-request-to-backend';
 
 type Input = string;

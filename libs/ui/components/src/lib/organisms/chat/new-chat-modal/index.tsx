@@ -1,7 +1,7 @@
 'use client';
 
 import { FC, useMemo, useState } from 'react';
-import { NewChatModalProps } from '@monday-whatsapp/shared-types';
+import { NewChatModalProps } from '@vibe-chat/shared-types';
 import {
   Box,
   Button,

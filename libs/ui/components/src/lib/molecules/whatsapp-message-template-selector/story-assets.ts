@@ -4,7 +4,7 @@ import {
   WhatsappTemplateComponentFormat,
   WhatsappTemplateComponentType,
   WhatsappTemplateStatus,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 
 export const templates: WhatsappTemplate[] = [
   {

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Avatar, Flex, Text } from '@vibe/core';
-import { ChatSessionHeaderProps } from '@monday-whatsapp/shared-types';
+import { ChatSessionHeaderProps } from '@vibe-chat/shared-types';
 
 export const ChatSessionHeader: FC<ChatSessionHeaderProps> = ({
   className,

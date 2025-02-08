@@ -5,9 +5,9 @@ import {
   GET_CHAT_SESSION_HISTORY_RESULTS_PER_PAGE,
   GetChatSessionResponse,
   GetListState,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { useEffect, useState } from 'react';
-import { useBackendRequest } from '@monday-whatsapp/next-services';
+import { useBackendRequest } from '@vibe-chat/next-services';
 import { getChatSession } from '../../../../server/chat/get-chat-session';
 
 type Input = {

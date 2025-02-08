@@ -1,5 +1,5 @@
-import { createUser, getUserByLogin } from '@monday-whatsapp/db';
-import { LoginType, User } from '@monday-whatsapp/shared-types';
+import { createUser, getUserByLogin } from '@vibe-chat/db';
+import { LoginType, User } from '@vibe-chat/shared-types';
 
 export async function POST(request: Request) {
   const body = await request.json();

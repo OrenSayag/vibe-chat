@@ -1,15 +1,11 @@
-import {
-  Board,
-  BoardItem,
-  SubscriptionInfo,
-} from '@monday-whatsapp/shared-types';
+import { Board, BoardItem, SubscriptionInfo } from '@vibe-chat/shared-types';
 import { useEffect, useState } from 'react';
 import {
   extractBoardItemPhoneByColumn,
   getItemsByIds,
   monday,
-} from '@monday-whatsapp/monday';
-import { phoneNumberToGreenChatId } from '@monday-whatsapp/utils';
+} from '@vibe-chat/monday';
+import { phoneNumberToGreenChatId } from '@vibe-chat/utils';
 import { useBoardLevelAuth } from '../../board/use-board-level-auth';
 
 type Input = {

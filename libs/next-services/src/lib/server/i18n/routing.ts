@@ -1,6 +1,6 @@
 import { defineRouting } from 'next-intl/routing';
 import { createNavigation } from 'next-intl/navigation';
-import { defaultLocale, locales } from '@monday-whatsapp/shared-types';
+import { defaultLocale, locales } from '@vibe-chat/shared-types';
 
 export const routing = defineRouting({
   // A list of all locales that are supported

@@ -1,8 +1,8 @@
 import {
   OrganizationInfoSchema,
   OrganizationUserRole,
-} from '@monday-whatsapp/shared-types';
-import { db, subscriptions, subscriptionsUsers } from '@monday-whatsapp/db';
+} from '@vibe-chat/shared-types';
+import { db, subscriptions, subscriptionsUsers } from '@vibe-chat/db';
 
 type Input = {
   organizationInfo: OrganizationInfoSchema;

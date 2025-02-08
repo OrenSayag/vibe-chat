@@ -1,4 +1,4 @@
-import { ContactInfo } from '@monday-whatsapp/shared-types';
+import { ContactInfo } from '@vibe-chat/shared-types';
 import { db } from '../../config';
 import { subscriptionContacts, subscriptionMessages } from '../../schema';
 import { eq } from 'drizzle-orm';

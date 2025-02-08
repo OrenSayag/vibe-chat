@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { MessageStatus } from '@monday-whatsapp/shared-types';
+import { MessageStatus } from '@vibe-chat/shared-types';
 import { CheckCheck, CircleAlert } from 'lucide-react';
 import { Text } from '@vibe/core';
 

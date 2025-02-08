@@ -8,7 +8,7 @@ import {
   AuthStateNotAllowed,
   useGetSubscription,
   useItemPage,
-} from '@monday-whatsapp/next-services';
+} from '@vibe-chat/next-services';
 import { UnConfiguredAccountTemplate } from '../unconfigured-account-template';
 
 export const ItemTemplateProvider: FC = () => {

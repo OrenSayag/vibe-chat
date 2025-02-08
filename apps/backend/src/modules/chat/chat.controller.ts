@@ -17,7 +17,7 @@ import {
   GetChatSessionResponse,
   SendMessageRequest,
   sendMessageSchema,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { getList } from './methods/get-list';
 import { getSession } from './methods/get-session';
 import { sendMessage as _sendMessage } from '../whatsapp/methods/send-message';

@@ -1,5 +1,5 @@
-import { useBackendRequest } from '@monday-whatsapp/next-services';
-import { WhatsappTemplate } from '@monday-whatsapp/shared-types';
+import { useBackendRequest } from '@vibe-chat/next-services';
+import { WhatsappTemplate } from '@vibe-chat/shared-types';
 import { getWhatsappMessageTemplates } from '../../server/whatsapp/get-whatsapp-message-templates';
 import { useState } from 'react';
 

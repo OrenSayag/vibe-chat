@@ -4,7 +4,7 @@ import {
   CreateOrganizationTemplateProps,
   OrganizationInfoSchema,
   User,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { useCreateSubscription } from '../../subscription/use-create-subscription';
 
 type Input = {

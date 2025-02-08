@@ -5,7 +5,7 @@ import {
   MessageDirection,
   MessageStatus,
   WhatsappMessageType,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 
 const outgoingChatMessage: ChatListItemData = {
   phoneNumberId: '972542090500@c.us',

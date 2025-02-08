@@ -1,9 +1,6 @@
 'use server';
 
-import {
-  apiKeyHeaderName,
-  BackendBaseResponse,
-} from '@monday-whatsapp/shared-types';
+import { apiKeyHeaderName, BackendBaseResponse } from '@vibe-chat/shared-types';
 
 type Input = {
   path: string;

@@ -1,7 +1,7 @@
 'use client';
 
-import { ChatLayout } from '@monday-whatsapp/components';
-import { useChat } from '@monday-whatsapp/next-services';
+import { ChatLayout } from '@vibe-chat/components';
+import { useChat } from '@vibe-chat/next-services';
 
 export default function TestChat() {
   const chatProps = useChat({

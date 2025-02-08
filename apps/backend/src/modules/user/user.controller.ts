@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { UserService } from './user.service';
-import { GetUserDefaultSubscriptionResponse } from '@monday-whatsapp/shared-types';
+import { GetUserDefaultSubscriptionResponse } from '@vibe-chat/shared-types';
 
 @Controller('user')
 export class UserController {

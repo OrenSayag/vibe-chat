@@ -3,7 +3,7 @@ import {
   Message,
   OrganizationUserRole,
   SubscriptionInfo,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import {
   integer,
   json,

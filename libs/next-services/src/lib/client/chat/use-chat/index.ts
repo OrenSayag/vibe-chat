@@ -1,4 +1,4 @@
-import { ChatProps, MessageDirection } from '@monday-whatsapp/shared-types';
+import { ChatProps, MessageDirection } from '@vibe-chat/shared-types';
 import { useChatList } from './use-chat-list';
 import { useChatSession } from './use-chat-session';
 import { useChatEvents } from './use-chat-events';

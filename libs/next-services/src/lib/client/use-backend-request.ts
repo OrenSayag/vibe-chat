@@ -1,5 +1,5 @@
 import { useTransition } from 'react';
-import { BackendBaseResponse } from '@monday-whatsapp/shared-types';
+import { BackendBaseResponse } from '@vibe-chat/shared-types';
 
 type Input<ResponseData, RequestInput> = {
   apiCall(input: RequestInput): Promise<BackendBaseResponse<ResponseData>>;

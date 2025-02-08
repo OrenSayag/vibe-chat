@@ -3,8 +3,8 @@ import {
   DeactivatedItem,
   SubscriptionInfo,
   Workspace,
-} from '@monday-whatsapp/shared-types';
-import { monday } from '@monday-whatsapp/monday';
+} from '@vibe-chat/shared-types';
+import { monday } from '@vibe-chat/monday';
 
 type Input = {
   workspaceId: number;

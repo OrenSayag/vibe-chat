@@ -2,7 +2,7 @@ import createMiddleware from 'next-intl/middleware';
 import { NextRequest } from 'next/server';
 import NextAuth from 'next-auth';
 import authConfig from './auth.config';
-import { routing } from '@monday-whatsapp/next-services/server';
+import { routing } from '@vibe-chat/next-services/server';
 
 const locales = ['en', 'he'];
 

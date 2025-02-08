@@ -1,4 +1,4 @@
-import { useBackendRequest } from '@monday-whatsapp/next-services';
+import { useBackendRequest } from '@vibe-chat/next-services';
 import { updateWorkspaceBoard } from '../../../../server/workspace/update-workspace-board';
 
 export const useUpdateBoard = () => {

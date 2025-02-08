@@ -1,5 +1,5 @@
 import 'next-auth';
-import { User as CustomUser } from '@monday-whatsapp/shared-types';
+import { User as CustomUser } from '@vibe-chat/shared-types';
 
 declare module 'next-auth' {
   interface Session {}

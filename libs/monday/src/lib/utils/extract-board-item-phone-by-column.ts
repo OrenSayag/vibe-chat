@@ -1,4 +1,4 @@
-import { BoardItem, PhoneColumnData } from '@monday-whatsapp/shared-types';
+import { BoardItem, PhoneColumnData } from '@vibe-chat/shared-types';
 
 type Input = {
   boardItem: BoardItem;

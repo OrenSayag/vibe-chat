@@ -1,5 +1,5 @@
-import { updateSubscription as _updateSubscription } from '@monday-whatsapp/db';
-import { UpdateSubscriptionInfoRequest } from '@monday-whatsapp/shared-types';
+import { updateSubscription as _updateSubscription } from '@vibe-chat/db';
+import { UpdateSubscriptionInfoRequest } from '@vibe-chat/shared-types';
 
 type Input = {
   subscriptionId: string;

@@ -1,5 +1,5 @@
-import { UpdateBoardRequest } from '@monday-whatsapp/shared-types';
-import { getSubscription } from '@monday-whatsapp/db';
+import { UpdateBoardRequest } from '@vibe-chat/shared-types';
+import { getSubscription } from '@vibe-chat/db';
 import { db } from '../../config';
 import { subscriptions } from '../../schema';
 import { eq } from 'drizzle-orm';

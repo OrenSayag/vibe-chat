@@ -1,8 +1,8 @@
-import { LoginForm, User } from '@monday-whatsapp/shared-types';
+import { LoginForm, User } from '@vibe-chat/shared-types';
 import { db } from '../../config';
 import { users } from '../../schema';
 import { and, eq } from 'drizzle-orm';
-import { validatePassword } from '@monday-whatsapp/utils';
+import { validatePassword } from '@vibe-chat/utils';
 
 type Input = {
   loginForm: LoginForm;

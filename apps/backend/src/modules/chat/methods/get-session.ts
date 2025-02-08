@@ -2,8 +2,8 @@ import {
   BaseGetListParams,
   GetChatSessionParams,
   GetChatSessionResponse,
-} from '@monday-whatsapp/shared-types';
-import { getChatSession } from '@monday-whatsapp/db';
+} from '@vibe-chat/shared-types';
+import { getChatSession } from '@vibe-chat/db';
 
 type Input = GetChatSessionParams & BaseGetListParams;
 

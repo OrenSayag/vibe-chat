@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import {
   OrganizationFormProps,
   organizationInfoSchema,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -10,7 +10,7 @@ import { Box, Button, Text, TextField } from '@vibe/core';
 import { useTranslations } from 'next-intl';
 import { FileUploadAvatar } from '../../atoms/file-upload-avatar';
 import { X } from 'lucide-react';
-import { useDir } from '@monday-whatsapp/next-services';
+import { useDir } from '@vibe-chat/next-services';
 
 const schema = organizationInfoSchema;
 

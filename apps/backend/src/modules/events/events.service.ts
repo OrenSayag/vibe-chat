@@ -4,9 +4,9 @@ import {
   EventMessageContent,
   EventType,
   UpdateMessageStatusEventPayload,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import { Server } from 'socket.io';
-import { getSubscriptionIdByMessageId } from '@monday-whatsapp/db';
+import { getSubscriptionIdByMessageId } from '@vibe-chat/db';
 
 @Injectable()
 export class EventsService {

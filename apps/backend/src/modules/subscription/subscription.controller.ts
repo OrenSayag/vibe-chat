@@ -1,11 +1,11 @@
-import { createSubscription as _createSubscription } from '@monday-whatsapp/db';
+import { createSubscription as _createSubscription } from '@vibe-chat/db';
 import {
   BackendBaseResponse,
   CreateSubscriptionInfoResponse,
   GetSubscriptionInfoResponse,
   organizationInfoSchema,
   updateSubscriptionInfoRequest,
-} from '@monday-whatsapp/shared-types';
+} from '@vibe-chat/shared-types';
 import {
   BadRequestException,
   Body,

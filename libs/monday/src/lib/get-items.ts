@@ -1,5 +1,5 @@
 import { monday } from './monday-sdk-instance';
-import { BoardItem } from '@monday-whatsapp/shared-types';
+import { BoardItem } from '@vibe-chat/shared-types';
 
 type Output = {
   items: BoardItem[];

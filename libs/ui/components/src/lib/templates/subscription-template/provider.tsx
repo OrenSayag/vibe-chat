@@ -1,7 +1,7 @@
 'use client';
 
 import { FC } from 'react';
-import { useSubscriptionPage } from '@monday-whatsapp/next-services';
+import { useSubscriptionPage } from '@vibe-chat/next-services';
 import { SubscriptionTemplate } from '.';
 import { Text } from '@vibe/core';
 import { UnConfiguredAccountTemplate } from '../unconfigured-account-template';

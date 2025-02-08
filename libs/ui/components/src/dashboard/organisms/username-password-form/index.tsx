@@ -30,7 +30,7 @@ export const UsernamePasswordForm: FC<Props> = ({
   style,
 }) => {
   const {
-    register,˝
+    register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({

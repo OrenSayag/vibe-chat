@@ -1,14 +1,28 @@
-import { WhatsappConnectionViewProps } from 'libs/shared-types/src/dashboard/props.types';
-import { WhatsappIntegrationTemplateProps } from 'libs/shared-types/src/lib/whatsapp/whatsapp-component-props.types';
-
+import {
+  WhatsappConnectionViewProps,
+  WhatsappIntegrationTemplateProps,
+  WhatsappTemplate,
+} from '@vibe-chat/shared-types';
 type Input = {
   connectionViewInfo: WhatsappConnectionViewProps;
+  templates: WhatsappTemplate[];
 };
 
 type Output = WhatsappIntegrationTemplateProps;
 
-export const useWhatsappIntegrationTemplate = (input: Input): Output => {
+export const useWhatsappIntegrationTemplate = ({
+  connectionViewInfo,
+  templates,
+}: Input): Output => {
   return {
-    connectionViewProps: input.connectionViewInfo,
+    connectionViewProps: connectionViewInfo,
+    templatesViewProps: {
+      listProps: {
+        templates,
+        onCreateTemplate: () => {},
+        onEditTemplate: () => {},
+        onDeleteTemplate: () => {},
+      },
+    },
   };
 };

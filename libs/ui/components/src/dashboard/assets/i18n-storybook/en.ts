@@ -49,4 +49,14 @@ export const i18nStorybookMessagesEn = {
     DisplayName: 'Display Name',
     ProfileImage: 'Profile Image',
   },
+  WhatsappTemplatesView: {
+    columns: {
+      name: 'Name',
+      category: 'Category',
+      language: 'Language',
+      status: 'Status',
+    },
+    title: 'My Templates',
+    createTemplate: 'Create Template',
+  },
 };

@@ -14,8 +14,5 @@ export const getWhatsappMessageTemplates = async ({
     path: `whatsapp/templates/${subscriptionId}`,
     options: {},
   });
-  console.log({
-    res,
-  });
   return res;
 };

@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { OrganizationInfoSchema } from '../lib/subscription.types';
 import { OrganizationUserRole } from './organization.types';
+import { WhatsappTemplate } from '../lib/whatsapp/whatsapp.types';
 
 export type MainLayoutProps = {
   className?: string;
@@ -29,4 +30,19 @@ export type WhatsappConnectionViewProps = {
   whatsappNumber: string;
   displayName: string;
   image?: string;
+};
+
+export type WhatsappTemplatesViewProps = {
+  listProps: {
+    templates: WhatsappTemplate[];
+    onCreateTemplate: () => void;
+    onEditTemplate: (template: WhatsappTemplate) => void;
+    onDeleteTemplate: (template: WhatsappTemplate) => void;
+  };
+};
+
+export type WhatsappIntegrationTemplateProps = {
+  connectionViewProps: WhatsappConnectionViewProps;
+  templatesViewProps: WhatsappTemplatesViewProps;
+  error?: string;
 };

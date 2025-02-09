@@ -1,6 +1,5 @@
 import {
-  WhatsappConnectionViewProps,
-  WhatsappTemplate,
+  WhatsappTemplate
 } from '@vibe-chat/shared-types';
 import { CSSProperties } from 'react';
 
@@ -14,6 +13,3 @@ export type WhatsappMessageTemplateSelectorProps = {
   onSelect(template: WhatsappTemplate): void;
 };
 
-export type WhatsappIntegrationTemplateProps = {
-  connectionViewProps: WhatsappConnectionViewProps;
-};

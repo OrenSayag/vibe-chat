@@ -54,5 +54,15 @@
     "BusinessAccountId": "WhatsApp Business Account ID",
     "DisplayName": "Display Name",
     "ProfileImage": "Profile Image"
+  },
+  "WhatsappTemplatesView": {
+    "title": "My Templates",
+    "createTemplate": "Create Template",
+    "columns": {
+      "name": "Name",
+      "category": "Category",
+      "language": "Language",
+      "status": "Status"
+    }
   }
 }

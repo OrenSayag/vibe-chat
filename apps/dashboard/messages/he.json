@@ -54,5 +54,15 @@
     "BusinessAccountId": "מספר חשבון עסקי בוואטסאפ",
     "DisplayName": "שם מוצג",
     "ProfileImage": "תמונת פרופיל"
+  },
+  "WhatsappTemplatesView": {
+    "title": "התבניות שלי",
+    "createTemplate": "צור תבנית",
+    "columns": {
+      "name": "שם",
+      "category": "קטגוריה",
+      "language": "שפה",
+      "status": "סטטוס"
+    }
   }
 }

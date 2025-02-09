@@ -30,6 +30,8 @@ export const whatsappCloudInfo = z.union([
     whatsappNumberId: z.string(),
     whatsappNumber: z.string(),
     whatsappBusinessAccountId: z.string(),
+    displayName: z.string(),
+    profilePictureUrl: z.string().optional(),
   }),
   z.object({
     status: z.literal(WhatsappCloudStatus.NOT_SIGNED),

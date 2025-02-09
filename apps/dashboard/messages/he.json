@@ -44,5 +44,15 @@
   "IntegrationNotConnectedView": {
     "title": "אינטגרציה לא מחוברת",
     "connect": "התחברות"
+  },
+  "WhatsappIntegrationTemplate": {
+    "Connection": "חיבור",
+    "Templates": "תבניות"
+  },
+  "WhatsappConnectionView": {
+    "WhatsAppNumber": "מספר טלפון",
+    "BusinessAccountId": "מספר חשבון עסקי בוואטסאפ",
+    "DisplayName": "שם מוצג",
+    "ProfileImage": "תמונת פרופיל"
   }
 }

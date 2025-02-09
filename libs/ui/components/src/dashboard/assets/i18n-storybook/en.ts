@@ -39,4 +39,14 @@ export const i18nStorybookMessagesEn = {
     title: 'Integration Not Connected',
     connect: 'Connect',
   },
+  WhatsappIntegrationTemplate: {
+    Connection: 'Connection',
+    Templates: 'Templates',
+  },
+  WhatsappConnectionView: {
+    WhatsAppNumber: 'WhatsApp Number',
+    BusinessAccountId: 'WhatsApp Business Account ID',
+    DisplayName: 'Display Name',
+    ProfileImage: 'Profile Image',
+  },
 };

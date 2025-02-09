@@ -15,4 +15,4 @@ export * from './lib/client/subscription/use-get-subscription';
 export * from './lib/client/subscription/use-create-subscription';
 export * from './lib/client/subscription/use-create-subscription-template';
 export * from './lib/client/utils/use-dir';
-
+export * from './lib/client/integration/whatsapp/use-whatsapp-integration-template';

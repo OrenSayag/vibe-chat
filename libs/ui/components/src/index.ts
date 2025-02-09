@@ -16,3 +16,5 @@ export * from './dashboard/layout/main-layout';
 export * from './dashboard/templates/create-organization-template/provider';
 export * from './dashboard/organisms/integration-not-connected-view/provider';
 export * from './dashboard/molecules/header';
+
+export * from './dashboard/templates/whatsapp-integration-template/provider';

@@ -20,8 +20,7 @@ import {
   Contact,
   Gauge,
   MessagesSquare,
-  Settings,
-  TableOfContents,
+  Settings
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
@@ -198,11 +197,6 @@ function NavigationList({
       label: t('Chats'),
       href: `/dashboard/${subscriptionId}/chats`,
       icon: <MessagesSquare size={ICON_SIZE} stroke={iconColor} />,
-    },
-    TEMPLATES: {
-      label: t('Templates'),
-      href: `/dashboard/${subscriptionId}/templates`,
-      icon: <TableOfContents size={ICON_SIZE} stroke={iconColor} />,
     },
     SCHEDULED: {
       label: t('Scheduled'),

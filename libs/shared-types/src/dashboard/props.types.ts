@@ -23,3 +23,10 @@ export type HeaderProps = {
 export type IntegrationNotConnectedViewProps = {
   onConnect: () => void;
 };
+
+export type WhatsappConnectionViewProps = {
+  whatsappBusinessAccountId: string;
+  whatsappNumber: string;
+  displayName: string;
+  image?: string;
+};

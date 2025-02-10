@@ -28,26 +28,32 @@ export default function WhatsappLayout({
   const pathname = usePathname();
   const t = useTranslations('WhatsappIntegrationTemplate');
 
+  const isCreateTemplate = pathname.endsWith('/create-template');
+
   return (
     <div>
-      <div>
-        {tabs.map((tab) => (
-          <Tab
-            key={tab.value}
-            onClick={() =>
-              router.replace(
-                `/dashboard/${pathname.split('/')[2]}/integration/whatsapp/${
-                  tab.value
-                }`
-              )
-            }
-            active={pathname.endsWith(`/whatsapp/${tab.value}`)}
-          >
-            {t(tab.label)}
-          </Tab>
-        ))}
-      </div>
-      <Divider withoutMargin />
+      {!isCreateTemplate && (
+        <>
+          <div>
+            {tabs.map((tab) => (
+              <Tab
+                key={tab.value}
+                onClick={() =>
+                  router.replace(
+                    `/dashboard/${
+                      pathname.split('/')[2]
+                    }/integration/whatsapp/${tab.value}`
+                  )
+                }
+                active={pathname.endsWith(`/whatsapp/${tab.value}`)}
+              >
+                {t(tab.label)}
+              </Tab>
+            ))}
+          </div>
+          <Divider withoutMargin />
+        </>
+      )}
       <div>{children}</div>
     </div>
   );

@@ -229,7 +229,11 @@ function NavigationList({
           <NavListItem
             key={info.label}
             info={info}
-            isSelected={selectedPath === info.href}
+            isSelected={
+              info.href === `/dashboard/${subscriptionId}`
+                ? selectedPath === info.href
+                : selectedPath.startsWith(info.href)
+            }
           />
         ))}
       </List>
@@ -297,7 +301,7 @@ function IntegrationsLinks({ selectedPath }: { selectedPath: string }) {
       <List>
         {integrations.map(({ href, src, alt, label }) => (
           <Link href={href} key={label}>
-            <ListItem size={'medium'} selected={selectedPath === href}>
+            <ListItem size={'medium'} selected={selectedPath.startsWith(href)}>
               <Flex
                 align={'center'}
                 gap={'large'}

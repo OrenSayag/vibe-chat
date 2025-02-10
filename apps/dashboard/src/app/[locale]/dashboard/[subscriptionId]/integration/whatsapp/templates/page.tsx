@@ -17,5 +17,5 @@ export default async function TemplatesPage({
   }
 
   const props = await getWhatsappIntegrationProps(info, subscriptionId, true);
-  return <WhatsappIntegrationTemplateProvider {...props} />;
+  return <WhatsappIntegrationTemplateProvider {...props} type="templates" />;
 }

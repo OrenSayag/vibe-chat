@@ -4,17 +4,19 @@ import { getSubscription } from '@vibe-chat/next-services/server';
 import { WhatsappCloudStatus } from '@vibe-chat/shared-types';
 
 export default async function ConnectionPage({
-    params: { subscriptionId },
+  params: { subscriptionId },
 }: {
-    params: { subscriptionId: string };
+  params: { subscriptionId: string };
 }) {
-    const { info } = await getSubscription({ subscriptionId });
+  const { info } = await getSubscription({ subscriptionId });
 
-    if (info.integrations.whatsappCloudInfo?.status !== WhatsappCloudStatus.SIGNED) {
-        throw new Error('Whatsapp is not signed');
-    }
+  if (
+    info.integrations.whatsappCloudInfo?.status !== WhatsappCloudStatus.SIGNED
+  ) {
+    throw new Error('Whatsapp is not signed');
+  }
 
-    const props = await getWhatsappIntegrationProps(info, subscriptionId);
-    return <WhatsappIntegrationTemplateProvider {...props} />;
+  const props = await getWhatsappIntegrationProps(info, subscriptionId);
+  return <WhatsappIntegrationTemplateProvider {...props} type="connection" />;
 }
-0
+0;

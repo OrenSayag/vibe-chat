@@ -1,9 +1,9 @@
 'use client';
 
-import { Tab, Divider } from '@vibe/core';
-import { useTranslations } from 'next-intl';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter } from '@vibe-chat/next-services/server';
 import { intagrationSubSlugs, IntegrationType } from '@vibe-chat/shared-types';
+import { Divider, Tab } from '@vibe/core';
+import { useTranslations } from 'next-intl';
 
 const integrationKeys = Object.keys(
   intagrationSubSlugs[IntegrationType.WHATSAPP] || {}
@@ -24,15 +24,9 @@ export default function WhatsappLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
   const router = useRouter();
+  const pathname = usePathname();
   const t = useTranslations('WhatsappIntegrationTemplate');
-
-  const currentTab = pathname.split('/').pop();
-
-  const handleTabClick = (tabValue: string) => {
-    router.replace(pathname.replace(/\/[^/]+$/, `/${tabValue}`));
-  };
 
   return (
     <div>
@@ -40,8 +34,14 @@ export default function WhatsappLayout({
         {tabs.map((tab) => (
           <Tab
             key={tab.value}
-            onClick={() => handleTabClick(tab.value)}
-            active={tab.value === currentTab}
+            onClick={() =>
+              router.replace(
+                `/dashboard/${pathname.split('/')[2]}/integration/whatsapp/${
+                  tab.value
+                }`
+              )
+            }
+            active={pathname.endsWith(`/whatsapp/${tab.value}`)}
           >
             {t(tab.label)}
           </Tab>

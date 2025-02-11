@@ -1,4 +1,6 @@
+import { Locale } from '../../dashboard/locales.types';
 import { SendMessageRequest, WhatsappMessage } from './whatsapp-messages.types';
+import { z } from 'zod';
 
 export type WhatsappWebhook = WhatsappBusinessAccountWebhook;
 
@@ -272,3 +274,116 @@ export type WhatsappApiPagination = {
     };
   };
 };
+
+export const whatsappTemplateCategoryTranslations: Record<
+  WhatsappTemplateCategory,
+  Record<Locale, string>
+> = {
+  [WhatsappTemplateCategory.ACCOUNT_UPDATE]: {
+    [Locale.ENGLISH]: 'Account Update',
+    [Locale.HEBREW]: 'עדכון חשבון',
+  },
+  [WhatsappTemplateCategory.PAYMENT_UPDATE]: {
+    [Locale.ENGLISH]: 'Payment Update',
+    [Locale.HEBREW]: 'עדכון תשלום',
+  },
+  [WhatsappTemplateCategory.PERSONAL_FINANCE_UPDATE]: {
+    [Locale.ENGLISH]: 'Personal Finance Update',
+    [Locale.HEBREW]: 'עדכון פיננסי אישי',
+  },
+  [WhatsappTemplateCategory.SHIPPING_UPDATE]: {
+    [Locale.ENGLISH]: 'Shipping Update',
+    [Locale.HEBREW]: 'עדכון משלוח',
+  },
+  [WhatsappTemplateCategory.RESERVATION_UPDATE]: {
+    [Locale.ENGLISH]: 'Reservation Update',
+    [Locale.HEBREW]: 'עדכון הזמנה',
+  },
+  [WhatsappTemplateCategory.ISSUE_RESOLUTION]: {
+    [Locale.ENGLISH]: 'Issue Resolution',
+    [Locale.HEBREW]: 'פתרון בעיה',
+  },
+  [WhatsappTemplateCategory.APPOINTMENT_UPDATE]: {
+    [Locale.ENGLISH]: 'Appointment Update',
+    [Locale.HEBREW]: 'עדכון פגישה',
+  },
+  [WhatsappTemplateCategory.TRANSPORTATION_UPDATE]: {
+    [Locale.ENGLISH]: 'Transportation Update',
+    [Locale.HEBREW]: 'עדכון תחבורה',
+  },
+  [WhatsappTemplateCategory.TICKET_UPDATE]: {
+    [Locale.ENGLISH]: 'Ticket Update',
+    [Locale.HEBREW]: 'עדכון כרטיס',
+  },
+  [WhatsappTemplateCategory.ALERT_UPDATE]: {
+    [Locale.ENGLISH]: 'Alert Update',
+    [Locale.HEBREW]: 'עדכון התראה',
+  },
+  [WhatsappTemplateCategory.AUTO_REPLY]: {
+    [Locale.ENGLISH]: 'Auto Reply',
+    [Locale.HEBREW]: 'תשובה אוטומטית',
+  },
+  [WhatsappTemplateCategory.TRANSACTIONAL]: {
+    [Locale.ENGLISH]: 'Transactional',
+    [Locale.HEBREW]: 'טרנזקציה',
+  },
+  [WhatsappTemplateCategory.OTP]: {
+    [Locale.ENGLISH]: 'One-Time Password',
+    [Locale.HEBREW]: 'סיסמה חד פעמית',
+  },
+  [WhatsappTemplateCategory.UTILITY]: {
+    [Locale.ENGLISH]: 'Utility',
+    [Locale.HEBREW]: 'שירות',
+  },
+  [WhatsappTemplateCategory.MARKETING]: {
+    [Locale.ENGLISH]: 'Marketing',
+    [Locale.HEBREW]: 'שיווק',
+  },
+  [WhatsappTemplateCategory.AUTHENTICATION]: {
+    [Locale.ENGLISH]: 'Authentication',
+    [Locale.HEBREW]: 'אימות',
+  },
+};
+
+const whatsappTemplateComponentSchema = z.union([
+  z.object({
+    type: z.literal(WhatsappTemplateComponentType.HEADER),
+    format: z.nativeEnum(WhatsappTemplateComponentFormat),
+    text: z.string().optional(),
+  }),
+  z.object({
+    type: z.literal(WhatsappTemplateComponentType.BODY),
+    text: z.string(),
+  }),
+  z.object({
+    type: z.literal(WhatsappTemplateComponentType.FOOTER),
+    text: z.string(),
+  }),
+  z.object({
+    type: z.literal(WhatsappTemplateComponentType.BUTTONS),
+    buttons: z.array(
+      z.object({
+        text: z.string(),
+        type: z.nativeEnum(WhatsappTemplateButtonType),
+        phone_number: z.string().optional(),
+        url: z.string().optional(),
+        // flow_id: z.string().optional(),
+        // flow_name: z.string().optional(),
+        // flow_json: z.string().optional(),
+        // flow_action: z.string().optional(),
+        navigate_screen: z.string().optional(),
+      })
+    ),
+  }),
+]);
+
+export const whatsappTemplateBuilderFormSchema = z.object({
+  name: z.string().min(1, 'Name is required'),
+  category: z.nativeEnum(WhatsappTemplateCategory),
+  components: z.array(whatsappTemplateComponentSchema),
+  language: z.string().min(1, 'Language is required'),
+});
+
+export type WhatsappTemplateBuilderForm = z.infer<
+  typeof whatsappTemplateBuilderFormSchema
+>;

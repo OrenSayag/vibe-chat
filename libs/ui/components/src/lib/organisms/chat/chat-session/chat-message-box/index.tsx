@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useRef, useEffect, useState, forwardRef } from 'react';
 import { cn } from '@vibe-chat/ui-utils';
 import { Box, Flex, Text } from '@vibe/core';
 import { format } from 'date-fns';
@@ -19,6 +19,16 @@ interface Props {
 }
 
 export const ChatMessageBox: FC<Props> = ({ className, message, template }) => {
+  const textRef = useRef<HTMLDivElement>(null);
+  const [isSmallContent, setIsSmallContent] = useState(false);
+
+  useEffect(() => {
+    if (textRef.current) {
+      const contentWidth = textRef.current.offsetWidth;
+      setIsSmallContent(contentWidth < 100); // Assuming 100px as the threshold for small content
+    }
+  }, [message]);
+
   return (
     <>
       <Box
@@ -39,13 +49,14 @@ export const ChatMessageBox: FC<Props> = ({ className, message, template }) => {
               ? 'auto'
               : undefined,
           display: 'flex',
+          flexDirection: isSmallContent ? 'row' : 'column',
           alignItems: 'end',
           gap: '.5em',
         }}
         rounded={'medium'}
       >
         {message.message.type === WhatsappMessageType.TEXT && (
-          <TextContent text={message.message.text.body ?? ''} />
+          <TextContent text={message.message.text.body ?? ''} ref={textRef} />
         )}
         {message.message.type === WhatsappMessageType.TEMPLATE && template && (
           <TemplateMessage template={template} />
@@ -89,19 +100,14 @@ function Checks({
   );
 }
 
-function TextContent({
-  text,
-  className,
-}: {
-  className?: string;
-  text: string;
-}) {
-  return (
-    <Box className={cn(className)}>
-      <Text>{text}</Text>
-    </Box>
-  );
-}
+const TextContent = forwardRef<
+  HTMLDivElement,
+  { text: string; className?: string }
+>(({ text, className }, ref) => (
+  <Box className={cn(className)} ref={ref}>
+    <Text>{text}</Text>
+  </Box>
+));
 
 function MediaContent({ className }: { className?: string }) {
   return (

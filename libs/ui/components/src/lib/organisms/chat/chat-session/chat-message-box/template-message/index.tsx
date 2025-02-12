@@ -8,6 +8,7 @@ import {
   WhatsappTemplateComponentType,
   WhatsappTemplateFooterComponent,
   WhatsappTemplateHeaderComponent,
+  WhatsappTemplateButtonType,
 } from '@vibe-chat/shared-types';
 import { Button, Text } from '@vibe/core';
 
@@ -81,11 +82,33 @@ function Footer({ comp }: { comp: WhatsappTemplateFooterComponent }) {
 }
 function Buttons({ comp }: { comp: WhatsappTemplateButtonsComponent }) {
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0.5em',
+        paddingTop: '0.5em',
+        margin: '0 auto',
+      }}
+    >
       {comp.buttons.map((btn) => (
         <div key={btn.text}>
-          <Button>
-            <Text>{btn.text}</Text>
+          <Button kind="primary" size="small">
+            {btn.type === WhatsappTemplateButtonType.PHONE_NUMBER && (
+              <span>{btn.text}</span>
+            )}
+            {btn.type === WhatsappTemplateButtonType.URL && (
+              <span>{btn.text}</span>
+            )}
+            {btn.type === WhatsappTemplateButtonType.COPY_CODE && (
+              <span>{btn.text}</span>
+            )}
+            {btn.type === WhatsappTemplateButtonType.QUICK_REPLY && (
+              <span>{btn.text}</span>
+            )}
+            {btn.type === WhatsappTemplateButtonType.FLOW && (
+              <span>{btn.text}</span>
+            )}
           </Button>
         </div>
       ))}

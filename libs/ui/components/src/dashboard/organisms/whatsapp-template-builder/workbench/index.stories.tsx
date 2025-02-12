@@ -7,6 +7,8 @@ import {
   WhatsappTemplateComponentFormat,
   WhatsappTemplateButtonType,
   TemplateBuilderWorkbenchContentProps,
+  WhatsappContentForm,
+  WhatsappTemplateComponentType,
 } from '@vibe-chat/shared-types';
 import { useState } from 'react';
 
@@ -42,6 +44,9 @@ export const Primary: Story = {
     const [headerText, setHeaderText] = useState('');
     const [bodyText, setBodyText] = useState('');
     const [footerText, setFooterText] = useState('');
+    const [templateName, setTemplateName] = useState('');
+    const [selectedCategory, setSelectedCategory] =
+      useState<WhatsappTemplateCategory>(WhatsappTemplateCategory.MARKETING);
     const [buttons, setButtons] = useState<
       Array<{
         text: string;
@@ -103,12 +108,65 @@ export const Primary: Story = {
       },
     };
 
+    const headerProps = {
+      templateName,
+      selectedCategory,
+      setSelectedCategory,
+      onNameChange: setTemplateName,
+      errors: {},
+    };
+
+    const formData: Partial<WhatsappContentForm> = {
+      header:
+        headerFormat === WhatsappTemplateComponentFormat.TEXT
+          ? {
+              type: WhatsappTemplateComponentType.HEADER,
+              format: WhatsappTemplateComponentFormat.TEXT,
+              text: headerText,
+            }
+          : headerFormat === WhatsappTemplateComponentFormat.IMAGE
+          ? {
+              type: WhatsappTemplateComponentType.HEADER,
+              format: WhatsappTemplateComponentFormat.IMAGE,
+            }
+          : headerFormat === WhatsappTemplateComponentFormat.DOCUMENT
+          ? {
+              type: WhatsappTemplateComponentType.HEADER,
+              format: WhatsappTemplateComponentFormat.DOCUMENT,
+            }
+          : headerFormat === WhatsappTemplateComponentFormat.LOCATION
+          ? {
+              type: WhatsappTemplateComponentType.HEADER,
+              format: WhatsappTemplateComponentFormat.LOCATION,
+            }
+          : undefined,
+      body: {
+        type: WhatsappTemplateComponentType.BODY,
+        text: bodyText,
+      },
+      footer: footerText
+        ? {
+            type: WhatsappTemplateComponentType.FOOTER,
+            text: footerText,
+          }
+        : undefined,
+      buttons:
+        buttons.length > 0
+          ? {
+              type: WhatsappTemplateComponentType.BUTTONS,
+              buttons,
+            }
+          : undefined,
+    };
+
     return (
       <div style={{ width: '100%', height: '100vh' }}>
         <Workbench
           categories={categories}
           localesProps={localesProps}
           contentProps={contentProps}
+          headerProps={headerProps}
+          formData={formData}
         />
       </div>
     );

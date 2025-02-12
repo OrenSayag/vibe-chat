@@ -6,8 +6,10 @@ import {
   WhatsappTemplateCategory,
   WhatsappTemplateComponentFormat,
   WhatsappTemplateButtonType,
+  WhatsappTemplateBuilderMetadataForm,
 } from '@vibe-chat/shared-types';
 import { CSSProperties } from 'react';
+import { FieldErrors } from 'react-hook-form';
 
 export type WhatsappMessageTemplateSelectorProps = {
   className?: string;
@@ -87,4 +89,12 @@ export type TemplateBuilderWorkbenchProps = {
     onCreateLocale: (locale: Locale) => void;
   };
   contentProps: TemplateBuilderWorkbenchContentProps;
+  headerProps: {
+    templateName: string;
+    selectedCategory: WhatsappTemplateCategory;
+    setSelectedCategory: (category: WhatsappTemplateCategory) => void;
+    onNameChange: (name: string) => void;
+    errors?: FieldErrors<WhatsappTemplateBuilderMetadataForm>;
+  };
+  formData: Partial<WhatsappContentForm>;
 };

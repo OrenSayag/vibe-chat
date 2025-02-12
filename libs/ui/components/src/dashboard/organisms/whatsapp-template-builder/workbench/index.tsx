@@ -1,38 +1,20 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  TemplateBuilderWorkbenchProps,
-  WhatsappTemplateBuilderMetadataForm,
-  whatsappTemplateBuilderMetadataFormSchema,
-} from '@vibe-chat/shared-types';
-import { CSSProperties, FC } from 'react';
-import { useForm } from 'react-hook-form';
-import { Header } from './header';
-
 import { Divider } from '@vibe/core';
+import { FC } from 'react';
 import { Content } from './content';
+import { Header } from './header';
 import { Locales } from './locales';
+import { Preview } from './preview';
+import { TemplateBuilderWorkbenchProps } from '@vibe-chat/shared-types';
+
 export const Workbench: FC<TemplateBuilderWorkbenchProps> = ({
   style = {},
   categories,
   template,
   localesProps,
   contentProps,
+  headerProps,
+  formData,
 }) => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    watch,
-    register,
-  } = useForm<WhatsappTemplateBuilderMetadataForm>({
-    resolver: zodResolver(whatsappTemplateBuilderMetadataFormSchema),
-    defaultValues: { name: 'New Template', ...template },
-  });
-
-  const selectedCategory = watch('category');
-  const templateName = watch('name');
-
   return (
     <>
       <div
@@ -44,12 +26,12 @@ export const Workbench: FC<TemplateBuilderWorkbenchProps> = ({
         }}
       >
         <Header
-          onNameChange={(name) => setValue('name', name)}
-          templateName={templateName}
-          selectedCategory={selectedCategory}
-          setSelectedCategory={(category) => setValue('category', category)}
+          templateName={headerProps.templateName}
+          selectedCategory={headerProps.selectedCategory}
+          setSelectedCategory={headerProps.setSelectedCategory}
+          onNameChange={headerProps.onNameChange}
           categories={categories}
-          errors={errors}
+          errors={headerProps.errors || {}}
         />
         <Divider withoutMargin />
         <div
@@ -73,23 +55,22 @@ export const Workbench: FC<TemplateBuilderWorkbenchProps> = ({
               gridColumn: '2 / 3',
               height: '100%',
               gridRow: '1 / 13',
+              padding: '0 .3em',
             }}
           >
             <Content {...contentProps} />
           </div>
-          <Preview
+          <div
             style={{
               gridColumn: '3 / 4',
               height: '100%',
               gridRow: '1 / 13',
             }}
-          />
+          >
+            <Preview data={formData} />
+          </div>
         </div>
       </div>
     </>
   );
 };
-
-function Preview({ style }: { style?: CSSProperties }) {
-  return <div style={{ ...style }}>Preview works!</div>;
-}

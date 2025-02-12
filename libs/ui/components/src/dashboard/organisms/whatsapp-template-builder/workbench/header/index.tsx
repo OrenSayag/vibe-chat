@@ -1,6 +1,6 @@
 import {
   ListItem as IListItem,
-  WhatsappTemplateBuilderForm,
+  WhatsappTemplateBuilderMetadataForm,
   WhatsappTemplateCategory,
 } from '@vibe-chat/shared-types';
 import {
@@ -24,7 +24,7 @@ type Props = {
   selectedCategory: WhatsappTemplateCategory;
   setSelectedCategory: (category: WhatsappTemplateCategory) => void;
   categories: IListItem<WhatsappTemplateCategory>[];
-  errors: FieldErrors<WhatsappTemplateBuilderForm>;
+  errors: FieldErrors<WhatsappTemplateBuilderMetadataForm>;
   onNameChange: (name: string) => void;
 };
 

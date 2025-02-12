@@ -1,33 +1,22 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
-  ListItem as IListItem,
-  Locale,
-  WhatsappTemplate,
-  WhatsappTemplateBuilderForm,
-  whatsappTemplateBuilderFormSchema,
-  WhatsappTemplateCategory,
+  TemplateBuilderWorkbenchProps,
+  WhatsappTemplateBuilderMetadataForm,
+  whatsappTemplateBuilderMetadataFormSchema,
 } from '@vibe-chat/shared-types';
 import { CSSProperties, FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { Header } from './header';
-type WorkbenchProps = {
-  style?: CSSProperties;
-  categories: IListItem<WhatsappTemplateCategory>[];
-  template?: WhatsappTemplate;
-  localesProps: {
-    onChange: (locale: string) => void;
-    selectedLocale: Locale;
-    locales: Locale[];
-    onCreateLocale: (locale: Locale) => void;
-  };
-};
+
 import { Divider } from '@vibe/core';
+import { Content } from './content';
 import { Locales } from './locales';
-export const Workbench: FC<WorkbenchProps> = ({
+export const Workbench: FC<TemplateBuilderWorkbenchProps> = ({
   style = {},
   categories,
   template,
   localesProps,
+  contentProps,
 }) => {
   const {
     control,
@@ -36,8 +25,8 @@ export const Workbench: FC<WorkbenchProps> = ({
     setValue,
     watch,
     register,
-  } = useForm<WhatsappTemplateBuilderForm>({
-    resolver: zodResolver(whatsappTemplateBuilderFormSchema),
+  } = useForm<WhatsappTemplateBuilderMetadataForm>({
+    resolver: zodResolver(whatsappTemplateBuilderMetadataFormSchema),
     defaultValues: { name: 'New Template', ...template },
   });
 
@@ -79,13 +68,15 @@ export const Workbench: FC<WorkbenchProps> = ({
             }}
             {...localesProps}
           />
-          <Form
+          <div
             style={{
               gridColumn: '2 / 3',
               height: '100%',
               gridRow: '1 / 13',
             }}
-          />
+          >
+            <Content {...contentProps} />
+          </div>
           <Preview
             style={{
               gridColumn: '3 / 4',
@@ -98,10 +89,6 @@ export const Workbench: FC<WorkbenchProps> = ({
     </>
   );
 };
-
-function Form({ style }: { style?: CSSProperties }) {
-  return <div style={{ ...style }}>Form works!</div>;
-}
 
 function Preview({ style }: { style?: CSSProperties }) {
   return <div style={{ ...style }}>Preview works!</div>;

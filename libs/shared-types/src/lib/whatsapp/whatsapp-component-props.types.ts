@@ -1,5 +1,11 @@
 import {
-  WhatsappTemplate
+  ListItem,
+  Locale,
+  WhatsappContentForm,
+  WhatsappTemplate,
+  WhatsappTemplateCategory,
+  WhatsappTemplateComponentFormat,
+  WhatsappTemplateButtonType,
 } from '@vibe-chat/shared-types';
 import { CSSProperties } from 'react';
 
@@ -13,3 +19,72 @@ export type WhatsappMessageTemplateSelectorProps = {
   onSelect(template: WhatsappTemplate): void;
 };
 
+export type TemplateBuilderWorkbenchContentProps = {
+  style?: CSSProperties;
+  headProps: {
+    selectedFormat?: WhatsappTemplateComponentFormat;
+    onFormatChange: (format: WhatsappTemplateComponentFormat) => void;
+    pendingSave?: boolean;
+    canPublish?: boolean;
+    onSave: (data: WhatsappContentForm, isDraft: boolean) => void;
+    value:
+      | {
+          type: WhatsappTemplateComponentFormat.TEXT;
+          value: string;
+          onChange(value: string): void;
+        }
+      | {
+          type:
+            | WhatsappTemplateComponentFormat.IMAGE
+            | WhatsappTemplateComponentFormat.VIDEO
+            | WhatsappTemplateComponentFormat.DOCUMENT;
+          value: string; // mediaId
+          onChange(value: string): void;
+        }
+      | {
+          type: WhatsappTemplateComponentFormat.LOCATION;
+        };
+  };
+  bodyProps: {
+    style?: CSSProperties;
+    value?: string;
+    onChange(value: string): void;
+  };
+  footerProps: {
+    style?: CSSProperties;
+    value?: string;
+    onChange(value: string): void;
+  };
+  buttonsProps: {
+    style?: CSSProperties;
+    value?: Array<{
+      text: string;
+      type: WhatsappTemplateButtonType;
+      phone_number?: string;
+      url?: string;
+      navigate_screen?: string;
+    }>;
+    onChange(
+      value: Array<{
+        text: string;
+        type: WhatsappTemplateButtonType;
+        phone_number?: string;
+        url?: string;
+        navigate_screen?: string;
+      }>
+    ): void;
+  };
+};
+
+export type TemplateBuilderWorkbenchProps = {
+  style?: CSSProperties;
+  categories: ListItem<WhatsappTemplateCategory>[];
+  template?: WhatsappTemplate;
+  localesProps: {
+    onChange: (locale: string) => void;
+    selectedLocale: Locale;
+    locales: Locale[];
+    onCreateLocale: (locale: Locale) => void;
+  };
+  contentProps: TemplateBuilderWorkbenchContentProps;
+};

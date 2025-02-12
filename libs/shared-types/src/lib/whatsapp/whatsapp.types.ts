@@ -148,10 +148,37 @@ export type WhatsappTemplateHeaderTextComponent =
   BaseWhatsappTemplateHeaderComponent & {
     text: string;
     format: WhatsappTemplateComponentFormat.TEXT;
+    example: {
+      header_text: string[];
+    };
+  };
+
+export type WhatsappTemplateHeaderImageComponent =
+  BaseWhatsappTemplateHeaderComponent & {
+    format: WhatsappTemplateComponentFormat.IMAGE;
+    example: {
+      header_handle: string[];
+    };
+  };
+
+export type WhatsappTemplateHeaderDocumentComponent =
+  BaseWhatsappTemplateHeaderComponent & {
+    format: WhatsappTemplateComponentFormat.DOCUMENT;
+    example: {
+      header_handle: string[];
+    };
+  };
+
+export type WhatsappTemplateHeaderLocationComponent =
+  BaseWhatsappTemplateHeaderComponent & {
+    format: WhatsappTemplateComponentFormat.LOCATION;
   };
 
 export type WhatsappTemplateHeaderComponent =
-  WhatsappTemplateHeaderTextComponent;
+  | WhatsappTemplateHeaderTextComponent
+  | WhatsappTemplateHeaderImageComponent
+  | WhatsappTemplateHeaderDocumentComponent
+  | WhatsappTemplateHeaderLocationComponent;
 
 export type WhatsappTemplateBodyComponent = {
   type: WhatsappTemplateComponentType.BODY;
@@ -345,7 +372,7 @@ export const whatsappTemplateCategoryTranslations: Record<
   },
 };
 
-const whatsappTemplateComponentSchema = z.union([
+export const whatsappTemplateComponentSchema = z.union([
   z.object({
     type: z.literal(WhatsappTemplateComponentType.HEADER),
     format: z.nativeEnum(WhatsappTemplateComponentFormat),
@@ -367,23 +394,96 @@ const whatsappTemplateComponentSchema = z.union([
         type: z.nativeEnum(WhatsappTemplateButtonType),
         phone_number: z.string().optional(),
         url: z.string().optional(),
-        // flow_id: z.string().optional(),
-        // flow_name: z.string().optional(),
-        // flow_json: z.string().optional(),
-        // flow_action: z.string().optional(),
         navigate_screen: z.string().optional(),
       })
     ),
   }),
 ]);
 
-export const whatsappTemplateBuilderFormSchema = z.object({
+export const headerComponentSchema = z.discriminatedUnion('format', [
+  z.object({
+    format: z.literal(WhatsappTemplateComponentFormat.TEXT),
+    text: z.string(),
+    example: z.object({
+      header_text: z.array(z.string()),
+    }),
+  }),
+  z.object({
+    format: z.literal(WhatsappTemplateComponentFormat.IMAGE),
+    example: z.object({
+      header_handle: z.array(z.string()),
+    }),
+  }),
+  z.object({
+    format: z.literal(WhatsappTemplateComponentFormat.DOCUMENT),
+    example: z.object({
+      header_handle: z.array(z.string()),
+    }),
+  }),
+  z.object({
+    format: z.literal(WhatsappTemplateComponentFormat.LOCATION),
+  }),
+]);
+
+export type HeaderComponent = z.infer<typeof headerComponentSchema>;
+
+export const whatsappTemplateBuilderMetadataFormSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   category: z.nativeEnum(WhatsappTemplateCategory),
   components: z.array(whatsappTemplateComponentSchema),
   language: z.string().min(1, 'Language is required'),
 });
 
-export type WhatsappTemplateBuilderForm = z.infer<
-  typeof whatsappTemplateBuilderFormSchema
+export type WhatsappTemplateBuilderMetadataForm = z.infer<
+  typeof whatsappTemplateBuilderMetadataFormSchema
 >;
+
+export const whatsappContentFormSchema = z.object({
+  header: z
+    .discriminatedUnion('format', [
+      z.object({
+        type: z.literal(WhatsappTemplateComponentType.HEADER),
+        format: z.literal(WhatsappTemplateComponentFormat.TEXT),
+        text: z.string(),
+      }),
+      z.object({
+        type: z.literal(WhatsappTemplateComponentType.HEADER),
+        format: z.literal(WhatsappTemplateComponentFormat.IMAGE),
+      }),
+      z.object({
+        type: z.literal(WhatsappTemplateComponentType.HEADER),
+        format: z.literal(WhatsappTemplateComponentFormat.DOCUMENT),
+      }),
+      z.object({
+        type: z.literal(WhatsappTemplateComponentType.HEADER),
+        format: z.literal(WhatsappTemplateComponentFormat.LOCATION),
+      }),
+    ])
+    .optional(),
+  body: z.object({
+    type: z.literal(WhatsappTemplateComponentType.BODY),
+    text: z.string(),
+  }),
+  footer: z
+    .object({
+      type: z.literal(WhatsappTemplateComponentType.FOOTER),
+      text: z.string(),
+    })
+    .optional(),
+  buttons: z
+    .object({
+      type: z.literal(WhatsappTemplateComponentType.BUTTONS),
+      buttons: z.array(
+        z.object({
+          text: z.string(),
+          type: z.nativeEnum(WhatsappTemplateButtonType),
+          phone_number: z.string().optional(),
+          url: z.string().optional(),
+          navigate_screen: z.string().optional(),
+        })
+      ),
+    })
+    .optional(),
+});
+
+export type WhatsappContentForm = z.infer<typeof whatsappContentFormSchema>;

@@ -12,6 +12,11 @@ export const Content: FC<TemplateBuilderWorkbenchContentProps> = ({
   bodyProps,
   footerProps,
   buttonsProps,
+  isDraft,
+  pendingSave,
+  canPublish,
+  onSaveDraft,
+  onPublish,
 }) => {
   return (
     <>
@@ -22,7 +27,13 @@ export const Content: FC<TemplateBuilderWorkbenchContentProps> = ({
         }}
       >
         <Box paddingY="small">
-          <Header />
+          <Header
+            isDraft={isDraft ?? false}
+            pendingSave={pendingSave ?? false}
+            canPublish={canPublish ?? false}
+            onSaveDraft={onSaveDraft}
+            onPublish={onPublish}
+          />
         </Box>
         <Divider withoutMargin />
         <div style={{ marginTop: '1em' }}>
@@ -42,7 +53,19 @@ export const Content: FC<TemplateBuilderWorkbenchContentProps> = ({
   );
 };
 
-function Header() {
+function Header({
+  isDraft,
+  onSaveDraft,
+  onPublish,
+  pendingSave,
+  canPublish,
+}: {
+  isDraft: boolean;
+  pendingSave: boolean;
+  canPublish: boolean;
+  onSaveDraft: () => void;
+  onPublish: () => void;
+}) {
   return (
     <Box padding="small">
       <Flex justify="space-between">
@@ -51,8 +74,14 @@ function Header() {
         </Box>
         <Box>
           <Flex direction="row" align="end" gap="xs">
-            <Button size="xs">Save Draft</Button>
-            <Button size="xs">Publish</Button>
+            {isDraft && (
+              <Button size="xs" disabled={pendingSave} onClick={onSaveDraft}>
+                Save Draft
+              </Button>
+            )}
+            <Button size="xs" disabled={!canPublish} onClick={onPublish}>
+              Publish
+            </Button>
           </Flex>
         </Box>
       </Flex>

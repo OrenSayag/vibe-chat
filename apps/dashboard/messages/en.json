@@ -62,7 +62,13 @@
       "name": "Name",
       "category": "Category",
       "language": "Language",
-      "status": "Status"
-    }
+      "status": "Status",
+      "draft": "Draft"
+    },
+    "deleteSelected": "Delete Selected ({count})",
+    "deleteTemplate": "Delete Template",
+    "deleteTemplateConfirmation": "Are you sure you want to delete template {name}?",
+    "deleteMultipleTemplates": "Delete Templates",
+    "deleteMultipleTemplatesConfirmation": "Are you sure you want to delete {count} templates?"
   }
 }

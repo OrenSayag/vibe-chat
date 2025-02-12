@@ -38,6 +38,7 @@ export type WhatsappTemplatesViewProps = {
     onCreateTemplate: () => void;
     onEditTemplate: (template: WhatsappTemplate) => void;
     onDeleteTemplate: (template: WhatsappTemplate) => void;
+    onDeleteMultipleTemplates: (templates: WhatsappTemplate[]) => void;
   };
 };
 

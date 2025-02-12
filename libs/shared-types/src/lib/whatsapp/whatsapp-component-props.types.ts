@@ -23,12 +23,14 @@ export type WhatsappMessageTemplateSelectorProps = {
 
 export type TemplateBuilderWorkbenchContentProps = {
   style?: CSSProperties;
+  isDraft?: boolean;
+  pendingSave?: boolean;
+  canPublish?: boolean;
+  onSaveDraft: () => void;
+  onPublish: () => void;
   headProps: {
     selectedFormat?: WhatsappTemplateComponentFormat;
     onFormatChange: (format: WhatsappTemplateComponentFormat) => void;
-    pendingSave?: boolean;
-    canPublish?: boolean;
-    onSave: (data: WhatsappContentForm, isDraft: boolean) => void;
     value:
       | {
           type: WhatsappTemplateComponentFormat.TEXT;

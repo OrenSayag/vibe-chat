@@ -291,6 +291,9 @@ export type WhatsappTemplate = {
   rejected_reason?: WhatsappTemplateRejectionReason;
   status: WhatsappTemplateStatus;
   sub_category?: WhatsappTemplateCategory;
+
+  // app added fields
+  isDraft?: boolean;
 };
 
 export type WhatsappApiPagination = {

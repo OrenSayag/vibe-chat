@@ -55,8 +55,16 @@ export const i18nStorybookMessagesEn = {
       category: 'Category',
       language: 'Language',
       status: 'Status',
+      draft: 'Draft',
     },
     title: 'My Templates',
     createTemplate: 'Create Template',
+    deleteSelected: 'Delete Selected ({count})',
+    deleteTemplate: 'Delete Template',
+    deleteTemplateConfirmation:
+      'Are you sure you want to delete template {name}?',
+    deleteMultipleTemplates: 'Delete Templates',
+    deleteMultipleTemplatesConfirmation:
+      'Are you sure you want to delete {count} templates?',
   },
 };

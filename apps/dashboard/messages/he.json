@@ -62,7 +62,13 @@
       "name": "שם",
       "category": "קטגוריה",
       "language": "שפה",
-      "status": "סטטוס"
-    }
+      "status": "סטטוס",
+      "draft": "טיוטה"
+    },
+    "deleteSelected": "מחק נבחרים ({count})",
+    "deleteTemplate": "מחק תבנית",
+    "deleteTemplateConfirmation": "האם אתה בטוח שברצונך למחוק את התבנית {name}?",
+    "deleteMultipleTemplates": "מחק תבניות",
+    "deleteMultipleTemplatesConfirmation": "האם אתה בטוח שברצונך למחוק {count} תבניות?"
   }
 }

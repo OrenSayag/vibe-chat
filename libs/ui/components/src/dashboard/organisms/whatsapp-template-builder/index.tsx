@@ -1,24 +1,22 @@
 'use client';
+import { WhatsappTemplateBuilderProps } from '@vibe-chat/shared-types';
 import { Box, Button, Divider, Flex, Heading } from '@vibe/core';
-import { WhatsappTemplate } from '@vibe-chat/shared-types';
-import { CSSProperties, FC } from 'react';
 import { ChevronLeft } from 'lucide-react';
-type Props = {
-  style?: CSSProperties;
-  template?: WhatsappTemplate;
-  onGoBack: () => void;
-  onSubmit: {
-    label: string;
-    onClick: () => void;
-  };
-  pendingSubmit?: boolean;
-};
+import { FC } from 'react';
+import { Metadata } from './metadata';
+import { Workbench } from './workbench';
 
-export const WhatsappTemplateBuilder: FC<Props> = ({
+export const WhatsappTemplateBuilder: FC<WhatsappTemplateBuilderProps> = ({
   style = {},
-  template,
+  isNewTemplate,
   onGoBack,
   onSubmit,
+  metadataProps,
+  workbenchProps,
+  pendingSubmit,
+  onPublish,
+  onSaveDraft,
+  canPublish,
 }) => {
   return (
     <>
@@ -27,28 +25,48 @@ export const WhatsappTemplateBuilder: FC<Props> = ({
           ...style,
         }}
       >
-        <Header id={template?.id} submit={onSubmit} onGoBack={onGoBack} />
+        <Header
+          isNewTemplate={isNewTemplate}
+          submit={onSubmit}
+          onGoBack={onGoBack}
+          pendingSubmit={pendingSubmit}
+          isDraft={workbenchProps.contentProps.isDraft}
+          canPublish={canPublish}
+          onSaveDraft={onSaveDraft}
+          onPublish={onPublish}
+        />
         <Divider />
+        {isNewTemplate && <Metadata {...metadataProps} />}
+        {!isNewTemplate && <Workbench {...workbenchProps} />}
       </div>
     </>
   );
 };
 
 function Header({
-  id,
   submit,
   onGoBack,
   pendingSubmit,
+  isNewTemplate,
+  isDraft,
+  canPublish,
+  onSaveDraft,
+  onPublish,
 }: {
-  id?: string;
+  isNewTemplate?: boolean;
   submit: {
     label: string;
     onClick: () => void;
   };
   onGoBack: () => void;
   pendingSubmit?: boolean;
+  isDraft?: boolean;
+  pendingSave?: boolean;
+  canPublish?: boolean;
+  onSaveDraft?: () => void;
+  onPublish?: () => void;
 }) {
-  const title = id ? 'Edit Template' : 'Create Template';
+  const title = isNewTemplate ? 'Create Template' : 'Edit Template';
   return (
     <Box padding={'medium'}>
       <Flex justify={'space-between'} align={'center'}>
@@ -58,9 +76,22 @@ function Header({
           </Button>
           <Heading type="h2">{title}</Heading>
         </Flex>
-        <Button onClick={submit.onClick} loading={pendingSubmit}>
-          {submit.label}
-        </Button>
+        <Flex gap={'small'}>
+          {(isDraft || isNewTemplate) && (
+            <Button size="small" disabled={pendingSubmit} onClick={onSaveDraft}>
+              {isNewTemplate ? 'Continue' : 'Save draft'}
+            </Button>
+          )}
+          {!isNewTemplate && (
+            <Button
+              size="small"
+              disabled={!canPublish || pendingSubmit}
+              onClick={onPublish}
+            >
+              Publish
+            </Button>
+          )}
+        </Flex>
       </Flex>
     </Box>
   );

@@ -28,11 +28,11 @@ export default function WhatsappLayout({
   const pathname = usePathname();
   const t = useTranslations('WhatsappIntegrationTemplate');
 
-  const isCreateTemplate = pathname.endsWith('/create-template');
+  const isTemplateEditor = pathname.includes('/template/');
 
   return (
     <div>
-      {!isCreateTemplate && (
+      {!isTemplateEditor && (
         <>
           <div>
             {tabs.map((tab) => (

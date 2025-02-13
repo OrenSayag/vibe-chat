@@ -1,34 +1,11 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import {
   ListItem as IListItem,
+  WhatsappTemplateBuilderMetadataProps,
   WhatsappTemplateCategory,
 } from '@vibe-chat/shared-types';
-import {
-  Dropdown,
-  Flex,
-  Heading,
-  List,
-  ListItem,
-  Text,
-  TextField
-} from '@vibe/core';
+import { Dropdown, Flex, Heading, Text, TextField } from '@vibe/core';
 import { CSSProperties, FC } from 'react';
-import { Controller, useForm } from 'react-hook-form';
 import * as z from 'zod';
-
-type Props = {
-  style?: CSSProperties;
-  categories: IListItem<WhatsappTemplateCategory>[];
-  onSubmit: (metadata: IMetadata) => void;
-  pendingSubmit?: boolean;
-  languages: IListItem[];
-};
-
-type IMetadata = {
-  category: WhatsappTemplateCategory;
-  name: string;
-  languages: IListItem[];
-};
 
 const metadataSchema = z.object({
   category: z.nativeEnum(WhatsappTemplateCategory, {
@@ -45,30 +22,14 @@ const sectionWrapperStyle: CSSProperties = {
   marginBottom: '.5em',
 };
 
-export const Metadata: FC<Props> = ({
+export const Metadata: FC<WhatsappTemplateBuilderMetadataProps> = ({
   style = {},
   categories,
-  onSubmit,
-  pendingSubmit = false,
   languages,
+  formData,
+  onChange,
+  errors = {},
 }) => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IMetadata>({
-    resolver: zodResolver(metadataSchema),
-    defaultValues: {
-      category: undefined,
-      name: '',
-      languages: [],
-    },
-  });
-
-  const onSubmitForm = handleSubmit((data) => {
-    onSubmit(data);
-  });
-
   const containerStyle: CSSProperties = {
     maxWidth: '400px',
     margin: '0 auto',
@@ -77,59 +38,39 @@ export const Metadata: FC<Props> = ({
 
   return (
     <div style={containerStyle}>
-      <form onSubmit={onSubmitForm} style={style}>
-        <Flex direction="column" gap="small">
-          <Controller
-            name="category"
-            control={control}
-            render={({ field }) => (
-              <Category
-                style={{
-                  width: '100%',
-                  ...sectionWrapperStyle,
-                }}
-                categories={categories}
-                selectedCategory={field.value}
-                onSelect={field.onChange}
-                error={errors.category?.message}
-              />
-            )}
-          />
+      <Flex direction="column" gap="small">
+        <Category
+          style={{
+            width: '100%',
+            ...sectionWrapperStyle,
+          }}
+          categories={categories}
+          selectedCategory={formData.category}
+          onSelect={onChange.category}
+          error={errors.category}
+        />
 
-          <Controller
-            name="name"
-            control={control}
-            render={({ field }) => (
-              <Name
-                style={{
-                  width: '100%',
-                  ...sectionWrapperStyle,
-                }}
-                name={field.value}
-                onChange={field.onChange}
-                error={errors.name?.message}
-              />
-            )}
-          />
+        <Name
+          style={{
+            width: '100%',
+            ...sectionWrapperStyle,
+          }}
+          name={formData.name}
+          onChange={onChange.name}
+          error={errors.name}
+        />
 
-          <Controller
-            name="languages"
-            control={control}
-            render={({ field }) => (
-              <Languages
-                style={{
-                  width: '100%',
-                  ...sectionWrapperStyle,
-                }}
-                languages={languages}
-                onChange={field.onChange}
-                selectedLanguages={field.value}
-                error={errors.languages?.message}
-              />
-            )}
-          />
-        </Flex>
-      </form>
+        <Languages
+          style={{
+            width: '100%',
+            ...sectionWrapperStyle,
+          }}
+          languages={languages}
+          onChange={onChange.languages}
+          selectedLanguages={formData.languages}
+          error={errors.languages}
+        />
+      </Flex>
     </div>
   );
 };
@@ -155,17 +96,13 @@ function Category({
       <Text type="text2" color="secondary" style={{ marginBottom: '1em' }}>
         Select a template category
       </Text>
-      <List style={{ width: '100%', marginBottom: '1em' }}>
-        {categories.map((category) => (
-          <ListItem
-            selected={selectedCategory === category.value}
-            key={category.value}
-            onClick={() => onSelect(category.value)}
-          >
-            <Text>{category.label}</Text>
-          </ListItem>
-        ))}
-      </List>
+      <Dropdown
+        clearable={false}
+        value={categories.find((c) => c.value === selectedCategory)}
+        searchable={false}
+        options={categories}
+        onChange={(selected) => onSelect(selected.value)}
+      />
       <ErrorMessage error={error} />
     </div>
   );
@@ -222,7 +159,7 @@ function Languages({
         value={selectedLanguages}
         searchable={false}
         options={languages}
-        onChange={(selected) => onChange(selected)}
+        onChange={onChange}
         multi
       />
       <ErrorMessage error={error} />

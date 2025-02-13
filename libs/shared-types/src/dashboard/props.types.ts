@@ -1,7 +1,12 @@
-import { ReactNode } from 'react';
+import { ReactNode, CSSProperties } from 'react';
 import { OrganizationInfoSchema } from '../lib/subscription.types';
 import { OrganizationUserRole } from './organization.types';
-import { WhatsappTemplate } from '../lib/whatsapp/whatsapp.types';
+import {
+  WhatsappTemplate,
+  WhatsappTemplateCategory,
+} from '../lib/whatsapp/whatsapp.types';
+import { ListItem } from '../lib/app.types';
+import { WhatappTemplateBuilderWorkbenchProps } from '../lib/whatsapp/whatsapp-component-props.types';
 
 export type MainLayoutProps = {
   className?: string;
@@ -46,4 +51,46 @@ export type WhatsappIntegrationTemplateProps = {
   connectionViewProps: WhatsappConnectionViewProps;
   templatesViewProps: WhatsappTemplatesViewProps;
   error?: string;
+};
+export type WhatsappTemplateBuilderMetadata = {
+  category: WhatsappTemplateCategory;
+  name: string;
+  languages: ListItem[];
+};
+
+
+export type WhatsappTemplateBuilderMetadataProps = {
+  categories: ListItem<WhatsappTemplateCategory>[];
+  languages: ListItem[];
+  style?: CSSProperties;
+  formData: WhatsappTemplateBuilderMetadata;
+  onSubmit: (data: WhatsappTemplateBuilderMetadata) => void;
+  pendingSubmit?: boolean;
+  onChange: {
+    category: (category: WhatsappTemplateCategory) => void;
+    name: (name: string) => void;
+    languages: (languages: ListItem[]) => void;
+  };
+  errors?: {
+    category?: string;
+    name?: string;
+    languages?: string;
+  };
+};
+
+export type WhatsappTemplateBuilderProps = {
+  style?: CSSProperties;
+  metadataProps: WhatsappTemplateBuilderMetadataProps;
+  workbenchProps: WhatappTemplateBuilderWorkbenchProps;
+  pendingSave?: boolean;
+  canPublish?: boolean;
+  onSaveDraft: () => void;
+  onPublish: () => void;
+  isNewTemplate?: boolean;
+  onGoBack: () => void;
+  onSubmit: {
+    label: string;
+    onClick: () => void;
+  };
+  pendingSubmit?: boolean;
 };

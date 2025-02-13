@@ -24,10 +24,6 @@ export type WhatsappMessageTemplateSelectorProps = {
 export type TemplateBuilderWorkbenchContentProps = {
   style?: CSSProperties;
   isDraft?: boolean;
-  pendingSave?: boolean;
-  canPublish?: boolean;
-  onSaveDraft: () => void;
-  onPublish: () => void;
   headProps: {
     selectedFormat?: WhatsappTemplateComponentFormat;
     onFormatChange: (format: WhatsappTemplateComponentFormat) => void;
@@ -80,10 +76,9 @@ export type TemplateBuilderWorkbenchContentProps = {
   };
 };
 
-export type TemplateBuilderWorkbenchProps = {
+export type WhatappTemplateBuilderWorkbenchProps = {
   style?: CSSProperties;
   categories: ListItem<WhatsappTemplateCategory>[];
-  template?: WhatsappTemplate;
   localesProps: {
     onChange: (locale: string) => void;
     selectedLocale: Locale;

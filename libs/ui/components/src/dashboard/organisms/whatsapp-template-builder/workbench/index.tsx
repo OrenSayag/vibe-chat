@@ -4,12 +4,11 @@ import { Content } from './content';
 import { Header } from './header';
 import { Locales } from './locales';
 import { Preview } from './preview';
-import { TemplateBuilderWorkbenchProps } from '@vibe-chat/shared-types';
+import { WhatappTemplateBuilderWorkbenchProps } from '@vibe-chat/shared-types';
 
-export const Workbench: FC<TemplateBuilderWorkbenchProps> = ({
+export const Workbench: FC<WhatappTemplateBuilderWorkbenchProps> = ({
   style = {},
   categories,
-  template,
   localesProps,
   contentProps,
   headerProps,

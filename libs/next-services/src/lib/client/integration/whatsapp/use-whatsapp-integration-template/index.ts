@@ -26,11 +26,12 @@ export const useWhatsappIntegrationTemplate = ({
         templates,
         onCreateTemplate: () => {
           router.push(
-            `/dashboard/${subscriptionId}/integration/whatsapp/create-template`
+            `/dashboard/${subscriptionId}/integration/whatsapp/template/new`
           );
         },
         onEditTemplate: () => {},
         onDeleteTemplate: () => {},
+        onDeleteMultipleTemplates: () => {},
       },
     },
   };

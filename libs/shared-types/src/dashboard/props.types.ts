@@ -64,8 +64,6 @@ export type WhatsappTemplateBuilderMetadataProps = {
   languages: ListItem[];
   style?: CSSProperties;
   formData: WhatsappTemplateBuilderMetadata;
-  onSubmit: (data: WhatsappTemplateBuilderMetadata) => void;
-  pendingSubmit?: boolean;
   onChange: {
     category: (category: WhatsappTemplateCategory) => void;
     name: (name: string) => void;

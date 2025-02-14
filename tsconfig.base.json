@@ -17,6 +17,7 @@
     "baseUrl": ".",
     "paths": {
       "@vibe-chat/components": ["libs/ui/components/src/index.ts"],
+      "@vibe-chat/config": ["libs/config/src/index.ts"],
       "@vibe-chat/db": ["libs/db/src/index.ts"],
       "@vibe-chat/monday": ["libs/monday/src/index.ts"],
       "@vibe-chat/next-services": ["libs/next-services/src/index.ts"],

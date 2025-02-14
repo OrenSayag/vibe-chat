@@ -3,6 +3,7 @@ import {
   Message,
   OrganizationUserRole,
   SubscriptionInfo,
+  WhatsappTemplate,
 } from '@vibe-chat/shared-types';
 import {
   integer,
@@ -63,6 +64,16 @@ export const subscriptionMessages = pgTable('subscription_messages', {
     .notNull(),
   message: json('info').$type<Message>().notNull(),
 });
+
+export const subscriptionTemplateDrafts = pgTable(
+  'subscriptions_template_drafts',
+  {
+    id: serial('id').primaryKey(),
+    createdAt: timestamp('created_at').defaultNow(),
+    updatedAt: timestamp('updated_at').$onUpdate(() => new Date()),
+    template: json('template').$type<WhatsappTemplate>().notNull(),
+  }
+);
 
 export const users = pgTable('user', {
   id: text('id')

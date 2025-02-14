@@ -1,14 +1,22 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import {
   BackendBaseResponse,
+  GetTemplateDraftResponse,
+  GetTemplateDraftsResponse,
   GetTemplatesResponse,
   WhatsappWebhook as IWhatsappWebhook,
+  SaveTemplateDraftResponse,
+  saveTemplateDraftSchema,
+  WhatsappTemplate,
 } from '@vibe-chat/shared-types';
-import { WhatsappService } from './whatsapp.service';
+import { createZodDto } from 'nestjs-zod';
 import { WhatsappWebhook } from '../../decorators/whatsapp-webhook.decorator';
 import { EventsService } from '../events/events.service';
-import { handleWebhook } from './methods/handle-webhook';
 import { getTemplates } from './methods/get-templates';
+import { handleWebhook } from './methods/handle-webhook';
+import { WhatsappService } from './whatsapp.service';
+
+class SaveTemplateDraftDto extends createZodDto(saveTemplateDraftSchema) {}
 
 @Controller('whatsapp')
 export class WhatsappController {
@@ -48,6 +56,39 @@ export class WhatsappController {
       success: true,
       message: 'Successfully retrieved templates',
       data: templates.templates,
+    };
+  }
+  @Get('template-draft/:name')
+  async getTemplateDraft(
+    @Param('name') name: string
+  ): Promise<GetTemplateDraftResponse> {
+    const result = await this.whatsappService.getTemplateDraft(name);
+    return {
+      success: true,
+      message: 'Template draft retrieved successfully',
+      data: result.template,
+    };
+  }
+  @Get('template-drafts')
+  async getTemplateDrafts(): Promise<GetTemplateDraftsResponse> {
+    const result = await this.whatsappService.getTemplateDrafts();
+    return {
+      success: true,
+      message: 'Template drafts retrieved successfully',
+      data: result.templates,
+    };
+  }
+  @Post('template-draft')
+  async saveTemplateDraft(
+    @Body() input: SaveTemplateDraftDto
+  ): Promise<SaveTemplateDraftResponse> {
+    const { id } = await this.whatsappService.saveTemplateDraft({
+      ...input.template,
+    } as unknown as WhatsappTemplate);
+    return {
+      success: true,
+      message: 'Template draft saved successfully',
+      data: { id },
     };
   }
 }

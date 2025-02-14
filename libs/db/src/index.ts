@@ -18,3 +18,6 @@ export * from './config';
 export * from './schema';
 export * from './methods/subscription/create-media';
 export * from './methods/users/get-user-default-subscription';
+export * from './methods/whatsapp-template-drafts/get-template-drafts';
+export * from './methods/whatsapp-template-drafts/save-template-draft';
+export * from './methods/whatsapp-template-drafts/get-template-draft';

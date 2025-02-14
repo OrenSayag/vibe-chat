@@ -1,12 +1,10 @@
 import {
-  Locale,
-  localeOriginalNameMap,
-  locales,
   WhatsappTemplate,
-  WhatsappTemplateBuilderProps,
-  WhatsappTemplateCategory,
-  whatsappTemplateCategoryTranslations,
+  WhatsappTemplateBuilderProps
 } from '@vibe-chat/shared-types';
+import { useMetadata } from './methods/use-metadata';
+import { useWorkbench } from './methods/use-workbench';
+import { getConsts } from './utils';
 
 type Output = WhatsappTemplateBuilderProps;
 
@@ -16,43 +14,17 @@ type Input = {
 
 export const useWhatsappTemplateEditor = ({ template }: Input): Output => {
   const { categories, languages } = getConsts();
+  const metadataProps = useMetadata({ template, categories, languages });
+  const workbenchProps = useWorkbench({ template, categories });
 
   return {
     isNewTemplate: !template,
-    metadataProps: {
-      categories,
-      languages,
-      onSubmit: () => {},
-      pendingSubmit: false,
-    },
-    workbenchProps: {
-      onSubmit: () => {},
-      pendingSubmit: false,
-      categories,
-      localesProps: {
-        locales: Object.values(Locale),
-        selectedLocale: defaultLocale,
-        onChange: () => {},
-        onCreateLocale: () => {},
-      },
-    },
+    metadataProps,
+    workbenchProps,
     onGoBack: () => {},
-    onSubmit: () => {},
+    onSubmit: {
+      label: template ? 'Save Changes' : 'Create Template',
+      onClick: () => {},
+    },
   };
 };
-
-const getConsts = () => ({
-  categories: Object.values(WhatsappTemplateCategory).map((category) => ({
-    id: category,
-    label:
-      whatsappTemplateCategoryTranslations[
-        category as WhatsappTemplateCategory
-      ][Locale.ENGLISH as Locale],
-    value: category,
-  })),
-  languages: locales.map((locale) => ({
-    id: locale,
-    label: localeOriginalNameMap[locale],
-    value: locale,
-  })),
-});

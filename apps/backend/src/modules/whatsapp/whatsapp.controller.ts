@@ -1,12 +1,23 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  Delete,
+} from '@nestjs/common';
 import {
   BackendBaseResponse,
   GetTemplateDraftResponse,
   GetTemplateDraftsResponse,
   GetTemplatesResponse,
+  GetTemplateResponse,
   WhatsappWebhook as IWhatsappWebhook,
   SaveTemplateDraftResponse,
+  SaveTemplateResponse,
   saveTemplateDraftSchema,
+  saveTemplateSchema,
   WhatsappTemplate,
 } from '@vibe-chat/shared-types';
 import { createZodDto } from 'nestjs-zod';
@@ -15,8 +26,11 @@ import { EventsService } from '../events/events.service';
 import { getTemplates } from './methods/get-templates';
 import { handleWebhook } from './methods/handle-webhook';
 import { WhatsappService } from './whatsapp.service';
+import { getTemplate } from './methods/get-template';
+import { deleteTemplate } from './methods/delete-template';
 
 class SaveTemplateDraftDto extends createZodDto(saveTemplateDraftSchema) {}
+class SaveTemplateDto extends createZodDto(saveTemplateSchema) {}
 
 @Controller('whatsapp')
 export class WhatsappController {
@@ -89,6 +103,64 @@ export class WhatsappController {
       success: true,
       message: 'Template draft saved successfully',
       data: { id },
+    };
+  }
+  @Get('template/:subscriptionId/:templateName')
+  async getTemplate(
+    @Param('subscriptionId') subscriptionId: string,
+    @Param('templateName') templateName: string
+  ): Promise<GetTemplateResponse> {
+    const template = await getTemplate({
+      subscriptionId,
+      templateName,
+    });
+    return {
+      success: true,
+      message: 'Successfully retrieved template',
+      data: template,
+    };
+  }
+  @Post('template')
+  async saveTemplate(
+    @Body() input: SaveTemplateDto
+  ): Promise<SaveTemplateResponse> {
+    const result = await this.whatsappService.saveTemplate(input);
+    return {
+      success: true,
+      message: 'Template saved successfully',
+      data: result,
+    };
+  }
+  @Delete('template/:subscriptionId/:templateId')
+  async deleteTemplate(
+    @Param('subscriptionId') subscriptionId: string,
+    @Param('templateId') templateId: string
+  ): Promise<BackendBaseResponse<undefined>> {
+    await deleteTemplate({
+      subscriptionId,
+      type: 'id',
+      templateId,
+    });
+    return {
+      success: true,
+      message: 'Template deleted successfully',
+      data: undefined,
+    };
+  }
+  @Delete('template/:subscriptionId/name/:templateName')
+  async deleteTemplateByName(
+    @Param('subscriptionId') subscriptionId: string,
+    @Param('templateName') templateName: string
+  ): Promise<BackendBaseResponse<undefined>> {
+    await deleteTemplate({
+      subscriptionId,
+      type: 'name',
+      templateName,
+    });
+    return {
+      success: true,
+      message: 'Template deleted successfully',
+      data: undefined,
     };
   }
 }

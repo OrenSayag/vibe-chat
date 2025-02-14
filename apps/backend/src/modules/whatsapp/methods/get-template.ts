@@ -1,28 +1,21 @@
-import { WhatsappCloudStatus, WhatsappTemplate } from '@vibe-chat/shared-types';
+import {
+  WhatsappApiPagination,
+  WhatsappCloudStatus,
+  WhatsappTemplate,
+} from '@vibe-chat/shared-types';
 import { sendRequestToWhatsappGraph } from './send-request-to-whatsapp-graph';
 import { getSubscription } from '../../subscription/methods/get-subscription';
-import { UnauthorizedException } from '@nestjs/common';
-import { WHATSAPP_BUSINESS_ACCOUNT_ID } from '@vibe-chat/config';
+import { UnauthorizedException, NotFoundException } from '@nestjs/common';
 
-type Input = (
-  | {
-      templateId: string;
-      type: 'id';
-    }
-  | {
-      type: 'name';
-      templateName: string;
-    }
-) & {
+type Input = {
   subscriptionId: string;
+  templateName: string;
 };
 
-type Output = {
-  template: WhatsappTemplate;
-};
-
-export const getTemplate = async (input: Input): Promise<Output> => {
-  const { subscriptionId, type } = input;
+export const getTemplate = async ({
+  subscriptionId,
+  templateName,
+}: Input): Promise<WhatsappTemplate> => {
   const {
     info: {
       integrations: { whatsappCloudInfo },
@@ -37,13 +30,21 @@ export const getTemplate = async (input: Input): Promise<Output> => {
   }
 
   const res = await sendRequestToWhatsappGraph({
-    path: `${WHATSAPP_BUSINESS_ACCOUNT_ID}/message_templates?${
-      type === 'id'
-        ? `hsm_id=${input.templateId}`
-        : `name=${input.templateName}`
-    }`,
+    path: `${whatsappCloudInfo.whatsappBusinessAccountId}/message_templates?name=${templateName}`,
+    options: {
+      method: 'GET',
+    },
   });
 
-  const template: WhatsappTemplate = await res.json();
-  return { template };
+  const data: GetTemplateResBody = await res.json();
+
+  if (!data.data.length) {
+    throw new NotFoundException('Template not found');
+  }
+
+  return data.data[0];
 };
+
+type GetTemplateResBody = {
+  data: WhatsappTemplate[];
+} & WhatsappApiPagination;

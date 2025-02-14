@@ -27,3 +27,23 @@ export const saveTemplateDraftSchema = z.object({
 });
 
 export type SaveTemplateDraftRequest = z.infer<typeof saveTemplateDraftSchema>;
+
+export type GetTemplateResponse = BackendBaseResponse<WhatsappTemplate>;
+
+export type SaveTemplateResponse = BackendBaseResponse<{
+  id: string;
+  name: string;
+  status: WhatsappTemplateStatus;
+}>;
+
+export const saveTemplateSchema = z.object({
+  template: z.object({
+    name: z.string(),
+    language: z.string(),
+    category: z.nativeEnum(WhatsappTemplateCategory),
+    components: z.array(whatsappTemplateComponentSchema),
+  }),
+  subscriptionId: z.string(),
+});
+
+export type SaveTemplateRequest = z.infer<typeof saveTemplateSchema>;

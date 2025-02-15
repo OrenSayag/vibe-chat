@@ -3,9 +3,15 @@ import { db } from '../../config';
 import { subscriptionTemplateDrafts } from '../../schema';
 import { WhatsappTemplate } from '@vibe-chat/shared-types';
 
-export async function saveTemplateDraft(
-  template: WhatsappTemplate
-): Promise<number> {
+type Input = {
+  template: WhatsappTemplate;
+  subscriptionId: string;
+};
+
+export async function saveTemplateDraft({
+  template,
+  subscriptionId,
+}: Input): Promise<number> {
   const existingDraft = await db
     .select()
     .from(subscriptionTemplateDrafts)
@@ -34,6 +40,7 @@ export async function saveTemplateDraft(
       .insert(subscriptionTemplateDrafts)
       .values({
         template,
+        subscriptionId,
       })
       .returning({ id: subscriptionTemplateDrafts.id });
     id = result[0].id;

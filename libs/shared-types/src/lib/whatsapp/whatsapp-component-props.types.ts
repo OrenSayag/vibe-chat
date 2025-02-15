@@ -80,7 +80,7 @@ export type WhatappTemplateBuilderWorkbenchProps = {
   style?: CSSProperties;
   categories: ListItem<WhatsappTemplateCategory>[];
   localesProps: {
-    onChange: (locale: string) => void;
+    onChange: (locale: Locale) => void;
     selectedLocale: Locale;
     locales: Locale[];
     onCreateLocale: (locale: Locale) => void;

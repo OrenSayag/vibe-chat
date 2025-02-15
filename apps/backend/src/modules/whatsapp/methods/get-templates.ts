@@ -26,6 +26,9 @@ export const getTemplates = async ({
     type: 'subscriptionId',
     id: subscriptionId,
   });
+  console.log({
+    whatsappCloudInfo,
+  });
   if (whatsappCloudInfo?.status !== WhatsappCloudStatus.SIGNED) {
     throw new UnauthorizedException();
   }

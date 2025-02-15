@@ -58,7 +58,6 @@ export type WhatsappTemplateBuilderMetadata = {
   languages: ListItem[];
 };
 
-
 export type WhatsappTemplateBuilderMetadataProps = {
   categories: ListItem<WhatsappTemplateCategory>[];
   languages: ListItem[];
@@ -91,4 +90,5 @@ export type WhatsappTemplateBuilderProps = {
     onClick: () => void;
   };
   pendingSubmit?: boolean;
+  canSave?: boolean;
 };

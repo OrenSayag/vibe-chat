@@ -22,7 +22,6 @@ export const saveTemplateDraftSchema = z.object({
     language: z.string(),
     category: z.nativeEnum(WhatsappTemplateCategory),
     components: z.array(whatsappTemplateComponentSchema),
-    status: z.nativeEnum(WhatsappTemplateStatus),
   }),
 });
 

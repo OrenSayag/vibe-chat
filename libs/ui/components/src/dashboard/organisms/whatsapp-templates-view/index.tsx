@@ -19,10 +19,13 @@ import {
 import {
   WhatsappTemplate,
   WhatsappTemplatesViewProps,
+  NEW_WHATSAPP_TEMPLATE_ID,
 } from '@vibe-chat/shared-types';
-import { Pencil, Trash2 } from 'lucide-react';
+import { Pencil, Plus, Trash2 } from 'lucide-react';
 import React, { CSSProperties, FC, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 type Props = WhatsappTemplatesViewProps & {
   style?: CSSProperties;
 };
@@ -43,8 +46,6 @@ export const WhatsappTemplatesView: FC<Props> = ({ style, listProps }) => {
 
 type TemplatesListProps = {
   templates: WhatsappTemplate[];
-  onCreateTemplate: () => void;
-  onEditTemplate: (template: WhatsappTemplate) => void;
   onDeleteTemplate: (template: WhatsappTemplate) => void;
   onDeleteMultipleTemplates: (templates: WhatsappTemplate[]) => void;
 };
@@ -86,8 +87,6 @@ const DeleteConfirmationModal: FC<DeleteModalProps> = ({
 
 function TemplatesList({
   templates,
-  onCreateTemplate,
-  onEditTemplate,
   onDeleteTemplate,
   onDeleteMultipleTemplates,
 }: TemplatesListProps) {
@@ -143,6 +142,8 @@ function TemplatesList({
     setShowMultiDeleteModal(false);
   };
 
+  const { subscriptionId } = useParams();
+
   return (
     <>
       <div style={{ padding: '1em' }}>
@@ -160,9 +161,18 @@ function TemplatesList({
                   {t('deleteSelected', { count: selectedTemplates.length })}
                 </Button>
               )}
-              <Button size="medium" onClick={onCreateTemplate}>
-                {t('createTemplate')}
-              </Button>
+              <Link
+                href={`/dashboard/${subscriptionId}/integration/whatsapp/template/${NEW_WHATSAPP_TEMPLATE_ID}`}
+              >
+                <Button
+                  size="medium"
+                  kind="primary"
+                  style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+                >
+                  <Plus size={16} />
+                  <span>{t('createTemplate')}</span>
+                </Button>
+              </Link>
             </Flex>
           </Flex>
         </Box>
@@ -203,17 +213,13 @@ function TemplatesList({
                 </TableCell>
                 <TableCell>
                   <Flex gap="small">
-                    <Button
-                      size="small"
-                      kind="secondary"
-                      onClick={() =>
-                        onEditTemplate(
-                          templates.find((t) => t.id === rowItem.id)!
-                        )
-                      }
+                    <Link
+                      href={`/dashboard/${subscriptionId}/integration/whatsapp/template/${rowItem.id}`}
                     >
-                      <Pencil size={16} />
-                    </Button>
+                      <Button size="small" kind="secondary">
+                        <Pencil size={16} />
+                      </Button>
+                    </Link>
                     <Button
                       size="small"
                       kind="secondary"

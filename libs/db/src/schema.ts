@@ -72,6 +72,9 @@ export const subscriptionTemplateDrafts = pgTable(
     createdAt: timestamp('created_at').defaultNow(),
     updatedAt: timestamp('updated_at').$onUpdate(() => new Date()),
     template: json('template').$type<WhatsappTemplate>().notNull(),
+    subscriptionId: text('subscription_id')
+      .references(() => subscriptions.id)
+      .notNull(),
   }
 );
 

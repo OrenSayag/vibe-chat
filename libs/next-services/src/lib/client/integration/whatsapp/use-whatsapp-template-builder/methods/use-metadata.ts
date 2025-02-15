@@ -28,10 +28,12 @@ export const useMetadata = ({
   template,
   categories,
   languages,
-}: UseMetadataInput): WhatsappTemplateBuilderMetadataProps => {
+}: UseMetadataInput): WhatsappTemplateBuilderMetadataProps & {
+  canSave: boolean;
+} => {
   const {
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     setValue,
     watch,
   } = useForm<FormData>({
@@ -84,5 +86,6 @@ export const useMetadata = ({
       name: errors.name?.message,
       languages: errors.languages?.message,
     },
+    canSave: isValid,
   };
 };

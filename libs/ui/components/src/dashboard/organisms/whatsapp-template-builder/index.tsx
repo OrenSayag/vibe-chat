@@ -1,6 +1,6 @@
 'use client';
 import { WhatsappTemplateBuilderProps } from '@vibe-chat/shared-types';
-import { Box, Button, Divider, Flex, Heading } from '@vibe/core';
+import { Box, Button, Divider, Flex, Heading, Toast } from '@vibe/core';
 import { ChevronLeft } from 'lucide-react';
 import { FC } from 'react';
 import { Metadata } from './metadata';
@@ -17,6 +17,7 @@ export const WhatsappTemplateBuilder: FC<WhatsappTemplateBuilderProps> = ({
   onPublish,
   onSaveDraft,
   canPublish,
+  canSave,
 }) => {
   return (
     <>
@@ -32,6 +33,7 @@ export const WhatsappTemplateBuilder: FC<WhatsappTemplateBuilderProps> = ({
           pendingSubmit={pendingSubmit}
           isDraft={workbenchProps.contentProps.isDraft}
           canPublish={canPublish}
+          canSave={canSave}
           onSaveDraft={onSaveDraft}
           onPublish={onPublish}
         />
@@ -52,6 +54,7 @@ function Header({
   canPublish,
   onSaveDraft,
   onPublish,
+  canSave,
 }: {
   isNewTemplate?: boolean;
   submit: {
@@ -65,6 +68,7 @@ function Header({
   canPublish?: boolean;
   onSaveDraft?: () => void;
   onPublish?: () => void;
+  canSave?: boolean;
 }) {
   const title = isNewTemplate ? 'Create Template' : 'Edit Template';
   return (
@@ -78,7 +82,11 @@ function Header({
         </Flex>
         <Flex gap={'small'}>
           {(isDraft || isNewTemplate) && (
-            <Button size="small" disabled={pendingSubmit} onClick={onSaveDraft}>
+            <Button
+              size="small"
+              disabled={pendingSubmit || !canSave}
+              onClick={onSaveDraft}
+            >
               {isNewTemplate ? 'Continue' : 'Save draft'}
             </Button>
           )}

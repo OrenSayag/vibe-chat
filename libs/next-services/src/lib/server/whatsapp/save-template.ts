@@ -10,6 +10,7 @@ type Input = SaveTemplateRequest;
 type Output = SaveTemplateResponse;
 
 export const saveTemplate = async (input: Input): Promise<Output> => {
+  console.log('saveTemplate', input);
   const res = await sendRequestToServer<SaveTemplateResponse['data']>({
     path: 'whatsapp/template',
     options: {
@@ -17,5 +18,6 @@ export const saveTemplate = async (input: Input): Promise<Output> => {
       body: JSON.stringify(input),
     },
   });
+  console.log('saveTemplate res', res);
   return res;
 };

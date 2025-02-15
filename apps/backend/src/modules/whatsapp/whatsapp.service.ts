@@ -19,8 +19,8 @@ export class WhatsappService {
     return getTemplateDrafts();
   }
 
-  async saveTemplateDraft(template: WhatsappTemplate) {
-    const { id } = await saveTemplateDraft({ template });
+  async saveTemplateDraft(template: WhatsappTemplate, subscriptionId: string) {
+    const { id } = await saveTemplateDraft({ template, subscriptionId });
     return { id };
   }
 

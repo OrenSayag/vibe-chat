@@ -271,7 +271,7 @@ function IntegrationsLinks({ selectedPath }: { selectedPath: string }) {
   const { subscriptionId } = useParams();
   const integrations = [
     {
-      href: `/dashboard/${subscriptionId}/integration/whatsapp`,
+      href: `/dashboard/${subscriptionId}/integration/whatsapp/`,
       src: Whatsapp,
       alt: 'WhatsApp',
       label: t('WhatsApp'),

@@ -490,3 +490,5 @@ export const whatsappContentFormSchema = z.object({
 });
 
 export type WhatsappContentForm = z.infer<typeof whatsappContentFormSchema>;
+
+export const NEW_WHATSAPP_TEMPLATE_ID = 'new';

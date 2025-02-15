@@ -6,7 +6,7 @@ import { CSSProperties, FC, useEffect, useRef, useState } from 'react';
 
 type Props = {
   style?: CSSProperties;
-  onChange: (locale: string) => void;
+  onChange: (locale: Locale) => void;
   selectedLocale: Locale;
   locales: Locale[];
   onCreateLocale: (locale: Locale) => void;

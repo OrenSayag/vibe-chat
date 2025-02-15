@@ -92,13 +92,15 @@ export class WhatsappController {
       data: result.templates,
     };
   }
-  @Post('template-draft')
+  @Post('template-draft/:subscriptionId')
   async saveTemplateDraft(
+    @Param('subscriptionId') subscriptionId: string,
     @Body() input: SaveTemplateDraftDto
   ): Promise<SaveTemplateDraftResponse> {
-    const { id } = await this.whatsappService.saveTemplateDraft({
-      ...input.template,
-    } as unknown as WhatsappTemplate);
+    const { id } = await this.whatsappService.saveTemplateDraft(
+      input.template as unknown as WhatsappTemplate,
+      subscriptionId
+    );
     return {
       success: true,
       message: 'Template draft saved successfully',

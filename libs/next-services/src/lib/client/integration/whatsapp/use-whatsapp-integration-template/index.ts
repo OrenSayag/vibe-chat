@@ -3,6 +3,7 @@ import {
   WhatsappConnectionViewProps,
   WhatsappIntegrationTemplateProps,
   WhatsappTemplate,
+  NEW_WHATSAPP_TEMPLATE_ID,
 } from '@vibe-chat/shared-types';
 import { useParams } from 'next/navigation';
 
@@ -26,10 +27,14 @@ export const useWhatsappIntegrationTemplate = ({
         templates,
         onCreateTemplate: () => {
           router.push(
-            `/dashboard/${subscriptionId}/integration/whatsapp/template/new`
+            `/dashboard/${subscriptionId}/integration/whatsapp/template/${NEW_WHATSAPP_TEMPLATE_ID}`
           );
         },
-        onEditTemplate: () => {},
+        onEditTemplate: () => {
+          router.push(
+            `/dashboard/${subscriptionId}/integration/whatsapp/template/${NEW_WHATSAPP_TEMPLATE_ID}`
+          );
+        },
         onDeleteTemplate: () => {},
         onDeleteMultipleTemplates: () => {},
       },

@@ -19,3 +19,5 @@ export * from './dashboard/organisms/integration-not-connected-view/provider';
 export * from './dashboard/molecules/header';
 
 export * from './dashboard/templates/whatsapp-integration-template/provider';
+export * from './dashboard/organisms/whatsapp-template-builder/provider';
+export * from './dashboard/providers/toast-provider';

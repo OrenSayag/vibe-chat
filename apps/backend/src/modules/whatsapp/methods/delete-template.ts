@@ -2,7 +2,6 @@ import { WhatsappCloudStatus } from '@vibe-chat/shared-types';
 import { sendRequestToWhatsappGraph } from './send-request-to-whatsapp-graph';
 import { getSubscription } from '../../subscription/methods/get-subscription';
 import { UnauthorizedException } from '@nestjs/common';
-import { WHATSAPP_BUSINESS_ACCOUNT_ID } from '@vibe-chat/config';
 
 type Input = (
   | {
@@ -33,7 +32,7 @@ export const deleteTemplate = async (input: Input): Promise<void> => {
   }
 
   await sendRequestToWhatsappGraph({
-    path: `${WHATSAPP_BUSINESS_ACCOUNT_ID}/message_templates?${
+    path: `${whatsappCloudInfo.whatsappBusinessAccountId}/message_templates?${
       type === 'id'
         ? `hsm_id=${input.templateId}`
         : `name=${input.templateName}`

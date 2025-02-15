@@ -1,3 +1,5 @@
+'use client';
+
 import { FC, useRef, useEffect, useState, forwardRef } from 'react';
 import { cn } from '@vibe-chat/ui-utils';
 import { Box, Flex, Text } from '@vibe/core';

@@ -24,8 +24,6 @@ export const WHATSAPP_BUSINESS_API_VERSION =
 export const WHATSAPP_BUSINESS_API_BASE_URL =
   process.env['WHATSAPP_BUSINESS_API_BASE_URL'] ||
   'https://graph.facebook.com/';
-export const WHATSAPP_BUSINESS_ACCOUNT_ID =
-  process.env['WHATSAPP_BUSINESS_ACCOUNT_ID'] || '';
 
 export const DEV_MONDAY_API_TOKEN = process.env['DEV_MONDAY_API_TOKEN'] || '';
 

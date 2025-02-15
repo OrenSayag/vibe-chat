@@ -1,13 +1,13 @@
 'use client';
 
-import { FC } from 'react';
-import { Navbar } from '../../organisms/navbar';
-import { Divider, Flex } from '@vibe/core';
-import { Header } from '../../molecules/header';
-import { MainLayoutProps } from '@vibe-chat/shared-types';
 import { SocketProvider, useDir } from '@vibe-chat/next-services';
 import { usePathname } from '@vibe-chat/next-services/server';
-
+import { MainLayoutProps } from '@vibe-chat/shared-types';
+import { Divider, Flex } from '@vibe/core';
+import { FC } from 'react';
+import { Header } from '../../molecules/header';
+import { Navbar } from '../../organisms/navbar';
+import { ToastProvider } from '../../providers/toast-provider';
 export const MainLayout: FC<MainLayoutProps> = ({
   className,
   children,
@@ -17,7 +17,7 @@ export const MainLayout: FC<MainLayoutProps> = ({
   const pathname = usePathname();
   const dir = useDir();
   return (
-    <>
+    <ToastProvider>
       <SocketProvider>
         <Flex
           style={{
@@ -60,6 +60,6 @@ export const MainLayout: FC<MainLayoutProps> = ({
           </div>
         </Flex>
       </SocketProvider>
-    </>
+    </ToastProvider>
   );
 };

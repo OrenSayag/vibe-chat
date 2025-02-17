@@ -19,7 +19,6 @@ export const Workbench: FC<WhatappTemplateBuilderWorkbenchProps> = ({
       <div
         style={{
           ...style,
-          height: '100%',
           display: 'flex',
           flexDirection: 'column',
         }}
@@ -39,6 +38,7 @@ export const Workbench: FC<WhatappTemplateBuilderWorkbenchProps> = ({
             gridTemplateRows: 'repeat(12, 1fr)',
             gridTemplateColumns: '3fr 6fr 3fr',
             flexGrow: 1,
+            maxHeight: '100%',
           }}
         >
           <Locales
@@ -55,9 +55,17 @@ export const Workbench: FC<WhatappTemplateBuilderWorkbenchProps> = ({
               height: '100%',
               gridRow: '1 / 13',
               padding: '0 .3em',
+              overflowY: 'scroll',
             }}
           >
-            <Content {...contentProps} />
+            <Content
+              {...contentProps}
+              style={{
+                height: '100%',
+                maxHeight: '100%',
+                overflowY: 'scroll',
+              }}
+            />
           </div>
           <div
             style={{

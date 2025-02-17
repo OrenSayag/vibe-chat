@@ -3,21 +3,12 @@ import { sendRequestToWhatsappGraph } from './send-request-to-whatsapp-graph';
 import { getSubscription } from '../../subscription/methods/get-subscription';
 import { UnauthorizedException } from '@nestjs/common';
 
-type Input = (
-  | {
-      templateId: string;
-      type: 'id';
-    }
-  | {
-      type: 'name';
-      templateName: string;
-    }
-) & {
+type Input = {
+  templateName: string;
   subscriptionId: string;
 };
-
 export const deleteTemplate = async (input: Input): Promise<void> => {
-  const { subscriptionId, type } = input;
+  const { subscriptionId, templateName } = input;
   const {
     info: {
       integrations: { whatsappCloudInfo },
@@ -31,12 +22,10 @@ export const deleteTemplate = async (input: Input): Promise<void> => {
     throw new UnauthorizedException();
   }
 
+  const url = `${whatsappCloudInfo.whatsappBusinessAccountId}/message_templates?name=${templateName}`;
+
   await sendRequestToWhatsappGraph({
-    path: `${whatsappCloudInfo.whatsappBusinessAccountId}/message_templates?${
-      type === 'id'
-        ? `hsm_id=${input.templateId}`
-        : `name=${input.templateName}`
-    }=${type === 'id' ? input.templateId : input.templateName}`,
+    path: url,
     options: {
       method: 'DELETE',
     },

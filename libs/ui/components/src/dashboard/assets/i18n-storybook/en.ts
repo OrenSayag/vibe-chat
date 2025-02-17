@@ -55,7 +55,6 @@ export const i18nStorybookMessagesEn = {
       category: 'Category',
       language: 'Language',
       status: 'Status',
-      draft: 'Draft',
     },
     title: 'My Templates',
     createTemplate: 'Create Template',

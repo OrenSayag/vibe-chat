@@ -15,8 +15,9 @@ import {
   TextField,
 } from '@vibe/core';
 import { Pencil } from 'lucide-react';
-import { CSSProperties, FC, useEffect, useState } from 'react';
+import { CSSProperties, FC, useContext, useEffect, useState } from 'react';
 import { FieldErrors } from 'react-hook-form';
+import { ThemeContext } from '../../../../providers/theme-provider';
 
 type Props = {
   style?: CSSProperties;
@@ -40,6 +41,8 @@ export const Header: FC<Props> = ({
   const [isModalOpen, setModalOpen] = useState(false);
   const [name, setName] = useState(templateName);
 
+  const { theme } = useContext(ThemeContext);
+
   return (
     <Flex justify="space-between" style={{ padding: '1em', ...style }}>
       <Flex align="center" gap="small">
@@ -47,6 +50,7 @@ export const Header: FC<Props> = ({
         <Pencil
           onClick={() => setModalOpen(true)}
           style={{ cursor: 'pointer' }}
+          color={theme === 'light' ? 'black' : 'white'}
           size={16}
         />
         <Text type="text2" style={{ marginLeft: '1em' }}>

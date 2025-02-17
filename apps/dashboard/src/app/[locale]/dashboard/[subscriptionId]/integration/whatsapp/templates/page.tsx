@@ -16,6 +16,6 @@ export default async function TemplatesPage({
     throw new Error('Whatsapp is not signed');
   }
 
-  const props = await getWhatsappIntegrationProps(info, subscriptionId, true);
+  const props = await getWhatsappIntegrationProps(info, subscriptionId);
   return <WhatsappIntegrationTemplateProvider {...props} type="templates" />;
 }

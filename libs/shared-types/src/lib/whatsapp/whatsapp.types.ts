@@ -383,7 +383,7 @@ export const whatsappTemplateComponentSchema = z.union([
   }),
   z.object({
     type: z.literal(WhatsappTemplateComponentType.BODY),
-    text: z.string(),
+    text: z.string().min(1),
   }),
   z.object({
     type: z.literal(WhatsappTemplateComponentType.FOOTER),
@@ -435,6 +435,14 @@ export const whatsappTemplateBuilderMetadataFormSchema = z.object({
   category: z.nativeEnum(WhatsappTemplateCategory),
   components: z.array(whatsappTemplateComponentSchema),
   language: z.string().min(1, 'Language is required'),
+});
+
+export const metadataSchema = z.object({
+  category: z.nativeEnum(WhatsappTemplateCategory, {
+    required_error: 'Category is required',
+  }),
+  name: z.string().min(1, 'Name is required'),
+  languages: z.array(z.any()).min(1, 'At least one language is required'),
 });
 
 export type WhatsappTemplateBuilderMetadataForm = z.infer<

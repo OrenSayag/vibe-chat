@@ -8,16 +8,13 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - monday-chat-db:/var/lib/mysql
+      - vibe-chat-db:/var/lib/mysql
 
   dbgate:
     build: docker
     image: dbgate/dbgate:alpine
     ports:
       - 3100:3000
-
-    volumes:
-      - monday-chat-dbgate-data:/root/.dbgate
 
   minio:
     image: minio/minio
@@ -32,6 +29,5 @@ services:
     command: server /data --console-address ":9001"
 
 volumes:
-  monday-chat-dbgate-data:
-  monday-chat-db:
+  vibe-chat-db:
   minio_data:

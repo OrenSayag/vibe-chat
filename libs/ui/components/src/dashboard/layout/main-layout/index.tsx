@@ -52,6 +52,7 @@ export const MainLayout: FC<MainLayoutProps> = ({
             <div
               style={{
                 flexGrow: 1,
+                overflow: 'auto',
               }}
               dir={dir}
             >

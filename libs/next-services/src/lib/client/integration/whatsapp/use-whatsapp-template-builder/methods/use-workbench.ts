@@ -8,23 +8,44 @@ import {
   WhatsappTemplateComponentFormat,
   WhatsappTemplateComponentType,
 } from '@vibe-chat/shared-types';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 type Input = {
   template?: WhatsappTemplate;
   categories: WhatappTemplateBuilderWorkbenchProps['categories'];
-  onNameChange: (name: string) => void;
   onCategoryChange: (category: WhatsappTemplateCategory) => void;
+  category: WhatsappTemplateCategory;
+  templateName: string;
+  onChangeTemplateName: (name: string) => void;
 };
 
 export const useWorkbench = ({
   template,
   categories,
-  onNameChange,
   onCategoryChange,
-}: Input): WhatappTemplateBuilderWorkbenchProps => {
-  const [selectedLocale, setSelectedLocale] = useState<Locale>(Locale.ENGLISH);
+  category,
+  templateName,
+  onChangeTemplateName,
+}: Input): WhatappTemplateBuilderWorkbenchProps & {
+  locale: Locale;
+} => {
+  const query = useSearchParams();
+  const selectedLocale = useMemo<Locale>(
+    () => (query.get('templateLocale') as Locale) ?? Locale.ENGLISH,
+    [query]
+  );
+  const { replace } = useRouter();
+  const pathname = usePathname();
+  const onChangeLocale = useCallback(
+    (locale: Locale) => {
+      const newQuery = new URLSearchParams(query);
+      newQuery.set('templateLocale', locale);
+      replace(`${pathname}?${newQuery.toString()}`);
+    },
+    [replace, pathname]
+  );
   const [selectedFormat, setSelectedFormat] =
     useState<WhatsappTemplateComponentFormat>(
       WhatsappTemplateComponentFormat.TEXT
@@ -35,32 +56,65 @@ export const useWorkbench = ({
     watch,
     setValue,
     formState: { errors },
-  } = useForm<WhatsappContentForm>({
+  } = useForm<
+    WhatsappContentForm & {
+      locale: Locale;
+    }
+  >({
     defaultValues: {
-      header: {
-        format: WhatsappTemplateComponentFormat.TEXT,
-        text: '',
-        type: WhatsappTemplateComponentType.HEADER,
-      },
-      body: {
-        text: '',
-        type: WhatsappTemplateComponentType.BODY,
-      },
-      footer: {
-        text: '',
-        type: WhatsappTemplateComponentType.FOOTER,
-      },
-      buttons: {
-        type: WhatsappTemplateComponentType.BUTTONS,
-        buttons: [],
-      },
+      header: template
+        ? template.components.find(
+            (component) =>
+              component.type === WhatsappTemplateComponentType.HEADER
+          ) ?? {
+            format: WhatsappTemplateComponentFormat.TEXT,
+            text: '',
+            type: WhatsappTemplateComponentType.HEADER,
+          }
+        : {
+            format: WhatsappTemplateComponentFormat.TEXT,
+            text: '',
+            type: WhatsappTemplateComponentType.HEADER,
+          },
+      body: template
+        ? template.components.find(
+            (component) => component.type === WhatsappTemplateComponentType.BODY
+          ) ?? {
+            text: '',
+            type: WhatsappTemplateComponentType.BODY,
+          }
+        : {
+            text: '',
+            type: WhatsappTemplateComponentType.BODY,
+          },
+      footer: template
+        ? template.components.find(
+            (component) =>
+              component.type === WhatsappTemplateComponentType.FOOTER
+          ) ?? {
+            text: '',
+            type: WhatsappTemplateComponentType.FOOTER,
+          }
+        : {
+            text: '',
+            type: WhatsappTemplateComponentType.FOOTER,
+          },
+      buttons: template
+        ? template.components.find(
+            (component) =>
+              component.type === WhatsappTemplateComponentType.BUTTONS
+          ) ?? {
+            type: WhatsappTemplateComponentType.BUTTONS,
+            buttons: [],
+          }
+        : {
+            type: WhatsappTemplateComponentType.BUTTONS,
+            buttons: [],
+          },
     },
   });
 
   const formData = watch();
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
 
   const handleFormatChange = useCallback(
     (format: WhatsappTemplateComponentFormat) => {
@@ -130,7 +184,7 @@ export const useWorkbench = ({
     localesProps: {
       selectedLocale,
       locales: Object.values(Locale),
-      onChange: setSelectedLocale,
+      onChange: onChangeLocale,
       onCreateLocale: () => {},
     },
     contentProps: {
@@ -158,13 +212,13 @@ export const useWorkbench = ({
       },
     },
     headerProps: {
-      templateName: template?.name ?? '',
-      selectedCategory:
-        template?.category ?? WhatsappTemplateCategory.TRANSACTIONAL,
+      templateName,
+      selectedCategory: category,
       setSelectedCategory: onCategoryChange,
-      onNameChange,
+      onNameChange: onChangeTemplateName,
       errors,
     },
     formData,
+    locale: selectedLocale,
   };
 };

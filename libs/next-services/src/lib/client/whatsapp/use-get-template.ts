@@ -11,7 +11,7 @@ type Input = {
 export const useGetTemplate = ({ subscriptionId, templateName }: Input) => {
   const [error, setError] = useState<string>();
 
-  const { pending, startAction } = useBackendRequest<WhatsappTemplate>({
+  const { pending, startAction } = useBackendRequest<WhatsappTemplate[]>({
     apiCall: () =>
       getTemplate({
         subscriptionId: subscriptionId!,

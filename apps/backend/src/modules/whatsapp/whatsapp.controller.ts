@@ -1,37 +1,37 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
   Query,
-  Delete,
 } from '@nestjs/common';
 import {
   BackendBaseResponse,
-  GetTemplateDraftResponse,
-  GetTemplateDraftsResponse,
-  GetTemplatesResponse,
   GetTemplateResponse,
+  GetTemplatesResponse,
   WhatsappWebhook as IWhatsappWebhook,
-  SaveTemplateDraftResponse,
-  SaveTemplateResponse,
   saveTemplateDraftSchema,
+  SaveTemplateResponse,
   saveTemplateSchema,
-  WhatsappTemplate,
 } from '@vibe-chat/shared-types';
 import { createZodDto } from 'nestjs-zod';
 import { WhatsappWebhook } from '../../decorators/whatsapp-webhook.decorator';
 import { EventsService } from '../events/events.service';
+import { deleteTemplate } from './methods/delete-template';
+import { getTemplate } from './methods/get-template';
 import { getTemplates } from './methods/get-templates';
 import { handleWebhook } from './methods/handle-webhook';
 import { WhatsappService } from './whatsapp.service';
-import { getTemplate } from './methods/get-template';
-import { deleteTemplate } from './methods/delete-template';
-
+import { z } from 'zod';
 class SaveTemplateDraftDto extends createZodDto(saveTemplateDraftSchema) {}
 class SaveTemplateDto extends createZodDto(saveTemplateSchema) {}
-
+class DeleteMultipleTemplatesDto extends createZodDto(
+  z.object({
+    templateIds: z.array(z.string()),
+  })
+) {}
 @Controller('whatsapp')
 export class WhatsappController {
   constructor(
@@ -72,41 +72,6 @@ export class WhatsappController {
       data: templates.templates,
     };
   }
-  @Get('template-draft/:name')
-  async getTemplateDraft(
-    @Param('name') name: string
-  ): Promise<GetTemplateDraftResponse> {
-    const result = await this.whatsappService.getTemplateDraft(name);
-    return {
-      success: true,
-      message: 'Template draft retrieved successfully',
-      data: result.template,
-    };
-  }
-  @Get('template-drafts')
-  async getTemplateDrafts(): Promise<GetTemplateDraftsResponse> {
-    const result = await this.whatsappService.getTemplateDrafts();
-    return {
-      success: true,
-      message: 'Template drafts retrieved successfully',
-      data: result.templates,
-    };
-  }
-  @Post('template-draft/:subscriptionId')
-  async saveTemplateDraft(
-    @Param('subscriptionId') subscriptionId: string,
-    @Body() input: SaveTemplateDraftDto
-  ): Promise<SaveTemplateDraftResponse> {
-    const { id } = await this.whatsappService.saveTemplateDraft(
-      input.template as unknown as WhatsappTemplate,
-      subscriptionId
-    );
-    return {
-      success: true,
-      message: 'Template draft saved successfully',
-      data: { id },
-    };
-  }
   @Get('template/:subscriptionId/:templateName')
   async getTemplate(
     @Param('subscriptionId') subscriptionId: string,
@@ -122,11 +87,15 @@ export class WhatsappController {
       data: template,
     };
   }
-  @Post('template')
+  @Post('template/:subscriptionId')
   async saveTemplate(
-    @Body() input: SaveTemplateDto
+    @Body() input: SaveTemplateDto,
+    @Param('subscriptionId') subscriptionId: string
   ): Promise<SaveTemplateResponse> {
-    const result = await this.whatsappService.saveTemplate(input);
+    const result = await this.whatsappService.saveTemplate(
+      input,
+      subscriptionId
+    );
     return {
       success: true,
       message: 'Template saved successfully',
@@ -140,12 +109,30 @@ export class WhatsappController {
   ): Promise<BackendBaseResponse<undefined>> {
     await deleteTemplate({
       subscriptionId,
-      type: 'id',
-      templateId,
+      templateName: templateId,
     });
     return {
       success: true,
       message: 'Template deleted successfully',
+      data: undefined,
+    };
+  }
+  @Post('template/:subscriptionId/delete-multiple')
+  async deleteMultipleTemplates(
+    @Param('subscriptionId') subscriptionId: string,
+    @Body() input: DeleteMultipleTemplatesDto
+  ): Promise<BackendBaseResponse<undefined>> {
+    await Promise.all(
+      input.templateIds.map((templateId) =>
+        deleteTemplate({
+          subscriptionId,
+          templateName: templateId,
+        })
+      )
+    );
+    return {
+      success: true,
+      message: 'Templates deleted successfully',
       data: undefined,
     };
   }
@@ -156,7 +143,6 @@ export class WhatsappController {
   ): Promise<BackendBaseResponse<undefined>> {
     await deleteTemplate({
       subscriptionId,
-      type: 'name',
       templateName,
     });
     return {

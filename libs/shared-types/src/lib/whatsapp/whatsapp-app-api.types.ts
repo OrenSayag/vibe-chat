@@ -12,7 +12,7 @@ export type GetTemplateDraftResponse =
   BackendBaseResponse<WhatsappTemplate | null>;
 export type GetTemplateDraftsResponse = BackendBaseResponse<WhatsappTemplate[]>;
 export type SaveTemplateDraftResponse = BackendBaseResponse<{
-  id: number;
+  name: string;
 }>;
 
 export const saveTemplateDraftSchema = z.object({
@@ -27,7 +27,7 @@ export const saveTemplateDraftSchema = z.object({
 
 export type SaveTemplateDraftRequest = z.infer<typeof saveTemplateDraftSchema>;
 
-export type GetTemplateResponse = BackendBaseResponse<WhatsappTemplate>;
+export type GetTemplateResponse = BackendBaseResponse<WhatsappTemplate[]>;
 
 export type SaveTemplateResponse = BackendBaseResponse<{
   id: string;
@@ -37,12 +37,11 @@ export type SaveTemplateResponse = BackendBaseResponse<{
 
 export const saveTemplateSchema = z.object({
   template: z.object({
-    name: z.string(),
-    language: z.string(),
+    name: z.string().min(1),
+    language: z.string().min(1),
     category: z.nativeEnum(WhatsappTemplateCategory),
     components: z.array(whatsappTemplateComponentSchema),
   }),
-  subscriptionId: z.string(),
 });
 
 export type SaveTemplateRequest = z.infer<typeof saveTemplateSchema>;

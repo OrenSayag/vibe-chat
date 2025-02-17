@@ -1,31 +1,33 @@
+'use client';
+
+import {
+  NEW_WHATSAPP_TEMPLATE_ID,
+  WhatsappTemplate,
+  WhatsappTemplatesViewProps,
+} from '@vibe-chat/shared-types';
 import {
   Box,
   Button,
   Checkbox,
   Flex,
   Heading,
+  Modal,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
   Table,
   TableBody,
   TableCell,
   TableHeader,
   TableHeaderCell,
   TableRow,
-  Modal,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
   Text,
 } from '@vibe/core';
-import {
-  WhatsappTemplate,
-  WhatsappTemplatesViewProps,
-  NEW_WHATSAPP_TEMPLATE_ID,
-} from '@vibe-chat/shared-types';
 import { Pencil, Plus, Trash2 } from 'lucide-react';
-import React, { CSSProperties, FC, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import React, { CSSProperties, FC, useState } from 'react';
 type Props = WhatsappTemplatesViewProps & {
   style?: CSSProperties;
 };
@@ -48,6 +50,7 @@ type TemplatesListProps = {
   templates: WhatsappTemplate[];
   onDeleteTemplate: (template: WhatsappTemplate) => void;
   onDeleteMultipleTemplates: (templates: WhatsappTemplate[]) => void;
+  pendingDelete?: boolean;
 };
 
 type DeleteModalProps = {
@@ -89,6 +92,7 @@ function TemplatesList({
   templates,
   onDeleteTemplate,
   onDeleteMultipleTemplates,
+  pendingDelete,
 }: TemplatesListProps) {
   const t = useTranslations('WhatsappTemplatesView');
 
@@ -125,8 +129,13 @@ function TemplatesList({
     category: template.category,
     language: template.language,
     status: template.status,
-    draft: template.isDraft ? t('yes') : t('no'),
+    draft: template.isDraft ? t('yes') : undefined,
   }));
+
+  console.log({
+    templates,
+    dataSource,
+  });
 
   const [selectedTemplates, setSelectedTemplates] = useState<string[]>([]);
   const [singleDeleteTemplate, setSingleDeleteTemplate] =
@@ -156,6 +165,7 @@ function TemplatesList({
                   size="medium"
                   kind="primary"
                   onClick={() => setShowMultiDeleteModal(true)}
+                  disabled={pendingDelete}
                 >
                   <Trash2 size={16} />
                   {t('deleteSelected', { count: selectedTemplates.length })}
@@ -168,6 +178,7 @@ function TemplatesList({
                   size="medium"
                   kind="primary"
                   style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+                  disabled={pendingDelete}
                 >
                   <Plus size={16} />
                   <span>{t('createTemplate')}</span>
@@ -192,7 +203,10 @@ function TemplatesList({
           </TableHeader>
           <TableBody>
             {dataSource.map((rowItem) => (
-              <TableRow highlighted={selectedTemplates.includes(rowItem.id)}>
+              <TableRow
+                highlighted={selectedTemplates.includes(rowItem.id)}
+                key={rowItem.id}
+              >
                 <TableCell>
                   <Checkbox
                     checked={selectedTemplates.includes(rowItem.id)}
@@ -214,7 +228,7 @@ function TemplatesList({
                 <TableCell>
                   <Flex gap="small">
                     <Link
-                      href={`/dashboard/${subscriptionId}/integration/whatsapp/template/${rowItem.id}`}
+                      href={`/dashboard/${subscriptionId}/integration/whatsapp/template/${rowItem.name}`}
                     >
                       <Button size="small" kind="secondary">
                         <Pencil size={16} />
@@ -223,6 +237,7 @@ function TemplatesList({
                     <Button
                       size="small"
                       kind="secondary"
+                      loading={pendingDelete}
                       onClick={() => {
                         const template = templates.find(
                           (t) => t.id === rowItem.id

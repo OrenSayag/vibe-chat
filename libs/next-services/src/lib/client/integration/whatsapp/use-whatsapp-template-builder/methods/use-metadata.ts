@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   ListItem,
+  metadataSchema,
   WhatsappTemplate,
   WhatsappTemplateBuilderMetadataProps,
   WhatsappTemplateCategory,
@@ -9,28 +10,18 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 type UseMetadataInput = {
-  template?: WhatsappTemplate;
   categories: ListItem<WhatsappTemplateCategory>[];
   languages: ListItem[];
+  template?: WhatsappTemplate;
 };
-
-const metadataSchema = z.object({
-  category: z.nativeEnum(WhatsappTemplateCategory, {
-    required_error: 'Category is required',
-  }),
-  name: z.string().min(1, 'Name is required'),
-  languages: z.array(z.any()).min(1, 'At least one language is required'),
-});
 
 type FormData = z.infer<typeof metadataSchema>;
 
 export const useMetadata = ({
-  template,
   categories,
   languages,
-}: UseMetadataInput): WhatsappTemplateBuilderMetadataProps & {
-  canSave: boolean;
-} => {
+  template,
+}: UseMetadataInput): WhatsappTemplateBuilderMetadataProps => {
   const {
     handleSubmit,
     formState: { errors, isValid },
@@ -39,17 +30,9 @@ export const useMetadata = ({
   } = useForm<FormData>({
     resolver: zodResolver(metadataSchema),
     defaultValues: {
-      category: template?.category || WhatsappTemplateCategory.MARKETING,
-      name: template?.name || '',
-      languages: languages.find(
-        (language) => language.value === template?.language
-      )
-        ? [
-            languages.find(
-              (language) => language.value === template!.language
-            ) as ListItem,
-          ]
-        : [],
+      name: template?.name,
+      category: template?.category,
+      languages: template?.language ? [template.language] : [],
     },
   });
 
@@ -67,11 +50,6 @@ export const useMetadata = ({
     setValue('languages', selectedLanguages, { shouldValidate: true });
   };
 
-  const onSubmit = handleSubmit((data) => {
-    // This will be implemented by the parent component
-    console.log('Form submitted:', data);
-  });
-
   return {
     categories,
     languages,
@@ -86,6 +64,5 @@ export const useMetadata = ({
       name: errors.name?.message,
       languages: errors.languages?.message,
     },
-    canSave: isValid,
   };
 };

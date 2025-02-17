@@ -62,8 +62,7 @@
       "name": "Name",
       "category": "Category",
       "language": "Language",
-      "status": "Status",
-      "draft": "Draft"
+      "status": "Status"
     },
     "deleteSelected": "Delete Selected ({count})",
     "deleteTemplate": "Delete Template",

@@ -1,3 +1,5 @@
+'use client';
+
 import { WhatsappConnectionViewProps } from 'libs/shared-types/src/dashboard/props.types';
 import { Box, Text } from '@vibe/core';
 import { CSSProperties, FC } from 'react';

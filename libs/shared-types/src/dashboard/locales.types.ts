@@ -13,3 +13,8 @@ export const localeOriginalNameMap: Record<Locale, string> = {
   [Locale.ENGLISH]: 'English',
   [Locale.HEBREW]: 'עברית',
 };
+
+export const whatsappTemplateLocaleMap: Record<Locale, string> = {
+  [Locale.ENGLISH]: 'en',
+  [Locale.HEBREW]: 'he',
+};

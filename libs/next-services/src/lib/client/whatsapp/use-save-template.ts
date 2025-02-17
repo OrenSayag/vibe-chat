@@ -6,7 +6,12 @@ import {
 import { useState } from 'react';
 import { saveTemplate } from '../../server/whatsapp/save-template';
 import { useToast } from '@vibe-chat/components';
-export const useSaveTemplate = () => {
+
+type Input = {
+  subscriptionId: string;
+};
+
+export const useSaveTemplate = ({ subscriptionId }: Input) => {
   const [error, setError] = useState<string>();
 
   const { toast } = useToast();
@@ -15,7 +20,7 @@ export const useSaveTemplate = () => {
     SaveTemplateResponse['data'],
     SaveTemplateRequest
   >({
-    apiCall: saveTemplate,
+    apiCall: (input) => saveTemplate(input, subscriptionId),
     onError() {
       setError('Error saving template');
       toast({

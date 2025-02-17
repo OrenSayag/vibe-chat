@@ -1,11 +1,15 @@
 import { useRouter } from '@vibe-chat/next-services/server';
 import {
+  metadataSchema,
+  NEW_WHATSAPP_TEMPLATE_ID,
+  SaveTemplateRequest,
+  saveTemplateSchema,
   WhatsappTemplate,
   WhatsappTemplateBuilderProps,
 } from '@vibe-chat/shared-types';
 import { useParams } from 'next/navigation';
-import { useMemo } from 'react';
-import { useSaveTemplateDraft } from '../../../whatsapp/use-save-template-draft';
+import { useMemo, useState } from 'react';
+import { useSaveTemplate } from '../../../whatsapp/use-save-template';
 import { useMetadata } from './methods/use-metadata';
 import { useWorkbench } from './methods/use-workbench';
 import { getConsts } from './utils';
@@ -19,27 +23,55 @@ type Input = {
 export const useWhatsappTemplateBuilder = ({ template }: Input): Output => {
   const router = useRouter();
   const { categories, languages } = getConsts();
-  const { canSave, ...metadataProps } = useMetadata({
-    template,
+
+  const metadataProps = useMetadata({
     categories,
     languages,
+    template,
   });
-  const workbenchProps = useWorkbench({
+
+  const { locale, ...workbenchProps } = useWorkbench({
     template,
     categories,
-    onNameChange: metadataProps.onChange.name,
     onCategoryChange: metadataProps.onChange.category,
+    category: metadataProps.formData.category,
+    templateName: metadataProps.formData.name,
+    onChangeTemplateName: metadataProps.onChange.name,
   });
-  const { subscriptionId } = useParams();
-  const isNewTemplate = useMemo(() => !template, [template]);
-  const {
-    error,
-    loading: pendingSaveDraft,
-    saveTemplate: saveTemplateDraft,
-  } = useSaveTemplateDraft({
+  const { subscriptionId, templateName } = useParams();
+  const isNewTemplate = useMemo(
+    () => templateName === NEW_WHATSAPP_TEMPLATE_ID,
+    [templateName]
+  );
+
+  const { saveTemplate, loading: pendingSave } = useSaveTemplate({
     subscriptionId: subscriptionId as string,
-    isNewTemplate,
   });
+
+  const [step, setStep] = useState<'metadata' | 'workbench'>(
+    isNewTemplate ? 'metadata' : 'workbench'
+  );
+
+  const canSave = useMemo(() => {
+    if (step === 'metadata') {
+      return metadataSchema.safeParse(metadataProps.formData).success;
+    }
+
+    const data: SaveTemplateRequest = {
+      template: {
+        name: metadataProps.formData.name,
+        category: metadataProps.formData.category,
+        language: locale,
+        components: Object.values(workbenchProps.formData),
+      },
+    };
+    return saveTemplateSchema.safeParse(data).success;
+  }, [
+    JSON.stringify(metadataProps.formData),
+    JSON.stringify(workbenchProps.formData),
+    step,
+    locale,
+  ]);
 
   return {
     isNewTemplate,
@@ -49,22 +81,22 @@ export const useWhatsappTemplateBuilder = ({ template }: Input): Output => {
       router.push(
         `/dashboard/${subscriptionId}/integration/whatsapp/templates`
       ),
-    onSubmit: {
-      label: template ? 'Save Changes' : 'Create Template',
-      onClick: () => {},
-    },
-    onSaveDraft: () => {
-      if (isNewTemplate) {
-        saveTemplateDraft({
-          category: metadataProps.formData.category,
-          components: Object.values(workbenchProps.formData),
-          language: metadataProps.formData.languages[0].value,
-          name: metadataProps.formData.name,
+    onSave: () => {
+      if (step === 'metadata') {
+        setStep('workbench');
+      } else {
+        saveTemplate({
+          template: {
+            name: metadataProps.formData.name,
+            category: metadataProps.formData.category,
+            language: locale,
+            components: Object.values(workbenchProps.formData),
+          },
         });
       }
     },
-    pendingSave: pendingSaveDraft,
-    onPublish: () => {},
+    pendingSave,
     canSave,
+    step,
   };
 };

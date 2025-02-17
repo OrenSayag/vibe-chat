@@ -2,33 +2,33 @@
 
 import { BackendBaseResponse } from '@vibe-chat/shared-types';
 import { sendRequestToServer } from '../utils/send-request-to-backend';
+import { revalidatePath } from 'next/cache';
 
 type DeleteTemplateByIdInput = {
   subscriptionId: string;
   type: 'id';
-  templateId: string;
+  templateIds: string[];
 };
 
-type DeleteTemplateByNameInput = {
-  subscriptionId: string;
-  type: 'name';
-  templateName: string;
-};
-
-type Input = DeleteTemplateByIdInput | DeleteTemplateByNameInput;
+type Input = DeleteTemplateByIdInput;
 type Output = BackendBaseResponse<undefined>;
 
 export const deleteTemplate = async (input: Input): Promise<Output> => {
-  const path =
-    input.type === 'id'
-      ? `whatsapp/template/${input.subscriptionId}/${input.templateId}`
-      : `whatsapp/template/${input.subscriptionId}/name/${input.templateName}`;
+  const path = `whatsapp/template/${input.subscriptionId}/delete-multiple`;
 
   const res = await sendRequestToServer<undefined>({
     path,
     options: {
-      method: 'DELETE',
+      method: 'POST',
+      body: JSON.stringify({ templateIds: input.templateIds }),
     },
   });
+
+  if (res.success) {
+    revalidatePath(
+      `/dashboard/${input.subscriptionId}/integration/whatsapp/templates`
+    );
+  }
+
   return res;
 };

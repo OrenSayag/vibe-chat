@@ -16,7 +16,11 @@ export const getTemplate = async ({
 }: Input): Promise<Output> => {
   const res = await sendRequestToServer<GetTemplateResponse['data']>({
     path: `whatsapp/template/${subscriptionId}/${templateName}`,
-    options: {},
+    options: {
+      next: {
+        revalidate: 0,
+      },
+    },
   });
   return res;
 };

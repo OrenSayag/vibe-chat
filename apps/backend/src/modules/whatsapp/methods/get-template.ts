@@ -15,7 +15,7 @@ type Input = {
 export const getTemplate = async ({
   subscriptionId,
   templateName,
-}: Input): Promise<WhatsappTemplate> => {
+}: Input): Promise<WhatsappTemplate[]> => {
   const {
     info: {
       integrations: { whatsappCloudInfo },
@@ -42,7 +42,7 @@ export const getTemplate = async ({
     throw new NotFoundException('Template not found');
   }
 
-  return data.data[0];
+  return data.data;
 };
 
 type GetTemplateResBody = {

@@ -10,14 +10,12 @@ export const WhatsappTemplateBuilder: FC<WhatsappTemplateBuilderProps> = ({
   style = {},
   isNewTemplate,
   onGoBack,
-  onSubmit,
   metadataProps,
   workbenchProps,
-  pendingSubmit,
-  onPublish,
-  onSaveDraft,
-  canPublish,
   canSave,
+  onSave,
+  step,
+  pendingSave,
 }) => {
   return (
     <>
@@ -28,47 +26,37 @@ export const WhatsappTemplateBuilder: FC<WhatsappTemplateBuilderProps> = ({
       >
         <Header
           isNewTemplate={isNewTemplate}
-          submit={onSubmit}
           onGoBack={onGoBack}
-          pendingSubmit={pendingSubmit}
+          pendingSave={pendingSave}
           isDraft={workbenchProps.contentProps.isDraft}
-          canPublish={canPublish}
           canSave={canSave}
-          onSaveDraft={onSaveDraft}
-          onPublish={onPublish}
+          onSave={onSave}
+          step={step}
         />
         <Divider />
-        {isNewTemplate && <Metadata {...metadataProps} />}
-        {!isNewTemplate && <Workbench {...workbenchProps} />}
+        {step === 'metadata' && <Metadata {...metadataProps} />}
+        {step === 'workbench' && <Workbench {...workbenchProps} />}
       </div>
     </>
   );
 };
 
 function Header({
-  submit,
   onGoBack,
-  pendingSubmit,
   isNewTemplate,
   isDraft,
-  canPublish,
-  onSaveDraft,
-  onPublish,
   canSave,
+  onSave,
+  pendingSave,
+  step,
 }: {
   isNewTemplate?: boolean;
-  submit: {
-    label: string;
-    onClick: () => void;
-  };
   onGoBack: () => void;
-  pendingSubmit?: boolean;
-  isDraft?: boolean;
   pendingSave?: boolean;
-  canPublish?: boolean;
-  onSaveDraft?: () => void;
-  onPublish?: () => void;
+  isDraft?: boolean;
   canSave?: boolean;
+  onSave: () => void;
+  step: 'metadata' | 'workbench';
 }) {
   const title = isNewTemplate ? 'Create Template' : 'Edit Template';
   return (
@@ -81,24 +69,13 @@ function Header({
           <Heading type="h2">{title}</Heading>
         </Flex>
         <Flex gap={'small'}>
-          {(isDraft || isNewTemplate) && (
-            <Button
-              size="small"
-              disabled={pendingSubmit || !canSave}
-              onClick={onSaveDraft}
-            >
-              {isNewTemplate ? 'Continue' : 'Save draft'}
-            </Button>
-          )}
-          {!isNewTemplate && (
-            <Button
-              size="small"
-              disabled={!canPublish || pendingSubmit}
-              onClick={onPublish}
-            >
-              Publish
-            </Button>
-          )}
+          <Button
+            size="small"
+            disabled={pendingSave || !canSave}
+            onClick={onSave}
+          >
+            {step === 'metadata' ? 'Continue' : 'Save draft'}
+          </Button>
         </Flex>
       </Flex>
     </Box>

@@ -3,9 +3,10 @@ import {
   WhatsappTemplateComponentFormat,
 } from '@vibe-chat/shared-types';
 import { Box, Text, TextField } from '@vibe/core';
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import { SectionLabel } from '../section-label';
 import { Type, Image, Video, FileText, MapPin } from 'lucide-react';
+import { Theme, ThemeContext } from '@vibe-chat/components';
 
 export const Head: FC<TemplateBuilderWorkbenchContentProps['headProps']> = ({
   selectedFormat,
@@ -74,26 +75,39 @@ function TypeSelector({ selectedFormat, onFormatChange }: TypeSelectorProps) {
     },
   ];
 
+  const { theme } = useContext(ThemeContext);
+
   return (
     <div style={{ marginTop: '1em' }}>
       <div
-        style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1em' }}
+        style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '.1em' }}
       >
         {formatOptions.map((option) => (
           <div
             key={option.value}
             onClick={() => onFormatChange(option.value)}
             style={{
-              padding: '1em',
-              border: '1px solid #e0e0e0',
+              padding: '.1em',
               borderRadius: '8px',
               cursor: 'pointer',
-              backgroundColor:
-                selectedFormat === option.value ? '#f5f5f5' : 'white',
             }}
           >
-            <Box style={{ display: 'flex', alignItems: 'center', gap: '1em' }}>
-              <option.Icon size={24} />
+            <Box
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '1em',
+                backgroundColor:
+                  selectedFormat === option.value ? 'Highlight' : '',
+                padding: '0.5em',
+              }}
+              border={true}
+              rounded="small"
+            >
+              <option.Icon
+                size={24}
+                color={theme === Theme.LIGHT ? 'black' : 'white'}
+              />
               <Box>
                 <Text style={{ fontWeight: 500 }}>{option.label}</Text>
                 <Text color="secondary" style={{ fontSize: '0.875rem' }}>

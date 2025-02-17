@@ -62,8 +62,7 @@
       "name": "שם",
       "category": "קטגוריה",
       "language": "שפה",
-      "status": "סטטוס",
-      "draft": "טיוטה"
+      "status": "סטטוס"
     },
     "deleteSelected": "מחק נבחרים ({count})",
     "deleteTemplate": "מחק תבנית",

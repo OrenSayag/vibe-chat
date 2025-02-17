@@ -1,3 +1,5 @@
+'use client';
+
 import { WhatsappIntegrationTemplateProps } from '@vibe-chat/shared-types';
 import { FC } from 'react';
 import { WhatsappConnectionView } from '../../organisms/whatsapp-connection-view';

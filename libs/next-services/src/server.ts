@@ -6,6 +6,5 @@ export * from './lib/server/whatsapp/get-whatsapp-message-templates';
 
 export * from './lib/server/whatsapp/get-whatsapp-integration-props';
 export * from './lib/server/whatsapp/save-template';
-export * from './lib/server/whatsapp/save-template-draft';
 export * from './lib/server/whatsapp/delete-template';
 export * from './lib/server/whatsapp/get-template';

@@ -6,6 +6,7 @@ import {
   NEW_WHATSAPP_TEMPLATE_ID,
 } from '@vibe-chat/shared-types';
 import { useParams } from 'next/navigation';
+import { useDeleteTemplate } from '../../../whatsapp/use-delete-template';
 
 type Input = {
   connectionViewInfo: WhatsappConnectionViewProps;
@@ -20,6 +21,11 @@ export const useWhatsappIntegrationTemplate = ({
 }: Input): Output => {
   const router = useRouter();
   const { subscriptionId } = useParams();
+
+  const { deleteTemplate, loading: pendingDelete } = useDeleteTemplate({
+    subscriptionId: subscriptionId as string,
+  });
+
   return {
     connectionViewProps: connectionViewInfo,
     templatesViewProps: {
@@ -35,8 +41,17 @@ export const useWhatsappIntegrationTemplate = ({
             `/dashboard/${subscriptionId}/integration/whatsapp/template/${NEW_WHATSAPP_TEMPLATE_ID}`
           );
         },
-        onDeleteTemplate: () => {},
-        onDeleteMultipleTemplates: () => {},
+        onDeleteTemplate: (template) => {
+          deleteTemplate({
+            templateIds: [template.name!],
+          });
+        },
+        onDeleteMultipleTemplates: (templates) => {
+          deleteTemplate({
+            templateIds: templates.map((template) => template.name!),
+          });
+        },
+        pendingDelete,
       },
     },
   };

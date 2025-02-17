@@ -19,4 +19,3 @@ export default async function ConnectionPage({
   const props = await getWhatsappIntegrationProps(info, subscriptionId);
   return <WhatsappIntegrationTemplateProvider {...props} type="connection" />;
 }
-0;

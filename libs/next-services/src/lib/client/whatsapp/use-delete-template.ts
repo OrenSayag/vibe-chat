@@ -1,27 +1,45 @@
 import { useBackendRequest } from '@vibe-chat/next-services';
 import { useState } from 'react';
 import { deleteTemplate } from '../../server/whatsapp/delete-template';
+import { useToast } from '@vibe-chat/components';
 
 type DeleteTemplateInput = {
   subscriptionId: string;
-} & (
-  | { type: 'id'; templateId: string }
-  | { type: 'name'; templateName: string }
-);
+  templateIds: string[];
+};
 
-export const useDeleteTemplate = () => {
+export const useDeleteTemplate = ({
+  subscriptionId,
+}: {
+  subscriptionId: string;
+}) => {
   const [error, setError] = useState<string>();
+
+  const { toast } = useToast();
 
   const { pending, startAction } = useBackendRequest<
     undefined,
-    DeleteTemplateInput
+    Omit<DeleteTemplateInput, 'subscriptionId'>
   >({
-    apiCall: deleteTemplate,
+    apiCall: (input) =>
+      deleteTemplate({
+        subscriptionId,
+        type: 'id',
+        ...input,
+      }),
     onError() {
-      setError('Error deleting template');
+      toast({
+        children: `Error deleting template`,
+        type: 'negative',
+        actions: [],
+      });
     },
     onSuccess: () => {
-      setError('');
+      toast({
+        children: `Template deleted successfully`,
+        type: 'positive',
+        actions: [],
+      });
     },
   });
 

@@ -4,8 +4,9 @@ import {
 } from '@vibe-chat/shared-types';
 import { Box, Button, Text, TextField } from '@vibe/core';
 import { Copy, Link, MessageSquare, Phone } from 'lucide-react';
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import { SectionLabel } from '../section-label';
+import { ThemeContext } from 'libs/ui/components/src/dashboard/providers/theme-provider';
 
 type ButtonData = NonNullable<
   TemplateBuilderWorkbenchContentProps['buttonsProps']['value']
@@ -155,6 +156,8 @@ function AddButtonSelector({ onSelect, disabled }: AddButtonSelectorProps) {
     },
   ];
 
+  const { theme } = useContext(ThemeContext);
+
   if (disabled) return null;
 
   return (
@@ -175,7 +178,10 @@ function AddButtonSelector({ onSelect, disabled }: AddButtonSelectorProps) {
             }}
           >
             <Box style={{ display: 'flex', alignItems: 'center', gap: '1em' }}>
-              <option.Icon size={24} />
+              <option.Icon
+                size={24}
+                color={theme === 'light' ? 'black' : 'white'}
+              />
               <Box>
                 <Text style={{ fontWeight: 500 }}>{option.label}</Text>
                 <Text color="secondary" style={{ fontSize: '0.875rem' }}>

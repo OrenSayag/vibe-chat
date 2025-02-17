@@ -44,6 +44,7 @@ export type WhatsappTemplatesViewProps = {
     onEditTemplate: (template: WhatsappTemplate) => void;
     onDeleteTemplate: (template: WhatsappTemplate) => void;
     onDeleteMultipleTemplates: (templates: WhatsappTemplate[]) => void;
+    pendingDelete?: boolean;
   };
 };
 
@@ -80,15 +81,9 @@ export type WhatsappTemplateBuilderProps = {
   metadataProps: WhatsappTemplateBuilderMetadataProps;
   workbenchProps: WhatappTemplateBuilderWorkbenchProps;
   pendingSave?: boolean;
-  canPublish?: boolean;
-  onSaveDraft: () => void;
-  onPublish: () => void;
   isNewTemplate?: boolean;
   onGoBack: () => void;
-  onSubmit: {
-    label: string;
-    onClick: () => void;
-  };
-  pendingSubmit?: boolean;
+  onSave(): void;
   canSave?: boolean;
+  step: 'metadata' | 'workbench';
 };

@@ -4,9 +4,8 @@ import {
   SaveTemplateRequest,
   SaveTemplateResponse,
 } from '@vibe-chat/shared-types';
-import { sendRequestToServer } from '../utils/send-request-to-backend';
 import { revalidatePath } from 'next/cache';
-
+import { sendRequestToServer } from '../utils/send-request-to-backend';
 type Input = SaveTemplateRequest;
 type Output = SaveTemplateResponse;
 

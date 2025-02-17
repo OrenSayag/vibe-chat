@@ -5,7 +5,7 @@ import { SectionLabel } from '../section-label';
 
 type Props = TemplateBuilderWorkbenchContentProps['bodyProps'];
 
-export const Body: FC<Props> = ({ style = {}, value, onChange }) => {
+export const Body: FC<Props> = ({ style = {}, value, onChange, readOnly }) => {
   return (
     <>
       <div
@@ -14,7 +14,7 @@ export const Body: FC<Props> = ({ style = {}, value, onChange }) => {
         }}
       >
         <Description />
-        <Input value={value ?? ''} onChange={onChange} />
+        <Input value={value ?? ''} onChange={onChange} disabled={readOnly} />
       </div>
     </>
   );
@@ -31,9 +31,11 @@ function Description() {
 function Input({
   value,
   onChange,
+  disabled,
 }: {
   value: string;
   onChange: (value: string) => void;
+  disabled?: boolean;
 }) {
   return (
     <Box marginTop="small">
@@ -43,6 +45,10 @@ function Input({
         placeholder="Enter text in selected langauge"
         showCharCount
         maxLength={1024}
+        disabled={disabled}
+        style={{
+          cursor: disabled ? 'not-allowed' : 'auto',
+        }}
       />
     </Box>
   );

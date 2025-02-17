@@ -4,6 +4,7 @@ import { OrganizationUserRole } from './organization.types';
 import {
   WhatsappTemplate,
   WhatsappTemplateCategory,
+  WhatsappTemplateStatus,
 } from '../lib/whatsapp/whatsapp.types';
 import { ListItem } from '../lib/app.types';
 import { WhatappTemplateBuilderWorkbenchProps } from '../lib/whatsapp/whatsapp-component-props.types';
@@ -69,6 +70,7 @@ export type WhatsappTemplateBuilderMetadataProps = {
     name: (name: string) => void;
     languages: (languages: ListItem[]) => void;
   };
+  readOnly?: boolean;
   errors?: {
     category?: string;
     name?: string;
@@ -86,4 +88,5 @@ export type WhatsappTemplateBuilderProps = {
   onSave(): void;
   canSave?: boolean;
   step: 'metadata' | 'workbench';
+  templateStatus?: WhatsappTemplateStatus;
 };

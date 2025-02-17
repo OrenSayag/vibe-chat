@@ -6,11 +6,11 @@ import { FC } from 'react';
 import { WhatsappTemplateBuilder } from '.';
 
 type Props = {
-  template?: WhatsappTemplate;
+  templateByLocale?: WhatsappTemplate[];
 };
 
-export const WhatsappTemplateBuilderProvider: FC<Props> = ({ template }) => {
-  const props = useWhatsappTemplateBuilder({ template });
+export const WhatsappTemplateBuilderProvider: FC<Props> = ({ templateByLocale }) => {
+  const props = useWhatsappTemplateBuilder({ templateByLocale });
   return (
     <>
       <WhatsappTemplateBuilder {...props} />

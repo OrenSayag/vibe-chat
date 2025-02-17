@@ -25,6 +25,7 @@ export type TemplateBuilderWorkbenchContentProps = {
   style?: CSSProperties;
   isDraft?: boolean;
   headProps: {
+    readOnly?: boolean;
     selectedFormat?: WhatsappTemplateComponentFormat;
     onFormatChange: (format: WhatsappTemplateComponentFormat) => void;
     value:
@@ -49,11 +50,13 @@ export type TemplateBuilderWorkbenchContentProps = {
     style?: CSSProperties;
     value?: string;
     onChange(value: string): void;
+    readOnly?: boolean;
   };
   footerProps: {
     style?: CSSProperties;
     value?: string;
     onChange(value: string): void;
+    readOnly?: boolean;
   };
   buttonsProps: {
     style?: CSSProperties;
@@ -73,6 +76,7 @@ export type TemplateBuilderWorkbenchContentProps = {
         navigate_screen?: string;
       }>
     ): void;
+    readOnly?: boolean;
   };
 };
 
@@ -84,6 +88,8 @@ export type WhatappTemplateBuilderWorkbenchProps = {
     selectedLocale: Locale;
     locales: Locale[];
     onCreateLocale: (locale: Locale) => void;
+    onRemoveLocale: (locale: Locale) => void;
+    readOnly?: boolean;
   };
   contentProps: TemplateBuilderWorkbenchContentProps;
   headerProps: {
@@ -92,6 +98,8 @@ export type WhatappTemplateBuilderWorkbenchProps = {
     setSelectedCategory: (category: WhatsappTemplateCategory) => void;
     onNameChange: (name: string) => void;
     errors?: FieldErrors<WhatsappTemplateBuilderMetadataForm>;
+    readOnly?: boolean;
   };
   formData: Partial<WhatsappContentForm>;
+  isReadOnly?: boolean;
 };

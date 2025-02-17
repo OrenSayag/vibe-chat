@@ -14,8 +14,9 @@ type ButtonData = NonNullable<
 
 export const Buttons: FC<
   TemplateBuilderWorkbenchContentProps['buttonsProps']
-> = ({ style = {}, value = [], onChange }) => {
+> = ({ style = {}, value = [], onChange, readOnly }) => {
   const handleAddButton = (type: WhatsappTemplateButtonType) => {
+    if (readOnly) return;
     const newButton = {
       text: '',
       type,
@@ -24,12 +25,14 @@ export const Buttons: FC<
   };
 
   const handleUpdateButton = (index: number, updates: Partial<ButtonData>) => {
+    if (readOnly) return;
     const newButtons = [...value];
     newButtons[index] = { ...newButtons[index], ...updates };
     onChange(newButtons);
   };
 
   const handleRemoveButton = (index: number) => {
+    if (readOnly) return;
     const newButtons = value.filter((_, i) => i !== index);
     onChange(newButtons);
   };
@@ -41,10 +44,11 @@ export const Buttons: FC<
         buttons={value}
         onUpdate={handleUpdateButton}
         onRemove={handleRemoveButton}
+        readOnly={readOnly}
       />
       <AddButtonSelector
         onSelect={handleAddButton}
-        disabled={value.length >= 3}
+        disabled={value.length >= 3 || readOnly}
       />
     </div>
   );
@@ -63,9 +67,15 @@ type ButtonListProps = {
   buttons: ButtonData[] | undefined;
   onUpdate: (index: number, updates: Partial<ButtonData>) => void;
   onRemove: (index: number) => void;
+  readOnly?: boolean;
 };
 
-function ButtonList({ buttons = [], onUpdate, onRemove }: ButtonListProps) {
+function ButtonList({
+  buttons = [],
+  onUpdate,
+  onRemove,
+  readOnly,
+}: ButtonListProps) {
   if (!buttons.length) return null;
 
   return (
@@ -91,7 +101,9 @@ function ButtonList({ buttons = [], onUpdate, onRemove }: ButtonListProps) {
             }}
           >
             <Text style={{ fontWeight: 500 }}>Button {index + 1}</Text>
-            <Button onClick={() => onRemove(index)}>Remove</Button>
+            {!readOnly && (
+              <Button onClick={() => onRemove(index)}>Remove</Button>
+            )}
           </Box>
 
           <Box style={{ display: 'flex', flexDirection: 'column', gap: '1em' }}>
@@ -99,6 +111,7 @@ function ButtonList({ buttons = [], onUpdate, onRemove }: ButtonListProps) {
               value={button.text}
               onChange={(value) => onUpdate(index, { text: value })}
               placeholder="Enter button text"
+              disabled={readOnly}
             />
 
             {button.type === WhatsappTemplateButtonType.PHONE_NUMBER && (
@@ -106,6 +119,7 @@ function ButtonList({ buttons = [], onUpdate, onRemove }: ButtonListProps) {
                 value={button.phone_number || ''}
                 onChange={(value) => onUpdate(index, { phone_number: value })}
                 placeholder="Enter phone number"
+                disabled={readOnly}
               />
             )}
 
@@ -114,6 +128,7 @@ function ButtonList({ buttons = [], onUpdate, onRemove }: ButtonListProps) {
                 value={button.url || ''}
                 onChange={(value) => onUpdate(index, { url: value })}
                 placeholder="Enter URL"
+                disabled={readOnly}
               />
             )}
           </Box>
@@ -158,8 +173,6 @@ function AddButtonSelector({ onSelect, disabled }: AddButtonSelectorProps) {
 
   const { theme } = useContext(ThemeContext);
 
-  if (disabled) return null;
-
   return (
     <Box marginTop="medium">
       <Text style={{ marginBottom: '1em' }}>Add a button</Text>
@@ -169,12 +182,12 @@ function AddButtonSelector({ onSelect, disabled }: AddButtonSelectorProps) {
         {buttonTypes.map((option) => (
           <div
             key={option.type}
-            onClick={() => onSelect(option.type)}
+            onClick={() => !disabled && onSelect(option.type)}
             style={{
               padding: '1em',
               border: '1px solid #e0e0e0',
               borderRadius: '8px',
-              cursor: 'pointer',
+              cursor: disabled ? 'not-allowed' : 'pointer',
             }}
           >
             <Box style={{ display: 'flex', alignItems: 'center', gap: '1em' }}>

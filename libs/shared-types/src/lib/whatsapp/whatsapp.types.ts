@@ -104,19 +104,19 @@ export type WhatsappSendMessageResponseBody = {
 };
 
 export enum WhatsappTemplateCategory {
-  ACCOUNT_UPDATE = 'ACCOUNT_UPDATE',
-  PAYMENT_UPDATE = 'PAYMENT_UPDATE',
-  PERSONAL_FINANCE_UPDATE = 'PERSONAL_FINANCE_UPDATE',
-  SHIPPING_UPDATE = 'SHIPPING_UPDATE',
-  RESERVATION_UPDATE = 'RESERVATION_UPDATE',
-  ISSUE_RESOLUTION = 'ISSUE_RESOLUTION',
-  APPOINTMENT_UPDATE = 'APPOINTMENT_UPDATE',
-  TRANSPORTATION_UPDATE = 'TRANSPORTATION_UPDATE',
-  TICKET_UPDATE = 'TICKET_UPDATE',
-  ALERT_UPDATE = 'ALERT_UPDATE',
-  AUTO_REPLY = 'AUTO_REPLY',
-  TRANSACTIONAL = 'TRANSACTIONAL',
-  OTP = 'OTP',
+  // ACCOUNT_UPDATE = 'ACCOUNT_UPDATE',
+  // PAYMENT_UPDATE = 'PAYMENT_UPDATE',
+  // PERSONAL_FINANCE_UPDATE = 'PERSONAL_FINANCE_UPDATE',
+  // SHIPPING_UPDATE = 'SHIPPING_UPDATE',
+  // RESERVATION_UPDATE = 'RESERVATION_UPDATE',
+  // ISSUE_RESOLUTION = 'ISSUE_RESOLUTION',
+  // APPOINTMENT_UPDATE = 'APPOINTMENT_UPDATE',
+  // TRANSPORTATION_UPDATE = 'TRANSPORTATION_UPDATE',
+  // TICKET_UPDATE = 'TICKET_UPDATE',
+  // ALERT_UPDATE = 'ALERT_UPDATE',
+  // AUTO_REPLY = 'AUTO_REPLY',
+  // TRANSACTIONAL = 'TRANSACTIONAL',
+  // OTP = 'OTP',
   UTILITY = 'UTILITY',
   MARKETING = 'MARKETING',
   AUTHENTICATION = 'AUTHENTICATION',
@@ -309,58 +309,58 @@ export const whatsappTemplateCategoryTranslations: Record<
   WhatsappTemplateCategory,
   Record<Locale, string>
 > = {
-  [WhatsappTemplateCategory.ACCOUNT_UPDATE]: {
-    [Locale.ENGLISH]: 'Account Update',
-    [Locale.HEBREW]: 'עדכון חשבון',
-  },
-  [WhatsappTemplateCategory.PAYMENT_UPDATE]: {
-    [Locale.ENGLISH]: 'Payment Update',
-    [Locale.HEBREW]: 'עדכון תשלום',
-  },
-  [WhatsappTemplateCategory.PERSONAL_FINANCE_UPDATE]: {
-    [Locale.ENGLISH]: 'Personal Finance Update',
-    [Locale.HEBREW]: 'עדכון פיננסי אישי',
-  },
-  [WhatsappTemplateCategory.SHIPPING_UPDATE]: {
-    [Locale.ENGLISH]: 'Shipping Update',
-    [Locale.HEBREW]: 'עדכון משלוח',
-  },
-  [WhatsappTemplateCategory.RESERVATION_UPDATE]: {
-    [Locale.ENGLISH]: 'Reservation Update',
-    [Locale.HEBREW]: 'עדכון הזמנה',
-  },
-  [WhatsappTemplateCategory.ISSUE_RESOLUTION]: {
-    [Locale.ENGLISH]: 'Issue Resolution',
-    [Locale.HEBREW]: 'פתרון בעיה',
-  },
-  [WhatsappTemplateCategory.APPOINTMENT_UPDATE]: {
-    [Locale.ENGLISH]: 'Appointment Update',
-    [Locale.HEBREW]: 'עדכון פגישה',
-  },
-  [WhatsappTemplateCategory.TRANSPORTATION_UPDATE]: {
-    [Locale.ENGLISH]: 'Transportation Update',
-    [Locale.HEBREW]: 'עדכון תחבורה',
-  },
-  [WhatsappTemplateCategory.TICKET_UPDATE]: {
-    [Locale.ENGLISH]: 'Ticket Update',
-    [Locale.HEBREW]: 'עדכון כרטיס',
-  },
-  [WhatsappTemplateCategory.ALERT_UPDATE]: {
-    [Locale.ENGLISH]: 'Alert Update',
-    [Locale.HEBREW]: 'עדכון התראה',
-  },
-  [WhatsappTemplateCategory.AUTO_REPLY]: {
-    [Locale.ENGLISH]: 'Auto Reply',
-    [Locale.HEBREW]: 'תשובה אוטומטית',
-  },
-  [WhatsappTemplateCategory.TRANSACTIONAL]: {
-    [Locale.ENGLISH]: 'Transactional',
-    [Locale.HEBREW]: 'טרנזקציה',
-  },
-  [WhatsappTemplateCategory.OTP]: {
-    [Locale.ENGLISH]: 'One-Time Password',
-    [Locale.HEBREW]: 'סיסמה חד פעמית',
-  },
+  // [WhatsappTemplateCategory.ACCOUNT_UPDATE]: {
+  //   [Locale.ENGLISH]: 'Account Update',
+  //   [Locale.HEBREW]: 'עדכון חשבון',
+  // },
+  // [WhatsappTemplateCategory.PAYMENT_UPDATE]: {
+  //   [Locale.ENGLISH]: 'Payment Update',
+  //   [Locale.HEBREW]: 'עדכון תשלום',
+  // },
+  // [WhatsappTemplateCategory.PERSONAL_FINANCE_UPDATE]: {
+  //   [Locale.ENGLISH]: 'Personal Finance Update',
+  //   [Locale.HEBREW]: 'עדכון פיננסי אישי',
+  // },
+  // [WhatsappTemplateCategory.SHIPPING_UPDATE]: {
+  //   [Locale.ENGLISH]: 'Shipping Update',
+  //   [Locale.HEBREW]: 'עדכון משלוח',
+  // },
+  // [WhatsappTemplateCategory.RESERVATION_UPDATE]: {
+  //   [Locale.ENGLISH]: 'Reservation Update',
+  //   [Locale.HEBREW]: 'עדכון הזמנה',
+  // },
+  // [WhatsappTemplateCategory.ISSUE_RESOLUTION]: {
+  //   [Locale.ENGLISH]: 'Issue Resolution',
+  //   [Locale.HEBREW]: 'פתרון בעיה',
+  // },
+  // [WhatsappTemplateCategory.APPOINTMENT_UPDATE]: {
+  //   [Locale.ENGLISH]: 'Appointment Update',
+  //   [Locale.HEBREW]: 'עדכון פגישה',
+  // },
+  // [WhatsappTemplateCategory.TRANSPORTATION_UPDATE]: {
+  //   [Locale.ENGLISH]: 'Transportation Update',
+  //   [Locale.HEBREW]: 'עדכון תחבורה',
+  // },
+  // [WhatsappTemplateCategory.TICKET_UPDATE]: {
+  //   [Locale.ENGLISH]: 'Ticket Update',
+  //   [Locale.HEBREW]: 'עדכון כרטיס',
+  // },
+  // [WhatsappTemplateCategory.ALERT_UPDATE]: {
+  //   [Locale.ENGLISH]: 'Alert Update',
+  //   [Locale.HEBREW]: 'עדכון התראה',
+  // },
+  // [WhatsappTemplateCategory.AUTO_REPLY]: {
+  //   [Locale.ENGLISH]: 'Auto Reply',
+  //   [Locale.HEBREW]: 'תשובה אוטומטית',
+  // },
+  // [WhatsappTemplateCategory.TRANSACTIONAL]: {
+  //   [Locale.ENGLISH]: 'Transactional',
+  //   [Locale.HEBREW]: 'טרנזקציה',
+  // },
+  // [WhatsappTemplateCategory.OTP]: {
+  //   [Locale.ENGLISH]: 'One-Time Password',
+  //   [Locale.HEBREW]: 'סיסמה חד פעמית',
+  // },
   [WhatsappTemplateCategory.UTILITY]: {
     [Locale.ENGLISH]: 'Utility',
     [Locale.HEBREW]: 'שירות',
@@ -441,7 +441,13 @@ export const metadataSchema = z.object({
   category: z.nativeEnum(WhatsappTemplateCategory, {
     required_error: 'Category is required',
   }),
-  name: z.string().min(1, 'Name is required'),
+  name: z
+    .string()
+    .min(1, 'Name is required')
+    .regex(
+      /^[a-zA-Z-_]+$/,
+      'Name can only contain letters, hyphens, and underscores'
+    ),
   languages: z.array(z.any()).min(1, 'At least one language is required'),
 });
 

@@ -3,7 +3,7 @@ import { BackendBaseResponse } from '@vibe-chat/shared-types';
 
 type Input<ResponseData, RequestInput> = {
   apiCall(input: RequestInput): Promise<BackendBaseResponse<ResponseData>>;
-  onError?(): void;
+  onError?(err?: unknown): void;
   onSuccess?(data: ResponseData): void;
   onErrorToast?: {
     active: true;
@@ -29,7 +29,7 @@ export const useBackendRequest = <
   const action = async (input: RequestInput): Promise<void> => {
     const res = await apiCall(input);
     if (!res || !res.success) {
-      onError?.();
+      onError?.(res);
       if (onErrorToast) {
         if (onErrorToast.message) {
           toast({

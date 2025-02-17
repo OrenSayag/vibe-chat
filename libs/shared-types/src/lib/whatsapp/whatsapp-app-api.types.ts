@@ -42,6 +42,7 @@ export const saveTemplateSchema = z.object({
     category: z.nativeEnum(WhatsappTemplateCategory),
     components: z.array(whatsappTemplateComponentSchema),
   }),
+  templateId: z.number().optional(),
 });
 
 export type SaveTemplateRequest = z.infer<typeof saveTemplateSchema>;

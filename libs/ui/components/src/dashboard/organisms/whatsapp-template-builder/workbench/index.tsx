@@ -13,6 +13,7 @@ export const Workbench: FC<WhatappTemplateBuilderWorkbenchProps> = ({
   contentProps,
   headerProps,
   formData,
+  isReadOnly,
 }) => {
   return (
     <>
@@ -30,6 +31,7 @@ export const Workbench: FC<WhatappTemplateBuilderWorkbenchProps> = ({
           onNameChange={headerProps.onNameChange}
           categories={categories}
           errors={headerProps.errors || {}}
+          readOnly={isReadOnly}
         />
         <Divider withoutMargin />
         <div

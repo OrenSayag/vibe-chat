@@ -16,7 +16,7 @@ import {
 } from '@vibe/core';
 import { Pencil } from 'lucide-react';
 import { CSSProperties, FC, useContext, useEffect, useState } from 'react';
-import { FieldErrors } from 'react-hook-form';
+import { FieldErrors, useForm } from 'react-hook-form';
 import { ThemeContext } from '../../../../providers/theme-provider';
 
 type Props = {
@@ -27,6 +27,7 @@ type Props = {
   categories: IListItem<WhatsappTemplateCategory>[];
   errors: FieldErrors<WhatsappTemplateBuilderMetadataForm>;
   onNameChange: (name: string) => void;
+  readOnly?: boolean;
 };
 
 export const Header: FC<Props> = ({
@@ -37,22 +38,38 @@ export const Header: FC<Props> = ({
   categories,
   errors,
   onNameChange,
+  readOnly,
 }) => {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [name, setName] = useState(templateName);
 
   const { theme } = useContext(ThemeContext);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors: formErrors, isValid },
+    setValue,
+  } = useForm<{ name: string }>({
+    defaultValues: { name: templateName },
+  });
+
+  const onSubmit = (data: { name: string }) => {
+    onNameChange(data.name);
+    setModalOpen(false);
+  };
 
   return (
     <Flex justify="space-between" style={{ padding: '1em', ...style }}>
       <Flex align="center" gap="small">
         <Text type="text1">{templateName}</Text>
-        <Pencil
-          onClick={() => setModalOpen(true)}
-          style={{ cursor: 'pointer' }}
-          color={theme === 'light' ? 'black' : 'white'}
-          size={16}
-        />
+        {!readOnly && (
+          <Pencil
+            onClick={() => setModalOpen(true)}
+            style={{ cursor: 'pointer' }}
+            color={theme === 'light' ? 'black' : 'white'}
+            size={16}
+          />
+        )}
         <Text type="text2" style={{ marginLeft: '1em' }}>
           Category:
         </Text>
@@ -62,7 +79,10 @@ export const Header: FC<Props> = ({
             isOptionSelected={(option) => option.value === selectedCategory}
             value={categories.find((c) => c.value === selectedCategory)}
             options={categories}
-            onChange={(selected) => setSelectedCategory(selected.value)}
+            onChange={(selected) =>
+              !readOnly && setSelectedCategory(selected.value)
+            }
+            disabled={readOnly}
           />
         </div>
       </Flex>
@@ -74,21 +94,29 @@ export const Header: FC<Props> = ({
       >
         <ModalHeader title="Edit Template Name" />
         <ModalContent>
-          <>
-            <TextField value={name} onChange={(value) => setName(value)} />
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <TextField
+              {...register('name', {
+                required: 'Name is required',
+                pattern: {
+                  value: /^[a-zA-Z-_]+$/,
+                  message:
+                    'Name can only contain letters, hyphens, and underscores',
+                },
+              })}
+              onChange={(val) => setValue('name', val)}
+              disabled={readOnly}
+            />
             <Text type="text2" style={{ color: 'red' }}>
-              {errors.name?.message}
+              {formErrors.name?.message}
             </Text>
-          </>
+          </form>
         </ModalContent>
         <ModalFooter>
           <Flex gap="small">
             <Button
-              onClick={() => {
-                onNameChange(name);
-                setModalOpen(false);
-              }}
-              disabled={!name}
+              onClick={handleSubmit(onSubmit)}
+              disabled={!isValid || readOnly}
             >
               Save
             </Button>

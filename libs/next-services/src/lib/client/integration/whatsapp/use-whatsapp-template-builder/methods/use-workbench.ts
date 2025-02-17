@@ -8,7 +8,6 @@ import {
   WhatsappTemplateComponentFormat,
   WhatsappTemplateComponentType,
 } from '@vibe-chat/shared-types';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -19,6 +18,12 @@ type Input = {
   category: WhatsappTemplateCategory;
   templateName: string;
   onChangeTemplateName: (name: string) => void;
+  locales?: Locale[];
+  onCreateLocale: (locale: Locale) => void;
+  onSelectLocale: (locale: Locale) => void;
+  onRemoveLocale: (locale: Locale) => void;
+  selectedLocale: Locale;
+  isReadOnly?: boolean;
 };
 
 export const useWorkbench = ({
@@ -28,24 +33,15 @@ export const useWorkbench = ({
   category,
   templateName,
   onChangeTemplateName,
+  locales,
+  onCreateLocale,
+  onSelectLocale,
+  onRemoveLocale,
+  selectedLocale,
+  isReadOnly,
 }: Input): WhatappTemplateBuilderWorkbenchProps & {
   locale: Locale;
 } => {
-  const query = useSearchParams();
-  const selectedLocale = useMemo<Locale>(
-    () => (query.get('templateLocale') as Locale) ?? Locale.ENGLISH,
-    [query]
-  );
-  const { replace } = useRouter();
-  const pathname = usePathname();
-  const onChangeLocale = useCallback(
-    (locale: Locale) => {
-      const newQuery = new URLSearchParams(query);
-      newQuery.set('templateLocale', locale);
-      replace(`${pathname}?${newQuery.toString()}`);
-    },
-    [replace, pathname]
-  );
   const [selectedFormat, setSelectedFormat] =
     useState<WhatsappTemplateComponentFormat>(
       WhatsappTemplateComponentFormat.TEXT
@@ -183,23 +179,28 @@ export const useWorkbench = ({
     categories,
     localesProps: {
       selectedLocale,
-      locales: Object.values(Locale),
-      onChange: onChangeLocale,
-      onCreateLocale: () => {},
+      locales: locales ?? [],
+      onChange: onSelectLocale,
+      onCreateLocale,
+      onRemoveLocale,
+      readOnly: isReadOnly,
     },
     contentProps: {
       headProps: {
         selectedFormat,
         onFormatChange: handleFormatChange,
         value: templateHeadComponentValue,
+        readOnly: isReadOnly,
       },
       bodyProps: {
         value: formData.body.text,
         onChange: handleBodyChange,
+        readOnly: isReadOnly,
       },
       footerProps: {
         value: formData.footer?.text || '',
         onChange: handleFooterChange,
+        readOnly: isReadOnly,
       },
       buttonsProps: {
         value: formData.buttons?.buttons || [],
@@ -209,6 +210,7 @@ export const useWorkbench = ({
             buttons,
           });
         },
+        readOnly: isReadOnly,
       },
     },
     headerProps: {
@@ -217,8 +219,10 @@ export const useWorkbench = ({
       setSelectedCategory: onCategoryChange,
       onNameChange: onChangeTemplateName,
       errors,
+      readOnly: isReadOnly,
     },
     formData,
+    isReadOnly,
     locale: selectedLocale,
   };
 };

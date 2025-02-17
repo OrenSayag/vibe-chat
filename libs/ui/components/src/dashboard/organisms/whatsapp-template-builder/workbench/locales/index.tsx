@@ -10,6 +10,8 @@ type Props = {
   selectedLocale: Locale;
   locales: Locale[];
   onCreateLocale: (locale: Locale) => void;
+  onRemoveLocale: (locale: Locale) => void;
+  readOnly?: boolean;
 };
 
 export const Locales: FC<Props> = ({
@@ -18,6 +20,8 @@ export const Locales: FC<Props> = ({
   selectedLocale,
   locales,
   onCreateLocale,
+  onRemoveLocale,
+  readOnly,
 }) => {
   const t = useTranslations('Locale');
   const addableLocales = allLocales
@@ -26,9 +30,7 @@ export const Locales: FC<Props> = ({
       label: t(locale),
       value: locale,
     }));
-  const onRemoveLocale = (locale: Locale) => {
-    alert('remove locale');
-  };
+
   return (
     <>
       <div
@@ -46,12 +48,14 @@ export const Locales: FC<Props> = ({
               key={locale}
               locale={locale}
               selectedLocale={selectedLocale}
-              onChange={onChange}
-              onRemoveLocale={onRemoveLocale}
+              onChange={readOnly ? () => {} : onChange}
+              onRemoveLocale={
+                !readOnly && locales.length > 1 ? onRemoveLocale : undefined
+              }
             />
           ))}
         </List>
-        {addableLocales.length > 0 && (
+        {addableLocales.length > 0 && !readOnly && (
           <div style={{ marginTop: '.4em' }}>
             <Dropdown
               clearable={false}
@@ -80,7 +84,7 @@ function LocaleOption({
   locale: Locale;
   selectedLocale: Locale;
   onChange: (locale: string) => void;
-  onRemoveLocale: (locale: Locale) => void;
+  onRemoveLocale?: (locale: Locale) => void;
 }) {
   const t = useTranslations('Locale');
   const ref = useRef<HTMLLIElement>(null);
@@ -120,7 +124,7 @@ function LocaleOption({
         }}
       >
         {t(locale)}
-        {isHovered && (
+        {isHovered && onRemoveLocale && (
           <button
             onClick={(e) => {
               e.stopPropagation();

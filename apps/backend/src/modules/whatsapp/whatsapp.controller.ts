@@ -17,6 +17,7 @@ import {
   saveTemplateSchema,
 } from '@vibe-chat/shared-types';
 import { createZodDto } from 'nestjs-zod';
+import { z } from 'zod';
 import { WhatsappWebhook } from '../../decorators/whatsapp-webhook.decorator';
 import { EventsService } from '../events/events.service';
 import { deleteTemplate } from './methods/delete-template';
@@ -24,7 +25,6 @@ import { getTemplate } from './methods/get-template';
 import { getTemplates } from './methods/get-templates';
 import { handleWebhook } from './methods/handle-webhook';
 import { WhatsappService } from './whatsapp.service';
-import { z } from 'zod';
 class SaveTemplateDraftDto extends createZodDto(saveTemplateDraftSchema) {}
 class SaveTemplateDto extends createZodDto(saveTemplateSchema) {}
 class DeleteMultipleTemplatesDto extends createZodDto(

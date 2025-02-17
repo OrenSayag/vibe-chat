@@ -1,6 +1,9 @@
 'use client';
-import { WhatsappTemplateBuilderProps } from '@vibe-chat/shared-types';
-import { Box, Button, Divider, Flex, Heading, Toast } from '@vibe/core';
+import {
+  WhatsappTemplateBuilderProps,
+  WhatsappTemplateStatus,
+} from '@vibe-chat/shared-types';
+import { Box, Button, Divider, Flex, Heading, Label, Toast } from '@vibe/core';
 import { ChevronLeft } from 'lucide-react';
 import { FC } from 'react';
 import { Metadata } from './metadata';
@@ -16,6 +19,7 @@ export const WhatsappTemplateBuilder: FC<WhatsappTemplateBuilderProps> = ({
   onSave,
   step,
   pendingSave,
+  templateStatus,
 }) => {
   return (
     <>
@@ -32,6 +36,7 @@ export const WhatsappTemplateBuilder: FC<WhatsappTemplateBuilderProps> = ({
           canSave={canSave}
           onSave={onSave}
           step={step}
+          templateStatus={templateStatus}
         />
         <Divider />
         {step === 'metadata' && <Metadata {...metadataProps} />}
@@ -49,6 +54,7 @@ function Header({
   onSave,
   pendingSave,
   step,
+  templateStatus,
 }: {
   isNewTemplate?: boolean;
   onGoBack: () => void;
@@ -57,6 +63,7 @@ function Header({
   canSave?: boolean;
   onSave: () => void;
   step: 'metadata' | 'workbench';
+  templateStatus?: WhatsappTemplateStatus;
 }) {
   const title = isNewTemplate ? 'Create Template' : 'Edit Template';
   return (
@@ -67,6 +74,14 @@ function Header({
             <ChevronLeft />
           </Button>
           <Heading type="h2">{title}</Heading>
+          <Label
+            color={
+              templateStatus === WhatsappTemplateStatus.REJECTED
+                ? 'negative'
+                : 'positive'
+            }
+            text={templateStatus}
+          />
         </Flex>
         <Flex gap={'small'}>
           <Button
@@ -74,7 +89,7 @@ function Header({
             disabled={pendingSave || !canSave}
             onClick={onSave}
           >
-            {step === 'metadata' ? 'Continue' : 'Save draft'}
+            {step === 'metadata' ? 'Continue' : 'Save'}
           </Button>
         </Flex>
       </Flex>

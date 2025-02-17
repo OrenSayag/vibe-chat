@@ -12,6 +12,7 @@ export const Head: FC<TemplateBuilderWorkbenchContentProps['headProps']> = ({
   selectedFormat,
   onFormatChange,
   value,
+  readOnly,
 }) => {
   return (
     <>
@@ -20,8 +21,9 @@ export const Head: FC<TemplateBuilderWorkbenchContentProps['headProps']> = ({
         <TypeSelector
           selectedFormat={selectedFormat}
           onFormatChange={onFormatChange}
+          readOnly={readOnly}
         />
-        {value && <Input value={value} />}
+        {value && <Input value={value} readOnly={readOnly} />}
       </div>
     </>
   );
@@ -39,9 +41,14 @@ function Description() {
 type TypeSelectorProps = {
   selectedFormat?: WhatsappTemplateComponentFormat;
   onFormatChange: (format: WhatsappTemplateComponentFormat) => void;
+  readOnly?: boolean;
 };
 
-function TypeSelector({ selectedFormat, onFormatChange }: TypeSelectorProps) {
+function TypeSelector({
+  selectedFormat,
+  onFormatChange,
+  readOnly,
+}: TypeSelectorProps) {
   const formatOptions = [
     {
       value: WhatsappTemplateComponentFormat.TEXT,
@@ -85,11 +92,11 @@ function TypeSelector({ selectedFormat, onFormatChange }: TypeSelectorProps) {
         {formatOptions.map((option) => (
           <div
             key={option.value}
-            onClick={() => onFormatChange(option.value)}
+            onClick={() => !readOnly && onFormatChange(option.value)}
             style={{
               padding: '.1em',
               borderRadius: '8px',
-              cursor: 'pointer',
+              cursor: readOnly ? 'not-allowed' : 'pointer',
             }}
           >
             <Box
@@ -124,9 +131,10 @@ function TypeSelector({ selectedFormat, onFormatChange }: TypeSelectorProps) {
 
 type InputProps = {
   value: TemplateBuilderWorkbenchContentProps['headProps']['value'];
+  readOnly?: boolean;
 };
 
-function Input({ value }: InputProps) {
+function Input({ value, readOnly }: InputProps) {
   if (!value) return null;
 
   switch (value.type) {
@@ -135,8 +143,9 @@ function Input({ value }: InputProps) {
         <Box marginTop="small">
           <TextField
             value={value.value}
-            onChange={(newValue) => value.onChange(newValue)}
+            onChange={(newValue) => !readOnly && value.onChange(newValue)}
             placeholder="Enter header text"
+            disabled={readOnly}
           />
         </Box>
       );
@@ -146,7 +155,7 @@ function Input({ value }: InputProps) {
     case WhatsappTemplateComponentFormat.DOCUMENT:
       return (
         <Box marginTop="small">
-          <Text>TODO: implemnet upload input</Text>
+          <Text>TODO: implement upload input</Text>
         </Box>
       );
 

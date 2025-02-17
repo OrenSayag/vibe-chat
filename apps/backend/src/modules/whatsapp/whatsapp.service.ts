@@ -15,6 +15,7 @@ export class WhatsappService {
     const { template } = await saveTemplate({
       subscriptionId,
       template: input.template as WhatsappTemplate,
+      templateId: input.templateId,
     });
 
     return {

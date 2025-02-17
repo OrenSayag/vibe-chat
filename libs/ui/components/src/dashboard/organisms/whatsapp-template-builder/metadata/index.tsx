@@ -29,6 +29,7 @@ export const Metadata: FC<WhatsappTemplateBuilderMetadataProps> = ({
   formData,
   onChange,
   errors = {},
+  readOnly,
 }) => {
   const containerStyle: CSSProperties = {
     maxWidth: '400px',
@@ -48,6 +49,7 @@ export const Metadata: FC<WhatsappTemplateBuilderMetadataProps> = ({
           selectedCategory={formData.category}
           onSelect={onChange.category}
           error={errors.category}
+          readOnly={readOnly}
         />
 
         <Name
@@ -58,6 +60,7 @@ export const Metadata: FC<WhatsappTemplateBuilderMetadataProps> = ({
           name={formData.name}
           onChange={onChange.name}
           error={errors.name}
+          readOnly={readOnly}
         />
 
         <Languages
@@ -69,6 +72,7 @@ export const Metadata: FC<WhatsappTemplateBuilderMetadataProps> = ({
           onChange={onChange.languages}
           selectedLanguages={formData.languages}
           error={errors.languages}
+          readOnly={readOnly}
         />
       </Flex>
     </div>
@@ -81,12 +85,14 @@ function Category({
   onSelect,
   error,
   style,
+  readOnly,
 }: {
   categories: IListItem<WhatsappTemplateCategory>[];
   selectedCategory?: WhatsappTemplateCategory;
   onSelect: (category: WhatsappTemplateCategory) => void;
   error?: string;
   style?: CSSProperties;
+  readOnly?: boolean;
 }) {
   return (
     <div style={style}>
@@ -102,6 +108,7 @@ function Category({
         searchable={false}
         options={categories}
         onChange={(selected) => onSelect(selected.value)}
+        disabled={readOnly}
       />
       <ErrorMessage error={error} />
     </div>
@@ -113,11 +120,13 @@ function Name({
   onChange,
   error,
   style,
+  readOnly,
 }: {
   name: string;
   onChange: (name: string) => void;
   error?: string;
   style?: CSSProperties;
+  readOnly?: boolean;
 }) {
   return (
     <div style={style}>
@@ -127,7 +136,11 @@ function Name({
       <Text type="text2" color="secondary" style={{ marginBottom: '1em' }}>
         Enter a name for your template
       </Text>
-      <TextField value={name} onChange={(value) => onChange(value)} />
+      <TextField
+        value={name}
+        onChange={(value) => onChange(value)}
+        disabled={readOnly}
+      />
       <ErrorMessage error={error} />
     </div>
   );
@@ -139,12 +152,14 @@ function Languages({
   selectedLanguages,
   error,
   style,
+  readOnly,
 }: {
   languages: IListItem[];
   onChange: (languages: IListItem[]) => void;
   selectedLanguages: IListItem[];
   error?: string;
   style?: CSSProperties;
+  readOnly?: boolean;
 }) {
   return (
     <div style={style}>
@@ -161,6 +176,7 @@ function Languages({
         options={languages}
         onChange={onChange}
         multi
+        disabled={readOnly}
       />
       <ErrorMessage error={error} />
     </div>

@@ -40,6 +40,17 @@ export const saveTemplate = async ({
     throw new UnauthorizedException();
   }
 
+  const requestBody = {
+    name: template.name,
+    language: template.language,
+    category: template.category,
+    components: template.components,
+  };
+
+  console.log({
+    requestBody: JSON.stringify(requestBody, null, 2),
+  });
+
   const res = await sendRequestToWhatsappGraph({
     path: templateId
       ? templateId.toString()

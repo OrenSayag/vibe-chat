@@ -74,14 +74,16 @@ function Header({
             <ChevronLeft />
           </Button>
           <Heading type="h2">{title}</Heading>
-          <Label
-            color={
-              templateStatus === WhatsappTemplateStatus.REJECTED
-                ? 'negative'
-                : 'positive'
-            }
-            text={templateStatus}
-          />
+          {templateStatus && (
+            <Label
+              color={
+                templateStatus === WhatsappTemplateStatus.REJECTED
+                  ? 'negative'
+                  : 'positive'
+              }
+              text={templateStatus}
+            />
+          )}
         </Flex>
         <Flex gap={'small'}>
           <Button

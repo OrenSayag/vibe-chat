@@ -48,7 +48,7 @@ export const Locales: FC<Props> = ({
               key={locale}
               locale={locale}
               selectedLocale={selectedLocale}
-              onChange={readOnly ? () => {} : onChange}
+              onChange={onChange}
               onRemoveLocale={
                 !readOnly && locales.length > 1 ? onRemoveLocale : undefined
               }

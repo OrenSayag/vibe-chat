@@ -132,11 +132,6 @@ function TemplatesList({
     draft: template.isDraft ? t('yes') : undefined,
   }));
 
-  console.log({
-    templates,
-    dataSource,
-  });
-
   const [selectedTemplates, setSelectedTemplates] = useState<string[]>([]);
   const [singleDeleteTemplate, setSingleDeleteTemplate] =
     useState<WhatsappTemplate | null>(null);

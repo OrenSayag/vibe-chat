@@ -1,5 +1,5 @@
+import { ChatMessageBox } from '@vibe-chat/components';
 import {
-  WhatsappContentForm,
   Message,
   MessageDirection,
   MessageStatus,
@@ -7,18 +7,15 @@ import {
   WhatsappTemplate,
   WhatsappTemplateCategory,
   WhatsappTemplateStatus,
-  WhatsappTemplateComponent,
 } from '@vibe-chat/shared-types';
 import { CSSProperties, FC } from 'react';
-import { ChatMessageBox } from '@vibe-chat/components';
 type Props = {
   style?: CSSProperties;
-  data: Partial<WhatsappContentForm>;
+  data: WhatsappTemplate['components'];
 };
 
 export const Preview: FC<Props> = ({ style = {}, data }) => {
-  // Create default message object
-  const defaultMessage: Message = {
+  const mockMessage: Message = {
     direction: MessageDirection.OUTGOING,
     status: MessageStatus.SENT,
     from: '1234567890',
@@ -33,15 +30,12 @@ export const Preview: FC<Props> = ({ style = {}, data }) => {
     },
   };
 
-  // Create template object from form data
   const template: WhatsappTemplate = {
     name: 'preview-template',
     id: 'preview-template',
     parameter_format: 'POSITIONAL',
     category: WhatsappTemplateCategory.UTILITY,
-    components: [data.header, data.body, data.footer, data.buttons].filter(
-      Boolean
-    ) as WhatsappTemplateComponent[], // Filter out undefined components
+    components: data,
     language: 'en',
     status: WhatsappTemplateStatus.APPROVED,
   };
@@ -62,7 +56,7 @@ export const Preview: FC<Props> = ({ style = {}, data }) => {
           zIndex: 1000,
         }}
       >
-        <ChatMessageBox message={defaultMessage} template={template} />
+        <ChatMessageBox message={mockMessage} template={template} />
       </div>
     </div>
   );

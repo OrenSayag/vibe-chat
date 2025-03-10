@@ -67,5 +67,5 @@ export const saveTemplate = async ({
   });
 
   const savedTemplate: WhatsappTemplate = await res.json();
-  return { template: savedTemplate };
+  return { template: { ...savedTemplate, name: template.name } };
 };

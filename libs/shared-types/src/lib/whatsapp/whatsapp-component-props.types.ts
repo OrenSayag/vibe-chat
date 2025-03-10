@@ -1,12 +1,11 @@
 import {
   ListItem,
   Locale,
-  WhatsappContentForm,
   WhatsappTemplate,
-  WhatsappTemplateCategory,
-  WhatsappTemplateComponentFormat,
-  WhatsappTemplateButtonType,
   WhatsappTemplateBuilderMetadataForm,
+  WhatsappTemplateButtonType,
+  WhatsappTemplateCategory,
+  WhatsappTemplateComponentFormat
 } from '@vibe-chat/shared-types';
 import { CSSProperties } from 'react';
 import { FieldErrors } from 'react-hook-form';
@@ -100,6 +99,6 @@ export type WhatappTemplateBuilderWorkbenchProps = {
     errors?: FieldErrors<WhatsappTemplateBuilderMetadataForm>;
     readOnly?: boolean;
   };
-  formData: Partial<WhatsappContentForm>;
+  previewData: WhatsappTemplate['components'];
   isReadOnly?: boolean;
 };

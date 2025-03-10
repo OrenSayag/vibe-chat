@@ -3,16 +3,15 @@ import {
   TemplateBuilderWorkbenchContentProps,
   WhatappTemplateBuilderWorkbenchProps,
   WhatsappContentForm,
-  WhatsappTemplate,
   WhatsappTemplateCategory,
+  WhatsappTemplateComponent,
   WhatsappTemplateComponentFormat,
   WhatsappTemplateComponentType,
 } from '@vibe-chat/shared-types';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 type Input = {
-  template?: WhatsappTemplate;
   categories: WhatappTemplateBuilderWorkbenchProps['categories'];
   onCategoryChange: (category: WhatsappTemplateCategory) => void;
   category: WhatsappTemplateCategory;
@@ -27,7 +26,6 @@ type Input = {
 };
 
 export const useWorkbench = ({
-  template,
   categories,
   onCategoryChange,
   category,
@@ -41,6 +39,7 @@ export const useWorkbench = ({
   isReadOnly,
 }: Input): WhatappTemplateBuilderWorkbenchProps & {
   locale: Locale;
+  formData: WhatsappContentForm;
 } => {
   const [selectedFormat, setSelectedFormat] =
     useState<WhatsappTemplateComponentFormat>(
@@ -52,61 +51,32 @@ export const useWorkbench = ({
     watch,
     setValue,
     formState: { errors },
-  } = useForm<
-    WhatsappContentForm & {
-      locale: Locale;
-    }
-  >({
+    reset,
+  } = useForm<WhatsappContentForm>({
     defaultValues: {
-      header: template
-        ? template.components.find(
-            (component) =>
-              component.type === WhatsappTemplateComponentType.HEADER
-          ) ?? {
-            format: WhatsappTemplateComponentFormat.TEXT,
-            text: '',
-            type: WhatsappTemplateComponentType.HEADER,
-          }
-        : {
-            format: WhatsappTemplateComponentFormat.TEXT,
-            text: '',
-            type: WhatsappTemplateComponentType.HEADER,
-          },
-      body: template
-        ? template.components.find(
-            (component) => component.type === WhatsappTemplateComponentType.BODY
-          ) ?? {
-            text: '',
-            type: WhatsappTemplateComponentType.BODY,
-          }
-        : {
-            text: '',
-            type: WhatsappTemplateComponentType.BODY,
-          },
-      footer: template
-        ? template.components.find(
-            (component) =>
-              component.type === WhatsappTemplateComponentType.FOOTER
-          ) ?? {
-            text: '',
-            type: WhatsappTemplateComponentType.FOOTER,
-          }
-        : {
-            text: '',
-            type: WhatsappTemplateComponentType.FOOTER,
-          },
-      buttons: template
-        ? template.components.find(
-            (component) =>
-              component.type === WhatsappTemplateComponentType.BUTTONS
-          ) ?? {
-            type: WhatsappTemplateComponentType.BUTTONS,
-            buttons: [],
-          }
-        : {
-            type: WhatsappTemplateComponentType.BUTTONS,
-            buttons: [],
-          },
+      header: {
+        format: WhatsappTemplateComponentFormat.TEXT,
+        text: {
+          [selectedLocale]: '',
+        },
+        type: WhatsappTemplateComponentType.HEADER,
+      },
+      body: {
+        text: {
+          [selectedLocale]: '',
+        },
+        type: WhatsappTemplateComponentType.BODY,
+      },
+      footer: {
+        text: {
+          [selectedLocale]: '',
+        },
+        type: WhatsappTemplateComponentType.FOOTER,
+      },
+      buttons: {
+        type: WhatsappTemplateComponentType.BUTTONS,
+        buttons: [],
+      },
     },
   });
 
@@ -121,32 +91,42 @@ export const useWorkbench = ({
 
   const handleHeaderChange = useCallback(
     (value: string) => {
+      console.log({
+        selectedLocale,
+        value,
+      });
       if (selectedFormat === WhatsappTemplateComponentFormat.TEXT) {
-        setValue('header.text', value);
+        setValue(`header.text.${selectedLocale}`, value);
       }
     },
-    [selectedFormat, setValue]
+    [selectedFormat, selectedLocale]
   );
 
   const handleBodyChange = useCallback(
     (value: string) => {
-      setValue('body.text', value);
+      setValue(`body.text.${selectedLocale}`, value);
     },
-    [setValue]
+    [setValue, selectedLocale]
   );
+
+  useEffect(() => {
+    console.log({
+      selectedLocale,
+    });
+  }, [selectedLocale]);
 
   const handleFooterChange = useCallback(
     (value: string) => {
-      setValue('footer.text', value);
+      setValue(`footer.text.${selectedLocale}`, value);
     },
-    [setValue]
+    [selectedLocale]
   );
 
   const handleButtonsChange = useCallback(
     (value: WhatsappContentForm['buttons']) => {
       setValue('buttons', value);
     },
-    [setValue]
+    []
   );
 
   const templateHeadComponentValue = useMemo<
@@ -156,7 +136,7 @@ export const useWorkbench = ({
       case WhatsappTemplateComponentFormat.TEXT:
         return {
           type: selectedFormat,
-          value: formData.header?.text || '',
+          value: formData.header?.text[selectedLocale] || '',
           onChange: handleHeaderChange,
         };
       case WhatsappTemplateComponentFormat.IMAGE:
@@ -173,7 +153,11 @@ export const useWorkbench = ({
           onChange: handleHeaderChange,
         };
     }
-  }, [selectedFormat, JSON.stringify(formData.header ?? {})]);
+  }, [
+    selectedFormat,
+    JSON.stringify(formData.header ?? {}),
+    handleHeaderChange,
+  ]);
 
   return {
     categories,
@@ -193,21 +177,31 @@ export const useWorkbench = ({
         readOnly: isReadOnly,
       },
       bodyProps: {
-        value: formData.body.text,
+        value: formData.body.text[selectedLocale] || '',
         onChange: handleBodyChange,
         readOnly: isReadOnly,
       },
       footerProps: {
-        value: formData.footer?.text || '',
+        value: formData.footer?.text[selectedLocale] || '',
         onChange: handleFooterChange,
         readOnly: isReadOnly,
       },
       buttonsProps: {
-        value: formData.buttons?.buttons || [],
+        value:
+          formData.buttons?.buttons.map((b) => ({
+            ...b,
+            text: b.text[selectedLocale],
+          })) || [],
         onChange: (buttons) => {
           handleButtonsChange({
             type: WhatsappTemplateComponentType.BUTTONS,
-            buttons,
+            buttons: buttons.map((b, index) => ({
+              ...b,
+              text: {
+                ...formData.buttons?.buttons[index]?.text,
+                [selectedLocale]: b.text,
+              },
+            })),
           });
         },
         readOnly: isReadOnly,
@@ -222,6 +216,17 @@ export const useWorkbench = ({
       readOnly: isReadOnly,
     },
     formData,
+    previewData: Object.values(formData)
+      .map((component) => {
+        return {
+          ...component,
+          text:
+            (component as WhatsappContentForm['body'])?.text?.[
+              selectedLocale
+            ] ?? '',
+        };
+      })
+      .filter(Boolean) as WhatsappTemplateComponent[],
     isReadOnly,
     locale: selectedLocale,
   };

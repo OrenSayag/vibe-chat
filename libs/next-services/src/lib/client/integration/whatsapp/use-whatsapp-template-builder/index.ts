@@ -15,7 +15,7 @@ import { useSaveTemplate } from '../../../whatsapp/use-save-template';
 import { useMetadata } from './methods/use-metadata';
 import { useWorkbench } from './methods/use-workbench';
 import { getConsts } from './utils';
-import { useTemplateLocale } from './methods/use-template-locale';
+import { useTemplateLocales } from './methods/use-template-locales';
 
 type Output = WhatsappTemplateBuilderProps;
 
@@ -29,47 +29,47 @@ export const useWhatsappTemplateBuilder = ({
   const router = useRouter();
   const { categories, languages } = getConsts();
 
-  const { template, templateLocale } = useTemplateLocale({ templateByLocale });
+  const { templateLocale, selectLocale, locales, setLocales } =
+    useTemplateLocales({
+      templateByLocale,
+    });
+
+  const templateStatus = useMemo(() => {
+    return templateByLocale?.[0]?.status;
+  }, [templateByLocale]);
 
   const isReadOnly = useMemo(() => {
-    if (!template?.status) return false;
-    return template.status !== WhatsappTemplateStatus.REJECTED;
-  }, [template?.status]);
+    if (!templateStatus) return false;
+    return templateStatus !== WhatsappTemplateStatus.REJECTED;
+  }, [templateStatus]);
 
   const metadataProps = useMetadata({
     categories,
     languages,
-    template,
+    data: templateByLocale?.[0]
+      ? {
+          name: templateByLocale?.[0]?.name,
+          category: templateByLocale?.[0]?.category,
+          languages: templateByLocale?.[0]?.language
+            ? [templateByLocale?.[0]?.language.split('_')[0]]
+            : [],
+        }
+      : undefined,
   });
-
-  const [locales, setLocales] = useState(
-    metadataProps.formData.languages.map(
-      (language) => language.value as Locale
-    ) ?? templateByLocale?.map((template) => template.language.split('_')[0])
-  );
-
-  const [selectedLocale, setSelectedLocale] = useState(locales[0]);
 
   useEffect(() => {
     const newLocales =
-      templateByLocale
-        ?.filter(Boolean)
-        .map((template) => template.language?.split('_')[0]) ??
-      metadataProps.formData.languages.map(
-        (language) => language.value as Locale
-      );
-    console.log({
-      newLocales,
-      templateByLocale,
-      metadataProps,
-    });
-
+      metadataProps.formData.languages.map((language) => {
+        if (typeof language === 'string') {
+          return language;
+        }
+        return language.value as Locale;
+      }) ??
+      templateByLocale?.map((template) => template.language.split('_')[0]);
     setLocales(newLocales as Locale[]);
-    setSelectedLocale(newLocales[0] as Locale);
   }, [metadataProps.formData.languages, templateByLocale]);
 
   const { locale, ...workbenchProps } = useWorkbench({
-    template,
     locales,
     categories,
     onCategoryChange: metadataProps.onChange.category,
@@ -77,12 +77,13 @@ export const useWhatsappTemplateBuilder = ({
     templateName: metadataProps.formData.name,
     onChangeTemplateName: metadataProps.onChange.name,
     onCreateLocale: (locale: Locale) => setLocales([...locales, locale]),
-    onSelectLocale: (locale: Locale) => setSelectedLocale(locale),
-    selectedLocale,
+    onSelectLocale: selectLocale,
+    selectedLocale: templateLocale,
     onRemoveLocale: (locale: Locale) =>
       setLocales(locales.filter((l) => l !== locale)),
     isReadOnly,
   });
+
   const { subscriptionId, templateName } = useParams();
   const isNewTemplate = useMemo(
     () => templateName === NEW_WHATSAPP_TEMPLATE_ID,
@@ -120,7 +121,7 @@ export const useWhatsappTemplateBuilder = ({
   ]);
 
   return {
-    templateStatus: template?.status,
+    templateStatus,
     isNewTemplate,
     metadataProps: {
       ...metadataProps,
@@ -148,7 +149,9 @@ export const useWhatsappTemplateBuilder = ({
             language: locale,
             components: Object.values(workbenchProps.formData),
           },
-          templateId: template?.id ? parseInt(template.id) : undefined,
+          templateId: templateByLocale?.[0]?.id
+            ? parseInt(templateByLocale?.[0]?.id)
+            : undefined,
         });
       }
     },

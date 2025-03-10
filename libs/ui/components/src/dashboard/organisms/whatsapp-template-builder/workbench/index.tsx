@@ -12,7 +12,7 @@ export const Workbench: FC<WhatappTemplateBuilderWorkbenchProps> = ({
   localesProps,
   contentProps,
   headerProps,
-  formData,
+  previewData,
   isReadOnly,
 }) => {
   return (
@@ -76,7 +76,7 @@ export const Workbench: FC<WhatappTemplateBuilderWorkbenchProps> = ({
               gridRow: '1 / 13',
             }}
           >
-            <Preview data={formData} />
+            <Preview data={previewData} />
           </div>
         </div>
       </div>

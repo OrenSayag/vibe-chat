@@ -455,17 +455,20 @@ export type WhatsappTemplateBuilderMetadataForm = z.infer<
   typeof whatsappTemplateBuilderMetadataFormSchema
 >;
 
+export const localizedStringSchema = z.record(z.string(), z.string().min(1));
+
 export const whatsappContentFormSchema = z.object({
   header: z
     .discriminatedUnion('format', [
       z.object({
         type: z.literal(WhatsappTemplateComponentType.HEADER),
         format: z.literal(WhatsappTemplateComponentFormat.TEXT),
-        text: z.string(),
+        text: localizedStringSchema,
       }),
       z.object({
         type: z.literal(WhatsappTemplateComponentType.HEADER),
         format: z.literal(WhatsappTemplateComponentFormat.IMAGE),
+        image: z.string().min(1),
       }),
       z.object({
         type: z.literal(WhatsappTemplateComponentType.HEADER),
@@ -479,12 +482,12 @@ export const whatsappContentFormSchema = z.object({
     .optional(),
   body: z.object({
     type: z.literal(WhatsappTemplateComponentType.BODY),
-    text: z.string(),
+    text: localizedStringSchema,
   }),
   footer: z
     .object({
       type: z.literal(WhatsappTemplateComponentType.FOOTER),
-      text: z.string(),
+      text: localizedStringSchema,
     })
     .optional(),
   buttons: z
@@ -492,7 +495,7 @@ export const whatsappContentFormSchema = z.object({
       type: z.literal(WhatsappTemplateComponentType.BUTTONS),
       buttons: z.array(
         z.object({
-          text: z.string(),
+          text: localizedStringSchema,
           type: z.nativeEnum(WhatsappTemplateButtonType),
           phone_number: z.string().optional(),
           url: z.string().optional(),

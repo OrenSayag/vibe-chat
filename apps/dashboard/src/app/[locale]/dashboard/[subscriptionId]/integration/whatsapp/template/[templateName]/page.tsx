@@ -13,7 +13,7 @@ export default async function WhatsappTemplateBuilderPage({
     templateName,
   });
   if (
-    templateByLocale?.length === 0 &&
+    (templateByLocale?.length === 0 || !templateByLocale) &&
     templateName !== NEW_WHATSAPP_TEMPLATE_ID
   ) {
     redirect({

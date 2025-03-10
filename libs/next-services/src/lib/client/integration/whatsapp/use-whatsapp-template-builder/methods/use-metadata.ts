@@ -2,37 +2,35 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import {
   ListItem,
   metadataSchema,
-  WhatsappTemplate,
   WhatsappTemplateBuilderMetadataProps,
   WhatsappTemplateCategory,
 } from '@vibe-chat/shared-types';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
+type FormData = z.infer<typeof metadataSchema>;
+
 type UseMetadataInput = {
   categories: ListItem<WhatsappTemplateCategory>[];
   languages: ListItem[];
-  template?: WhatsappTemplate;
+  data?: FormData;
 };
-
-type FormData = z.infer<typeof metadataSchema>;
 
 export const useMetadata = ({
   categories,
   languages,
-  template,
+  data,
 }: UseMetadataInput): WhatsappTemplateBuilderMetadataProps => {
   const {
-    handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     setValue,
     watch,
   } = useForm<FormData>({
     resolver: zodResolver(metadataSchema),
     defaultValues: {
-      name: template?.name,
-      category: template?.category,
-      languages: template?.language ? [template.language] : [],
+      name: data?.name,
+      category: data?.category,
+      languages: data?.languages ?? [],
     },
   });
 

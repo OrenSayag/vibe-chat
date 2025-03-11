@@ -68,6 +68,8 @@
     "deleteTemplate": "Delete Template",
     "deleteTemplateConfirmation": "Are you sure you want to delete template {name}?",
     "deleteMultipleTemplates": "Delete Templates",
-    "deleteMultipleTemplatesConfirmation": "Are you sure you want to delete {count} templates?"
+    "deleteMultipleTemplatesConfirmation": "Are you sure you want to delete {count} templates?",
+    "templateNameAlreadyExistsError": "Template name already exists",
+    "templateSaveSuccessfullyMessage": "Template saved successfully"
   }
 }

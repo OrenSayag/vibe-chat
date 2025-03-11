@@ -42,7 +42,7 @@ export const getTemplate = async ({
     throw new NotFoundException('Template not found');
   }
 
-  return data.data;
+  return data.data.filter((t) => t.name === templateName);
 };
 
 type GetTemplateResBody = {

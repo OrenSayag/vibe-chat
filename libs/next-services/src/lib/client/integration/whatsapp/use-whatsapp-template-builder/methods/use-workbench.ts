@@ -3,6 +3,7 @@ import {
   TemplateBuilderWorkbenchContentProps,
   WhatappTemplateBuilderWorkbenchProps,
   WhatsappContentForm,
+  WhatsappTemplate,
   WhatsappTemplateCategory,
   WhatsappTemplateComponent,
   WhatsappTemplateComponentFormat,
@@ -23,6 +24,7 @@ type Input = {
   onRemoveLocale: (locale: Locale) => void;
   selectedLocale: Locale;
   isReadOnly?: boolean;
+  templateByLocale?: WhatsappTemplate[];
 };
 
 export const useWorkbench = ({
@@ -37,6 +39,7 @@ export const useWorkbench = ({
   onRemoveLocale,
   selectedLocale,
   isReadOnly,
+  templateByLocale,
 }: Input): WhatappTemplateBuilderWorkbenchProps & {
   locale: Locale;
   formData: WhatsappContentForm;
@@ -45,6 +48,11 @@ export const useWorkbench = ({
     useState<WhatsappTemplateComponentFormat>(
       WhatsappTemplateComponentFormat.TEXT
     );
+
+  useEffect(() => {
+    const _defaultValues = defaultValues(templateByLocale ?? []);
+    console.log({ templateByLocale, _defaultValues });
+  }, [templateByLocale]);
 
   const {
     register,
@@ -108,12 +116,6 @@ export const useWorkbench = ({
     },
     [setValue, selectedLocale]
   );
-
-  useEffect(() => {
-    console.log({
-      selectedLocale,
-    });
-  }, [selectedLocale]);
 
   const handleFooterChange = useCallback(
     (value: string) => {
@@ -224,6 +226,12 @@ export const useWorkbench = ({
             (component as WhatsappContentForm['body'])?.text?.[
               selectedLocale
             ] ?? '',
+          buttons: (component as WhatsappContentForm['buttons'])?.buttons?.map(
+            (b) => ({
+              ...b,
+              text: b.text[selectedLocale],
+            })
+          ),
         };
       })
       .filter(Boolean) as WhatsappTemplateComponent[],
@@ -231,3 +239,118 @@ export const useWorkbench = ({
     locale: selectedLocale,
   };
 };
+
+function defaultValues(
+  templateByLocale: WhatsappTemplate[]
+): WhatsappContentForm {
+  const existingHeaders = templateByLocale.map((t) => ({
+    header: t.components.find(
+      (c) => c.type === WhatsappTemplateComponentType.HEADER
+    ),
+    locale: t.language,
+  }));
+  const existingBodies = templateByLocale.map((t) => ({
+    body: t.components.find(
+      (c) => c.type === WhatsappTemplateComponentType.BODY
+    ),
+    locale: t.language,
+  }));
+  const existingFooters = templateByLocale.map((t) => ({
+    footer: t.components.find(
+      (c) => c.type === WhatsappTemplateComponentType.FOOTER
+    ),
+    locale: t.language,
+  }));
+  const existingButtons = templateByLocale.map((t) => ({
+    buttons: t.components.find(
+      (c) => c.type === WhatsappTemplateComponentType.BUTTONS
+    ),
+    locale: t.language,
+  }));
+
+  return {
+    header: existingHeaders[0]
+      ? ({
+          ...existingHeaders[0].header,
+          text: textHeaderLocales(),
+        } as WhatsappContentForm['header'])
+      : {
+          type: WhatsappTemplateComponentType.HEADER,
+          format: WhatsappTemplateComponentFormat.TEXT,
+          text: {},
+        },
+    body: existingBodies[0]
+      ? ({
+          ...existingBodies[0].body,
+          text: textBodyLocales(),
+        } as WhatsappContentForm['body'])
+      : {
+          type: WhatsappTemplateComponentType.BODY,
+          text: {},
+        },
+    footer: existingFooters[0]
+      ? ({
+          ...existingFooters[0].footer,
+          text: textFooterLocales(),
+        } as WhatsappContentForm['footer'])
+      : {
+          type: WhatsappTemplateComponentType.FOOTER,
+          text: {},
+        },
+    buttons: existingButtons[0]
+      ? {
+          type: WhatsappTemplateComponentType.BUTTONS,
+          buttons:
+            existingButtons[0].buttons?.buttons.map((btn, index) => {
+              return {
+                ...btn,
+                text: {
+                  [existingButtons[0].locale as Locale]: btn.text,
+                },
+              };
+            }) ?? [],
+        }
+      : {
+          type: WhatsappTemplateComponentType.BUTTONS,
+          buttons: [],
+        },
+  };
+
+  function textHeaderLocales(): Record<Locale, string> {
+    return existingHeaders.reduce((acc, header) => {
+      if (header?.header?.format === WhatsappTemplateComponentFormat.TEXT) {
+        acc[header.locale as Locale] = header.header.text;
+      }
+      return acc;
+    }, {} as Record<Locale, string>);
+  }
+
+  function textBodyLocales(): Record<Locale, string> {
+    return existingBodies.reduce((acc, body) => {
+      if (body?.body) {
+        acc[body.locale as Locale] = body.body.text;
+      }
+      return acc;
+    }, {} as Record<Locale, string>);
+  }
+
+  function textFooterLocales(): Record<Locale, string> {
+    return existingFooters.reduce((acc, footer) => {
+      if (footer?.footer) {
+        acc[footer.locale as Locale] = footer.footer.text;
+      }
+      return acc;
+    }, {} as Record<Locale, string>);
+  }
+
+  function textButtonsLocales(): Record<Locale, string>[] {
+    return existingButtons.reduce((acc, button) => {
+      if (button?.buttons) {
+        acc[button.locale as Locale] = button.buttons.buttons.map(
+          (b) => b.text
+        );
+      }
+      return acc;
+    }, {} as Record<Locale, string>[]);
+  }
+}

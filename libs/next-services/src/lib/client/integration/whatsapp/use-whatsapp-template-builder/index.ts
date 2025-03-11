@@ -5,17 +5,20 @@ import {
   NEW_WHATSAPP_TEMPLATE_ID,
   SaveTemplateRequest,
   saveTemplateSchema,
+  WhatsappContentForm,
   WhatsappTemplate,
   WhatsappTemplateBuilderProps,
+  WhatsappTemplateComponent,
   WhatsappTemplateStatus,
 } from '@vibe-chat/shared-types';
 import { useParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
+import { z } from 'zod';
 import { useSaveTemplate } from '../../../whatsapp/use-save-template';
 import { useMetadata } from './methods/use-metadata';
+import { useTemplateLocales } from './methods/use-template-locales';
 import { useWorkbench } from './methods/use-workbench';
 import { getConsts } from './utils';
-import { useTemplateLocales } from './methods/use-template-locales';
 
 type Output = WhatsappTemplateBuilderProps;
 
@@ -59,7 +62,7 @@ export const useWhatsappTemplateBuilder = ({
 
   useEffect(() => {
     const newLocales =
-      metadataProps.formData.languages.map((language) => {
+      metadataProps.languages.map((language) => {
         if (typeof language === 'string') {
           return language;
         }
@@ -82,6 +85,7 @@ export const useWhatsappTemplateBuilder = ({
     onRemoveLocale: (locale: Locale) =>
       setLocales(locales.filter((l) => l !== locale)),
     isReadOnly,
+    templateByLocale,
   });
 
   const { subscriptionId, templateName } = useParams();
@@ -90,35 +94,55 @@ export const useWhatsappTemplateBuilder = ({
     [templateName]
   );
 
-  const { saveTemplate, loading: pendingSave } = useSaveTemplate({
-    subscriptionId: subscriptionId as string,
-    isNewTemplate,
-  });
-
   const [step, setStep] = useState<'metadata' | 'workbench'>(
     isNewTemplate ? 'metadata' : 'workbench'
   );
+
+  const requests = useMemo<SaveTemplateRequest[]>(() => {
+    return locales.map((locale) => {
+      return {
+        template: {
+          name: metadataProps.formData.name,
+          category: metadataProps.formData.category,
+          language: locale,
+          components: Object.values(workbenchProps.formData).map(
+            (component) => {
+              if ((component as WhatsappContentForm['body']).text) {
+                return {
+                  ...component,
+                  text: (component as WhatsappContentForm['body']).text[locale],
+                };
+              }
+              return component;
+            }
+          ) as WhatsappTemplateComponent[],
+        },
+      };
+    });
+  }, [
+    locales,
+    JSON.stringify(metadataProps.formData),
+    JSON.stringify(workbenchProps.formData),
+  ]);
 
   const canSave = useMemo(() => {
     if (step === 'metadata') {
       return metadataSchema.safeParse(metadataProps.formData).success;
     }
 
-    const data: SaveTemplateRequest = {
-      template: {
-        name: metadataProps.formData.name,
-        category: metadataProps.formData.category,
-        language: locale,
-        components: Object.values(workbenchProps.formData),
-      },
-    };
-    return saveTemplateSchema.safeParse(data).success;
+    return z.array(saveTemplateSchema).safeParse(requests).success;
   }, [
+    requests,
+    step,
     JSON.stringify(metadataProps.formData),
     JSON.stringify(workbenchProps.formData),
-    step,
-    locale,
   ]);
+
+  const { onSave, loading: pendingSave } = useSaveTemplate({
+    subscriptionId: subscriptionId as string,
+    isNewTemplate,
+    requests,
+  });
 
   return {
     templateStatus,
@@ -142,17 +166,7 @@ export const useWhatsappTemplateBuilder = ({
       if (step === 'metadata') {
         setStep('workbench');
       } else {
-        saveTemplate({
-          template: {
-            name: metadataProps.formData.name,
-            category: metadataProps.formData.category,
-            language: locale,
-            components: Object.values(workbenchProps.formData),
-          },
-          templateId: templateByLocale?.[0]?.id
-            ? parseInt(templateByLocale?.[0]?.id)
-            : undefined,
-        });
+        onSave();
       }
     },
     pendingSave,

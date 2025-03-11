@@ -1,35 +1,49 @@
 import { useToast } from '@vibe-chat/components';
 import { useBackendRequest } from '@vibe-chat/next-services';
 import {
+  BackendBaseResponse,
+  SaveTemplateError,
   SaveTemplateRequest,
   SaveTemplateResponse,
   WhatsappTemplateComponentFormat,
 } from '@vibe-chat/shared-types';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { saveTemplate } from '../../server/whatsapp/save-template';
+import { useTranslations } from 'next-intl';
 type Input = {
   subscriptionId: string;
   isNewTemplate?: boolean;
+  requests: SaveTemplateRequest[];
 };
 
-export const useSaveTemplate = ({ subscriptionId, isNewTemplate }: Input) => {
+export const useSaveTemplate = ({
+  subscriptionId,
+  isNewTemplate,
+  requests,
+}: Input) => {
   const [error, setError] = useState<string>();
 
   const { toast } = useToast();
 
   const { push } = useRouter();
+  const t = useTranslations('WhatsappTemplatesView');
 
   const { pending, startAction } = useBackendRequest<
     SaveTemplateResponse['data'],
-    SaveTemplateRequest
+    SaveTemplateRequest[]
   >({
     apiCall: (input) => saveTemplate(input, subscriptionId),
     onError(err) {
-      setError('Error saving template');
+      const errMessage =
+        (err as BackendBaseResponse<unknown>).message ===
+        SaveTemplateError.TEMPLATE_NAME_ALREADY_EXISTS
+          ? t('templateNameAlreadyExistsError')
+          : 'Error saving template';
+      setError(errMessage);
       toast({
         type: 'negative',
-        children: 'Error saving template',
+        children: errMessage,
         actions: [],
       });
     },
@@ -37,7 +51,7 @@ export const useSaveTemplate = ({ subscriptionId, isNewTemplate }: Input) => {
       setError('');
       toast({
         type: 'positive',
-        children: 'Template saved successfully',
+        children: t('templateSaveSuccessfullyMessage'),
         actions: [],
       });
       if (isNewTemplate) {
@@ -48,11 +62,14 @@ export const useSaveTemplate = ({ subscriptionId, isNewTemplate }: Input) => {
     },
   });
 
+  const onSave = useCallback(() => {
+    startAction(requests.map(normalizeInput));
+  }, [requests, startAction]);
+
   return {
     loading: pending,
     error,
-    saveTemplate: (input: SaveTemplateRequest) =>
-      startAction(normalizeInput(input)),
+    onSave,
   };
 };
 function normalizeInput(input: SaveTemplateRequest) {

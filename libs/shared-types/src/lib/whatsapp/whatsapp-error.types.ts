@@ -1,0 +1,3 @@
+export enum SaveTemplateError {
+  TEMPLATE_NAME_ALREADY_EXISTS = 'TEMPLATE_NAME_ALREADY_EXISTS',
+}

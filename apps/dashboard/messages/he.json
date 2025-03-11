@@ -68,6 +68,8 @@
     "deleteTemplate": "מחק תבנית",
     "deleteTemplateConfirmation": "האם אתה בטוח שברצונך למחוק את התבנית {name}?",
     "deleteMultipleTemplates": "מחק תבניות",
-    "deleteMultipleTemplatesConfirmation": "האם אתה בטוח שברצונך למחוק {count} תבניות?"
+    "deleteMultipleTemplatesConfirmation": "האם אתה בטוח שברצונך למחוק {count} תבניות?",
+    "templateNameAlreadyExistsError": "שם התבנית כבר קיים",
+    "templateSaveSuccessfullyMessage": "תבנית נשמרה בהצלחה"
   }
 }

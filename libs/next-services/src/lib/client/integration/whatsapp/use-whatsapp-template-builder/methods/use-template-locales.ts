@@ -5,10 +5,9 @@ import {
   isLocale,
 } from '@vibe-chat/shared-types';
 import {
-  useParams,
   usePathname,
   useRouter,
-  useSearchParams,
+  useSearchParams
 } from 'next/navigation';
 import { useCallback, useMemo, useState } from 'react';
 
@@ -29,13 +28,8 @@ export const useTemplateLocales = ({ templateByLocale }: Input): Output => {
   const query = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const params = useParams();
 
   const [locales, setLocales] = useState<Locale[]>([]);
-
-  const templateName = useMemo<string>(() => {
-    return params.templateName as string;
-  }, [params.templateName]);
 
   const selectLocale = useCallback(
     (locale: Locale) => {

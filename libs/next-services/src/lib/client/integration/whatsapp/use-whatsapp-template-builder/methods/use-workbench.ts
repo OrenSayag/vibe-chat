@@ -317,7 +317,10 @@ function defaultValues(
     if (!firstButton) {
       return [];
     }
-    const amountOfButtons = firstButton.buttons!.buttons.length;
+    const amountOfButtons = firstButton.buttons?.buttons.length;
+    if (!amountOfButtons) {
+      return [];
+    }
     const acc: Record<Locale, string>[] = [];
     for (let i = 0; i < amountOfButtons; i++) {
       const val: Partial<Record<Locale, string>> = {};

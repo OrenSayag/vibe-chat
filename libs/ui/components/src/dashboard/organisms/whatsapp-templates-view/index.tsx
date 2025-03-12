@@ -110,10 +110,6 @@ function TemplatesList({
       title: t('columns.category'),
     },
     {
-      id: 'language',
-      title: t('columns.language'),
-    },
-    {
       id: 'status',
       title: t('columns.status'),
     },
@@ -216,7 +212,6 @@ function TemplatesList({
                 </TableCell>
                 <TableCell>{rowItem.name}</TableCell>
                 <TableCell>{rowItem.category}</TableCell>
-                <TableCell>{rowItem.language}</TableCell>
                 <TableCell>
                   {rowItem.draft ? t('columns.draft') : rowItem.status}
                 </TableCell>

@@ -6,6 +6,7 @@ import {
 import { sendRequestToWhatsappGraph } from './send-request-to-whatsapp-graph';
 import { getSubscription } from '../../subscription/methods/get-subscription';
 import { UnauthorizedException } from '@nestjs/common';
+import _ from 'lodash';
 
 type Input = {
   subscriptionId: string;
@@ -26,9 +27,6 @@ export const getTemplates = async ({
     type: 'subscriptionId',
     id: subscriptionId,
   });
-  console.log({
-    whatsappCloudInfo,
-  });
   if (whatsappCloudInfo?.status !== WhatsappCloudStatus.SIGNED) {
     throw new UnauthorizedException();
   }
@@ -36,7 +34,7 @@ export const getTemplates = async ({
     path: `${whatsappCloudInfo.whatsappBusinessAccountId}/message_templates`,
   });
   const data: GetTemplateResBody = await res.json();
-  return { templates: data.data };
+  return { templates: _.uniqBy(data.data, 'name') };
 };
 
 type GetTemplateResBody = {

@@ -113,6 +113,17 @@ export const useWhatsappTemplateBuilder = ({
                   text: (component as WhatsappContentForm['body']).text[locale],
                 };
               }
+              if ((component as WhatsappContentForm['buttons'])?.buttons) {
+                return {
+                  ...component,
+                  buttons: (
+                    component as WhatsappContentForm['buttons']
+                  )?.buttons.map((button) => ({
+                    ...button,
+                    text: button.text[locale],
+                  })),
+                };
+              }
               return component;
             }
           ) as WhatsappTemplateComponent[],

@@ -9,7 +9,7 @@ import {
   WhatsappTemplateComponentFormat,
   WhatsappTemplateComponentType,
 } from '@vibe-chat/shared-types';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 type Input = {
@@ -49,43 +49,12 @@ export const useWorkbench = ({
       WhatsappTemplateComponentFormat.TEXT
     );
 
-  useEffect(() => {
-    const _defaultValues = defaultValues(templateByLocale ?? []);
-    console.log({ templateByLocale, _defaultValues });
-  }, [templateByLocale]);
-
   const {
-    register,
     watch,
     setValue,
     formState: { errors },
-    reset,
   } = useForm<WhatsappContentForm>({
-    defaultValues: {
-      header: {
-        format: WhatsappTemplateComponentFormat.TEXT,
-        text: {
-          [selectedLocale]: '',
-        },
-        type: WhatsappTemplateComponentType.HEADER,
-      },
-      body: {
-        text: {
-          [selectedLocale]: '',
-        },
-        type: WhatsappTemplateComponentType.BODY,
-      },
-      footer: {
-        text: {
-          [selectedLocale]: '',
-        },
-        type: WhatsappTemplateComponentType.FOOTER,
-      },
-      buttons: {
-        type: WhatsappTemplateComponentType.BUTTONS,
-        buttons: [],
-      },
-    },
+    defaultValues: defaultValues(templateByLocale ?? []),
   });
 
   const formData = watch();
@@ -268,6 +237,8 @@ function defaultValues(
     locale: t.language,
   }));
 
+  textButtonsLocales();
+
   return {
     header: existingHeaders[0]
       ? ({
@@ -304,9 +275,7 @@ function defaultValues(
             existingButtons[0].buttons?.buttons.map((btn, index) => {
               return {
                 ...btn,
-                text: {
-                  [existingButtons[0].locale as Locale]: btn.text,
-                },
+                text: textButtonsLocales()[index],
               };
             }) ?? [],
         }
@@ -344,13 +313,19 @@ function defaultValues(
   }
 
   function textButtonsLocales(): Record<Locale, string>[] {
-    return existingButtons.reduce((acc, button) => {
-      if (button?.buttons) {
-        acc[button.locale as Locale] = button.buttons.buttons.map(
-          (b) => b.text
-        );
+    const firstButton = existingButtons[0];
+    if (!firstButton) {
+      return [];
+    }
+    const amountOfButtons = firstButton.buttons!.buttons.length;
+    const acc: Record<Locale, string>[] = [];
+    for (let i = 0; i < amountOfButtons; i++) {
+      const val: Partial<Record<Locale, string>> = {};
+      for (const item of existingButtons) {
+        val[item.locale as Locale] = item.buttons!.buttons[i].text;
       }
-      return acc;
-    }, {} as Record<Locale, string>[]);
+      acc.push(val as Record<Locale, string>);
+    }
+    return acc;
   }
 }

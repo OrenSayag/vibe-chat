@@ -28,6 +28,8 @@ export const MainLayout: FC<MainLayoutProps> = ({
           <div
             style={{
               width: '20em',
+              minWidth: '20em',
+              maxWidth: '20em',
               height: '100%',
             }}
             dir={dir}

@@ -387,7 +387,7 @@ export const whatsappTemplateComponentSchema = z.union([
   }),
   z.object({
     type: z.literal(WhatsappTemplateComponentType.FOOTER),
-    text: z.string(),
+    text: z.string().optional(),
   }),
   z.object({
     type: z.literal(WhatsappTemplateComponentType.BUTTONS),

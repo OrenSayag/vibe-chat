@@ -37,6 +37,7 @@ export const useWhatsappTemplateBuilder = ({
       templateByLocale,
     });
 
+
   const templateStatus = useMemo(() => {
     return templateByLocale?.[0]?.status;
   }, [templateByLocale]);
@@ -49,12 +50,12 @@ export const useWhatsappTemplateBuilder = ({
   const metadataProps = useMetadata({
     categories,
     languages,
-    data: templateByLocale?.[0]
+    data: templateByLocale
       ? {
-          name: templateByLocale?.[0]?.name,
-          category: templateByLocale?.[0]?.category,
-          languages: templateByLocale?.[0]?.language
-            ? [templateByLocale?.[0]?.language.split('_')[0]]
+          name: templateByLocale[0].name,
+          category: templateByLocale[0].category,
+          languages: templateByLocale[0].language
+            ? templateByLocale.map((t) => t.language.split('_')[0])
             : [],
         }
       : undefined,
@@ -62,7 +63,7 @@ export const useWhatsappTemplateBuilder = ({
 
   useEffect(() => {
     const newLocales =
-      metadataProps.languages.map((language) => {
+      metadataProps.formData.languages.map((language) => {
         if (typeof language === 'string') {
           return language;
         }

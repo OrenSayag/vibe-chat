@@ -8,7 +8,7 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - vibe-chat-db:/var/lib/mysql
+      - vibe_chat_db:/var/lib/postgresql/data
 
   dbgate:
     build: docker
@@ -29,5 +29,5 @@ services:
     command: server /data --console-address ":9001"
 
 volumes:
-  vibe-chat-db:
+  vibe_chat_db:
   minio_data:

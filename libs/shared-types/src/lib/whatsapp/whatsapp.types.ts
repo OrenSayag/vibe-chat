@@ -117,9 +117,9 @@ export enum WhatsappTemplateCategory {
   // AUTO_REPLY = 'AUTO_REPLY',
   // TRANSACTIONAL = 'TRANSACTIONAL',
   // OTP = 'OTP',
-  UTILITY = 'UTILITY',
+  // UTILITY = 'UTILITY',
   MARKETING = 'MARKETING',
-  AUTHENTICATION = 'AUTHENTICATION',
+  // AUTHENTICATION = 'AUTHENTICATION',
 }
 
 export type WhatsappParameterFormat = 'POSITIONAL' | 'Named';
@@ -361,18 +361,18 @@ export const whatsappTemplateCategoryTranslations: Record<
   //   [Locale.ENGLISH]: 'One-Time Password',
   //   [Locale.HEBREW]: 'סיסמה חד פעמית',
   // },
-  [WhatsappTemplateCategory.UTILITY]: {
-    [Locale.ENGLISH]: 'Utility',
-    [Locale.HEBREW]: 'שירות',
-  },
+  // [WhatsappTemplateCategory.UTILITY]: {
+  //   [Locale.ENGLISH]: 'Utility',
+  //   [Locale.HEBREW]: 'שירות',
+  // },
   [WhatsappTemplateCategory.MARKETING]: {
     [Locale.ENGLISH]: 'Marketing',
     [Locale.HEBREW]: 'שיווק',
   },
-  [WhatsappTemplateCategory.AUTHENTICATION]: {
-    [Locale.ENGLISH]: 'Authentication',
-    [Locale.HEBREW]: 'אימות',
-  },
+  // [WhatsappTemplateCategory.AUTHENTICATION]: {
+  //   [Locale.ENGLISH]: 'Authentication',
+  //   [Locale.HEBREW]: 'אימות',
+  // },
 };
 
 export const whatsappTemplateComponentSchema = z.union([
